@@ -8,7 +8,9 @@ public class HelpCommand extends CommandRunnable {
 	
 	@Override
 	public void runCommand(Command command) {
-		String reply = "Avaliable commands: \n- `!list` - List all online users\n- `!listd` - List all online users (with display names)";
+		String reply = "Avaliable commands: \n"
+				+ "- `!list` - List all online users\n"
+				+ "- `!listd` - List all online users (with display names)";
 		command.getOriginal().reply(reply);
 		
 		if (command.hasOppedPower()) {
@@ -17,7 +19,8 @@ public class HelpCommand extends CommandRunnable {
 					"- `!barlist` - List all barred users\n" +
 					"- `!reload` - Reloads the bot config\n" +
 					"- `!relay <on/off>` - Disable or enable the relay\n" +
-					"- `!say <message>` - Send a message in game";
+					"- `!say <message>` - Send a message in game\n" +
+					"- `!info` - Shows the bot version with a link to the source code";
 			command.getOriginal().reply(oppedReply);
 		}
 	}

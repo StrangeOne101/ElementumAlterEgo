@@ -1,4 +1,4 @@
 name: ElementumAlterEgo
 main: com.strangeone101.elementumbot.AlterEgoPlugin
-version: 1.0
+version: ${project.version}
 prefix: ElementumAlterEgo

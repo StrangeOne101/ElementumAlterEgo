@@ -10,6 +10,7 @@ import com.strangeone101.elementumbot.config.ConfigManager;
 
 import de.btobastian.javacord.DiscordAPI;
 import de.btobastian.javacord.Javacord;
+import de.btobastian.javacord.entities.Channel;
 import de.btobastian.javacord.entities.message.Message;
 import de.btobastian.javacord.listener.message.MessageCreateListener;
 
@@ -57,10 +58,12 @@ public class AlterEgoPlugin extends JavaPlugin {
                 }
                 if (AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()) == null) {
                 	getLogger().severe("Relay channel not found! Won't relay in game chat!");
-                } else { //If the channel exists, prepare listener for relay
-                	Bukkit.getPluginManager().registerEvents(new AlterEgoListener(), INSTANCE);
+                } else { //If the channel exists, prepare listener for relay 
                 	getLogger().info("Relay channel found and working!");
                 }
+                
+                //Register listener. Just won't be active unless relay channel is valid and working
+                Bukkit.getPluginManager().registerEvents(new AlterEgoListener(), INSTANCE);
                 
             }
 
@@ -76,8 +79,13 @@ public class AlterEgoPlugin extends JavaPlugin {
 	}
 	
 	@Override
-	public void onDisable() {
+	public void onDisable() {		
+		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
+		Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel());
+		channel.sendMessage("[MCS] " + "Server restarting!");
+		
 		API.disconnect();
+		
 		super.onDisable();
 	}
 

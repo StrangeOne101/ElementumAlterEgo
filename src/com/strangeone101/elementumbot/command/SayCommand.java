@@ -1,7 +1,9 @@
 package com.strangeone101.elementumbot.command;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+
+import com.strangeone101.elementumbot.Reactions;
+import com.strangeone101.elementumbot.config.ConfigManager;
 
 public class SayCommand extends CommandRunnable {
 
@@ -15,7 +17,8 @@ public class SayCommand extends CommandRunnable {
 		String message = command.getOriginal().getContent().substring("!say ".length());
 		message = message.trim();
 		
-		Bukkit.broadcastMessage(ChatColor.GRAY + "[Discord] " + command.getSender().getName() + ": " + message);
+		Bukkit.broadcastMessage(ConfigManager.getSayCommandFormat().replace("<name>", command.getSender().getName()).replace("<message>", message));
+		command.getOriginal().addUnicodeReaction(Reactions.GREEN_TICK + "");
 	}
 
 }

@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class ConfigManager {
 
 	public static ConfigClass defaultConfig;
@@ -97,6 +99,10 @@ public class ConfigManager {
 	public static void setRelay(boolean b) {
 		defaultConfig.get().set("RelayEnabled", b);
 		save();
+	}
+	
+	public static String getSayCommandFormat() {
+		return ChatColor.translateAlternateColorCodes('&', defaultConfig.get().getString("SayCommandFormat"));
 	}
 
 }

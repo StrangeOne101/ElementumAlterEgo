@@ -40,5 +40,4 @@ public class AlterEgoListener implements Listener {
 		Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel());
 		channel.sendMessage("[MCS] " + MessageHandler.format(event.getPlayer().getName()) + " joined the game");
 	}
-
 }

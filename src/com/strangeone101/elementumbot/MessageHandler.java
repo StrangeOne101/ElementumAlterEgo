@@ -18,7 +18,7 @@ public class MessageHandler {
 	}
 	
 	public static String format(String string) {
-		return string.replaceAll("\\*", "\\*").replaceAll("_", "\\_");
+		return string.replaceAll("\\*", "\\\\*").replaceAll("_", "\\\\_");
 	}
 	
 	
