@@ -25,6 +25,7 @@ public class ConfigManager {
 		config.addDefault("BarredUsers", new ArrayList<String>());
 		config.addDefault("RelayChannelID", _defaultRelayChannelID);
 		config.addDefault("RelayEnabled", true);
+		config.addDefault("SayCommandFormat", "&7[Discord] <name>: &r<message>");
 		config.options().copyDefaults(true);
 		save();
 	}
