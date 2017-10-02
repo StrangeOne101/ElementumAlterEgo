@@ -16,7 +16,8 @@ public class HelpCommand extends CommandRunnable {
 					"- `!unbar @user` - Unbars a user\n" +
 					"- `!barlist` - List all barred users\n" +
 					"- `!reload` - Reloads the bot config\n" +
-					"- `!relay <on/off>` - Disable or enable the relay";
+					"- `!relay <on/off>` - Disable or enable the relay\n" +
+					"- `!say <message>` - Send a message in game";
 			command.getOriginal().reply(oppedReply);
 		}
 	}

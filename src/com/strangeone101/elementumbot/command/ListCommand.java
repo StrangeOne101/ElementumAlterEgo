@@ -3,6 +3,8 @@ package com.strangeone101.elementumbot.command;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import com.strangeone101.elementumbot.MessageHandler;
+
 public class ListCommand extends CommandRunnable {
 
 	public ListCommand() {
@@ -14,7 +16,7 @@ public class ListCommand extends CommandRunnable {
 		String players = "";
 		
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			players = players + ", " + p.getName();
+			players = players + ", " + MessageHandler.format(p.getName());
 		}
 		
 		if (players.equals("")) players = "None";

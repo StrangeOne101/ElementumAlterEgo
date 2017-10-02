@@ -4,6 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
+import com.strangeone101.elementumbot.MessageHandler;
+
 public class ListDCommand extends CommandRunnable {
 
 	public ListDCommand() {
@@ -15,7 +17,7 @@ public class ListDCommand extends CommandRunnable {
 		String players = "";
 		
 		for (Player p : Bukkit.getOnlinePlayers()) {
-			players = players + ", " + p.getDisplayName();
+			players = players + ", " + MessageHandler.format(p.getDisplayName());
 		}
 		
 		if (players.equals("")) players = "None";

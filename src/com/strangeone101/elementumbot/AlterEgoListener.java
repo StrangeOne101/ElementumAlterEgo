@@ -18,8 +18,10 @@ public class AlterEgoListener implements Listener {
 	public void onChat(AsyncPlayerChatEvent event) {
 		if (event.isCancelled() || !ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
 		
-		String message = ChatColor.stripColor(event.getMessage());
-		String name = ChatColor.stripColor(event.getPlayer().getDisplayName().replace(Reactions.LEFT_CURLY_BRACE, '<').replace(Reactions.RIGHT_CURLY_BRACE, '>'));
+		String message = MessageHandler.format(ChatColor.stripColor(event.getMessage()));
+		String name = MessageHandler.format(ChatColor.stripColor(event.getPlayer().getDisplayName()
+				.replace(Reactions.LEFT_CURLY_BRACE, '<')
+				.replace(Reactions.RIGHT_CURLY_BRACE, '>')));
 		
 		Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel());
 		channel.sendMessage("[MCS] " + name + ": " + message);
@@ -29,14 +31,14 @@ public class AlterEgoListener implements Listener {
 	public void onLeave(PlayerQuitEvent event) {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
 		Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel());
-		channel.sendMessage("[MCS] " + event.getPlayer().getName() + " left the game");
+		channel.sendMessage("[MCS] " + MessageHandler.format(event.getPlayer().getName()) + " left the game");
 	}
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
 		Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel());
-		channel.sendMessage("[MCS] " + event.getPlayer().getName() + " joined the game");
+		channel.sendMessage("[MCS] " + MessageHandler.format(event.getPlayer().getName()) + " joined the game");
 	}
 
 }

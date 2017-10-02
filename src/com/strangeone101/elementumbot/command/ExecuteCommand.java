@@ -3,7 +3,9 @@ package com.strangeone101.elementumbot.command;
 import java.util.Arrays;
 
 import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import com.strangeone101.elementumbot.AlterEgoPlugin;
 import com.strangeone101.elementumbot.FakeCommandSender;
 import com.strangeone101.elementumbot.Reactions;
 
@@ -31,7 +33,18 @@ public class ExecuteCommand extends CommandRunnable {
 			message = message.startsWith("/") ? message.substring(1) : message;
 			message = message.trim();
 			
-			Bukkit.dispatchCommand(sender, message);
+			final String finalMsg = message;
+			
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					Bukkit.dispatchCommand(sender, finalMsg);
+				}
+				
+			}.runTask(AlterEgoPlugin.INSTANCE);
+			
+			
 		}
 
 	}
