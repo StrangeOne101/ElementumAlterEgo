@@ -3,6 +3,8 @@ A discord bot used to relay chat from a Spigot Minecraft Server. Designed for El
 
 The bot supports a few basic commands and the ability to bar users from using the bot. Ops must be defined in the config file that appears in `/plugins/ElementumAlterEgo/config.yml`
 
+The bot is based off the [Javacord API](https://github.com/BtoBastian/Javacord). As such, the bot must be built with Maven and shade in Javacord API.
+
 ## Commands
 The bot comes with a few limited commands
 
@@ -17,6 +19,8 @@ The bot comes with a few limited commands
 - `!barlist` - List all barred users
 - `!reload` - Reloads the bot config
 - `!relay <on/off>` - Disable or enable the relay
+- `!say <message>` - Echo a message in game
+- `!info` - Shows the bot version and gives a link to the source code (this page)
 ### Hidden Commands
 - `!execute <command` - Executes a command on the Spigot server
 
@@ -29,6 +33,7 @@ Ops:
 BarredUsers: []
 RelayChannelID: '000000000000000'
 RelayEnabled: true
+SayCommandFormat: '&7[Discord] <name>: &r<message>'
 ```
 **Token** - The token for the bot
 
@@ -39,3 +44,5 @@ RelayEnabled: true
 **RelayChannelID** - The ID of the channel that the server will relay to
 
 **RelayEnabled** - Allows the relay to be toggled off and on again
+
+**SayCommandFormat** - The format the `!say` command should broadast with
