@@ -3,14 +3,18 @@ package com.strangeone101.elementumbot.config;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.configuration.file.FileConfiguration;
+
+import com.strangeone101.elementumbot.command.LinkCommand;
 
 import net.md_5.bungee.api.ChatColor;
 
 public class ConfigManager {
 
 	public static ConfigClass defaultConfig;
+	public static ConfigClass linkConfig;
 	
 	private static final String _defaultToken = "***insert token here***";
 	private static final String _defaultRelayChannelID = "0000000000000000000";
@@ -24,9 +28,20 @@ public class ConfigManager {
 		config.addDefault("Ops", Arrays.asList(new String[] {"145436402107154433"})); //Default list containing Strange's ID
 		config.addDefault("BarredUsers", new ArrayList<String>());
 		config.addDefault("RelayChannelID", _defaultRelayChannelID);
+		config.addDefault("ReportChannelID", _defaultRelayChannelID);
 		config.addDefault("RelayEnabled", true);
 		config.addDefault("SayCommandFormat", "&7[Discord] <name>: &r<message>");
 		config.options().copyDefaults(true);
+		
+		linkConfig = new ConfigClass("links.yml");
+		
+		FileConfiguration config2 = linkConfig.get();		
+		
+		
+		for (String key : config2.getKeys(false)) {
+			LinkCommand.links.put(key, UUID.fromString(config2.getString(key)));
+		}
+		
 		save();
 	}
 
@@ -37,6 +52,12 @@ public class ConfigManager {
 
 	public static void save() {
 		defaultConfig.saveConfig();
+		
+		for (String id : LinkCommand.links.keySet()) {
+			linkConfig.get().set(id, LinkCommand.links.get(id).toString());
+		}
+		
+		linkConfig.saveConfig();
 	}
 	
 	public static List<String> getOps() {
@@ -59,12 +80,20 @@ public class ConfigManager {
 		return defaultConfig.get().getString("RelayChannelID");
 	}
 	
+	public static String getReportChannel() {
+		return defaultConfig.get().getString("ReportChannelID");
+	}
+	
 	public static boolean isValid() {
 		return !getToken().equalsIgnoreCase(_defaultToken);
 	}
 	
 	public static boolean isValidRelayChannel() {
 		return !getRelayChannel().equalsIgnoreCase(_defaultRelayChannelID);
+	}
+	
+	public static boolean isValidReportChannel() {
+		return !getReportChannel().equalsIgnoreCase(_defaultRelayChannelID);
 	}
 	
 	public static void addBarredUser(String id) {

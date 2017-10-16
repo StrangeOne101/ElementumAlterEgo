@@ -1,23 +1,34 @@
 package com.strangeone101.elementumbot;
 
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.strangeone101.elementumbot.command.Command;
+import com.strangeone101.elementumbot.command.LinkCommand;
+import com.strangeone101.elementumbot.commandmc.LinkMCommand;
+import com.strangeone101.elementumbot.commandmc.UnlinkMCommand;
 import com.strangeone101.elementumbot.config.ConfigManager;
 
 import de.btobastian.javacord.DiscordAPI;
 import de.btobastian.javacord.Javacord;
 import de.btobastian.javacord.entities.Channel;
+import de.btobastian.javacord.entities.Server;
 import de.btobastian.javacord.entities.message.Message;
 import de.btobastian.javacord.listener.message.MessageCreateListener;
+import de.btobastian.javacord.utils.ratelimits.RateLimitType;
+import net.md_5.bungee.api.ChatColor;
 
 public class AlterEgoPlugin extends JavaPlugin {
 	
 	public static AlterEgoPlugin INSTANCE;
 	public static DiscordAPI API;
+	public static Server SERVER;
+	
+	public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&2[&aAlterEgo&2]&r");
 	
 	@Override
 	public void onEnable() {
@@ -26,6 +37,9 @@ public class AlterEgoPlugin extends JavaPlugin {
 		new ConfigManager(); //Set up config
 		
 		Command.registerDefaultCommands();
+		
+		Bukkit.getPluginCommand("link").setExecutor(new LinkMCommand());
+		Bukkit.getPluginCommand("unlink").setExecutor(new UnlinkMCommand());
 		
 		if (!ConfigManager.isValid()) {
 			try {
@@ -60,6 +74,10 @@ public class AlterEgoPlugin extends JavaPlugin {
                 	getLogger().severe("Relay channel not found! Won't relay in game chat!");
                 } else { //If the channel exists, prepare listener for relay 
                 	getLogger().info("Relay channel found and working!");
+                	
+                	if (ConfigManager.isValidRelayChannel()) {
+            			SERVER = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).getServer();
+            		}
                 }
                 
                 //Register listener. Just won't be active unless relay channel is valid and working
@@ -73,6 +91,9 @@ public class AlterEgoPlugin extends JavaPlugin {
             }
         });
 		
+		API.setAutoReconnect(true);
+		API.getRateLimitManager().addRateLimit(RateLimitType.SERVER_MESSAGE, 150L);
+		
 		getLogger().info("Alter Ego Bot Enabled!");
 		
 		super.onEnable();
@@ -85,6 +106,8 @@ public class AlterEgoPlugin extends JavaPlugin {
 		channel.sendMessage("[MCS] " + "Server restarting!");
 		
 		API.disconnect();
+		
+		ConfigManager.save();
 		
 		super.onDisable();
 	}
@@ -104,6 +127,11 @@ public class AlterEgoPlugin extends JavaPlugin {
         } else {
         	getLogger().info("Relay channel found and working!");
         }
+        
+        LinkCommand.links.clear();
+        for (String key : ConfigManager.linkConfig.get().getKeys(false)) {
+			LinkCommand.links.put(key, UUID.fromString(ConfigManager.linkConfig.get().getString(key)));
+		}
         
         AlterEgoPlugin.API.setIdle(false);
 	}

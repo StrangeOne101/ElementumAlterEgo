@@ -3,6 +3,7 @@ package com.strangeone101.elementumbot;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -39,5 +40,12 @@ public class AlterEgoListener implements Listener {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
 		Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel());
 		channel.sendMessage("[MCS] " + MessageHandler.format(event.getPlayer().getName()) + " joined the game");
+	}
+	
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onDeath(PlayerDeathEvent event) {
+		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
+		Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel());
+		channel.sendMessage("[MCS] " + MessageHandler.format(event.getDeathMessage()));
 	}
 }

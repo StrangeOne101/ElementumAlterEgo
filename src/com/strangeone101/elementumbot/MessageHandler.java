@@ -21,6 +21,10 @@ public class MessageHandler {
 		return string.replaceAll("\\*", "\\\\*").replaceAll("_", "\\\\_");
 	}
 	
+	/*public static String toIngame(String string) {
+		
+	}*/
+	
 	
 	
 

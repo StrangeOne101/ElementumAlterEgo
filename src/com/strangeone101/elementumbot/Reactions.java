@@ -20,4 +20,6 @@ public class Reactions {
 	public static final char RIGHT_CURLY_BRACE = '\u22B1';
 	/**An arrow elementum uses in it's chat*/
 	public static final char RIGHT_ARROW_CHAR = '\u27AA';
+	
+	
 }

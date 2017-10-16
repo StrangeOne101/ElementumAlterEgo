@@ -2,3 +2,20 @@ name: ElementumAlterEgo
 main: com.strangeone101.elementumbot.AlterEgoPlugin
 version: ${project.version}
 prefix: ElementumAlterEgo
+softdepend: [LuckPerms]
+commands:
+   link:
+      description: Links in game account with discord
+      usage: /<command>
+   unlink:
+      description: Unlinks your in game account with discord
+      usage: /<command>
+permissions:
+   alterego.command.link:
+      default: true
+   alterego.command.unlink:
+      default: true
+   alterego.admin:
+      default: op
+      children:
+         alterego.command.unlink.others: true

@@ -10,7 +10,9 @@ public class HelpCommand extends CommandRunnable {
 	public void runCommand(Command command) {
 		String reply = "Avaliable commands: \n"
 				+ "- `!list` - List all online users\n"
-				+ "- `!listd` - List all online users (with display names)";
+				+ "- `!listd` - List all online users (with display names)\n"
+				+ "- `!link <user>` - Link your discord user to your MC account\n"
+				+ "- `!unlink` - Removes the link to your MC account";
 		command.getOriginal().reply(reply);
 		
 		if (command.hasOppedPower()) {

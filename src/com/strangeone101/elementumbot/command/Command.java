@@ -72,5 +72,7 @@ public class Command {
 		new RelayCommand();
 		new SayCommand();
 		new InfoCommand();
+		new LinkCommand();
+		new UnlinkCommand();
 	}
 }
