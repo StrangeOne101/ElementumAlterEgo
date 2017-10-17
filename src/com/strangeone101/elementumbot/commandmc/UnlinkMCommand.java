@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import com.strangeone101.elementumbot.AlterEgoPlugin;
 import com.strangeone101.elementumbot.command.LinkCommand;
 import com.strangeone101.elementumbot.config.ConfigManager;
+import com.strangeone101.elementumbot.elementum.RankSync;
 
 import de.btobastian.javacord.entities.User;
 
@@ -37,6 +38,7 @@ public class UnlinkMCommand implements CommandExecutor {
 					for (String key : LinkCommand.links.keySet()) {
 						if (LinkCommand.links.get(key).equals(Bukkit.getOfflinePlayer(args[0]).getUniqueId())) {
 							User user = AlterEgoPlugin.API.getCachedUserById(key);
+							RankSync.donorRole.removeUser(user);
 							user.sendMessage("Your account has been unlinked to MC user " + Bukkit.getOfflinePlayer(args[0]).getName());
 							AlterEgoPlugin.INSTANCE.getLogger().info("Discord user " + user.getName() + "(" + user.getMentionTag() + ") unlinked with MC user " + Bukkit.getOfflinePlayer(LinkCommand.links.get(user.getId())).getName());
 							LinkCommand.links.remove(key);
@@ -54,6 +56,7 @@ public class UnlinkMCommand implements CommandExecutor {
 				for (String key : LinkCommand.links.keySet()) {
 					if (LinkCommand.links.get(key).equals(((Player)sender).getUniqueId())) {
 						User user = AlterEgoPlugin.API.getCachedUserById(key);
+						RankSync.donorRole.removeUser(user);
 						user.sendMessage("Your account has been unlinked to MC user " + sender.getName());
 						AlterEgoPlugin.INSTANCE.getLogger().info("Discord user " + user.getName() + "(" + user.getMentionTag() + ") unlinked with MC user " + Bukkit.getOfflinePlayer(LinkCommand.links.get(user.getId())).getName());
 						LinkCommand.links.remove(key);

@@ -41,12 +41,10 @@ public class RankSync {
 			}
 			
 			if (donor && !user.getRoles(AlterEgoPlugin.SERVER).contains(donorRole)) {
-				Role[] newRoles = new Role[user.getRoles(AlterEgoPlugin.SERVER).size() + 1];
-				for (int i = 0; i < user.getRoles(AlterEgoPlugin.SERVER).size(); i++) {
-					newRoles[i] = (Role) user.getRoles(AlterEgoPlugin.SERVER).toArray()[i];
-				}
-				newRoles[user.getRoles(AlterEgoPlugin.SERVER).size()] = donorRole;
-				AlterEgoPlugin.SERVER.updateRoles(user, newRoles);
+				donorRole.addUser(user);
+				//user.sendMessage("Debug: Added role. Ignore this if you aren't strange. Sorry about that!");
+			} else if (!donor && !user.getRoles(AlterEgoPlugin.SERVER).contains(donorRole)) {
+				donorRole.removeUser(user);
 			}
 		}
 	}

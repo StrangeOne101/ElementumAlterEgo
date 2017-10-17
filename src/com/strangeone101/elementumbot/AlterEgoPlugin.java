@@ -92,7 +92,7 @@ public class AlterEgoPlugin extends JavaPlugin {
         });
 		
 		API.setAutoReconnect(true);
-		API.getRateLimitManager().addRateLimit(RateLimitType.SERVER_MESSAGE, 150L);
+		API.getRateLimitManager().addRateLimit(RateLimitType.SERVER_MESSAGE, 500L);
 		
 		getLogger().info("Alter Ego Bot Enabled!");
 		
