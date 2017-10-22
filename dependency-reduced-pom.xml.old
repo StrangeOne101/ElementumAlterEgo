@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ElementumAlterEgo</groupId>
   <artifactId>ElementumAlterEgo</artifactId>
-  <version>1.2.2</version>
+  <version>1.1.2</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <resources>
@@ -58,13 +58,6 @@
       <version>LATEST</version>
       <scope>system</scope>
       <systemPath>C:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/spigot-1.11.2.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>me.lucko.luckperms</groupId>
-      <artifactId>luck-perms</artifactId>
-      <version>LATEST</version>
-      <scope>system</scope>
-      <systemPath>C:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/LuckPerms-Bukkit-3.4.15.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>
