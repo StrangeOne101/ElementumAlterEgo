@@ -25,6 +25,8 @@ public class AlterEgoListener implements Listener {
 				.replace(Reactions.RIGHT_CURLY_BRACE, '>')));
 		
 		Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel());
+		message = MessageHandler.tagUsers(message);
+		
 		channel.sendMessage("[MCS] " + name + ": " + message);
 	}
 	
