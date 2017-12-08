@@ -3,15 +3,19 @@ package com.strangeone101.elementumbot;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.util.concurrent.FutureCallback;
+import com.strangeone101.elementumbot.ai.tasks.FlyGlitchDetector;
 import com.strangeone101.elementumbot.command.Command;
 import com.strangeone101.elementumbot.command.LinkCommand;
+import com.strangeone101.elementumbot.commandmc.DiscordReportMCommand;
 import com.strangeone101.elementumbot.commandmc.LinkMCommand;
 import com.strangeone101.elementumbot.commandmc.UnlinkMCommand;
 import com.strangeone101.elementumbot.config.ConfigManager;
+import com.strangeone101.elementumbot.config.MatchesManager;
 
 import de.btobastian.javacord.DiscordAPI;
 import de.btobastian.javacord.Javacord;
@@ -20,7 +24,6 @@ import de.btobastian.javacord.entities.Server;
 import de.btobastian.javacord.entities.message.Message;
 import de.btobastian.javacord.listener.message.MessageCreateListener;
 import de.btobastian.javacord.utils.ratelimits.RateLimitType;
-import net.md_5.bungee.api.ChatColor;
 
 public class AlterEgoPlugin extends JavaPlugin {
 	
@@ -35,11 +38,15 @@ public class AlterEgoPlugin extends JavaPlugin {
 		INSTANCE = this;
 		
 		new ConfigManager(); //Set up config
+		new MatchesManager(); 
 		
 		Command.registerDefaultCommands();
 		
 		Bukkit.getPluginCommand("link").setExecutor(new LinkMCommand());
 		Bukkit.getPluginCommand("unlink").setExecutor(new UnlinkMCommand());
+		Bukkit.getPluginCommand("discordreport").setExecutor(new DiscordReportMCommand());
+				
+		new FlyGlitchDetector();
 		
 		if (!ConfigManager.isValid()) {
 			try {
@@ -117,6 +124,7 @@ public class AlterEgoPlugin extends JavaPlugin {
 		super.reloadConfig();
 		AlterEgoPlugin.API.setIdle(true);
 		ConfigManager.defaultConfig.loadConfig();
+		MatchesManager.reloadMatches();
 		
 		if (!ConfigManager.isValidRelayChannel()) {
         	getLogger().severe("Relay channel not defined! Won't relay!");
@@ -134,5 +142,17 @@ public class AlterEgoPlugin extends JavaPlugin {
 		}
         
         AlterEgoPlugin.API.setIdle(false);
+	}
+	
+	/**
+	 * Reports something to the staff channel
+	 * @param message The message
+	 */
+	public static void report(String message) {
+		if (ConfigManager.isValidReportChannel()) {
+			AlterEgoPlugin.API.getChannelById(ConfigManager.getReportChannel()).sendMessage("[Report] " +message);
+		}
+		AlterEgoPlugin.INSTANCE.getLogger().warning("[Report] " + message);
+		
 	}
 }

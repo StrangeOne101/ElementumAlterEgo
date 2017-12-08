@@ -7,7 +7,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import com.strangeone101.elementumbot.AlterEgoPlugin;
 import com.strangeone101.elementumbot.FakeCommandSender;
-import com.strangeone101.elementumbot.Reactions;
+import com.strangeone101.elementumbot.util.Reactions;
 
 public class ExecuteCommand extends CommandRunnable {
 

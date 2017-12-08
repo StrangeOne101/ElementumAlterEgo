@@ -3,9 +3,9 @@ package com.strangeone101.elementumbot.command;
 import org.bukkit.Bukkit;
 
 import com.strangeone101.elementumbot.AlterEgoPlugin;
-import com.strangeone101.elementumbot.Reactions;
 import com.strangeone101.elementumbot.config.ConfigManager;
 import com.strangeone101.elementumbot.elementum.RankSync;
+import com.strangeone101.elementumbot.util.Reactions;
 
 import de.btobastian.javacord.entities.User;
 

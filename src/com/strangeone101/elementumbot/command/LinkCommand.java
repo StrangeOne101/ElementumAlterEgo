@@ -11,9 +11,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.strangeone101.elementumbot.AlterEgoPlugin;
-import com.strangeone101.elementumbot.Reactions;
 import com.strangeone101.elementumbot.config.ConfigManager;
 import com.strangeone101.elementumbot.elementum.RankSync;
+import com.strangeone101.elementumbot.util.Reactions;
 
 import de.btobastian.javacord.entities.User;
 import net.md_5.bungee.api.chat.BaseComponent;

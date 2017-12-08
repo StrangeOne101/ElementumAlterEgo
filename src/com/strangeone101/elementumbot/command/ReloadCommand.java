@@ -1,7 +1,7 @@
 package com.strangeone101.elementumbot.command;
 
 import com.strangeone101.elementumbot.AlterEgoPlugin;
-import com.strangeone101.elementumbot.Reactions;
+import com.strangeone101.elementumbot.util.Reactions;
 
 public class ReloadCommand extends CommandRunnable {
 

@@ -1,4 +1,4 @@
-package com.strangeone101.elementumbot;
+package com.strangeone101.elementumbot.util;
 
 public class Reactions {
 	

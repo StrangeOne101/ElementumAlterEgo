@@ -9,8 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.strangeone101.elementumbot.AlterEgoPlugin;
-import com.strangeone101.elementumbot.CleanupHandler;
 import com.strangeone101.elementumbot.MessageHandler;
+import com.strangeone101.elementumbot.util.CleanupHandler;
 
 import de.btobastian.javacord.entities.message.Message;
 

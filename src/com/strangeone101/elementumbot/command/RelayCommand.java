@@ -2,8 +2,8 @@ package com.strangeone101.elementumbot.command;
 
 import java.util.Arrays;
 
-import com.strangeone101.elementumbot.Reactions;
 import com.strangeone101.elementumbot.config.ConfigManager;
+import com.strangeone101.elementumbot.util.Reactions;
 
 public class RelayCommand extends CommandRunnable {
 

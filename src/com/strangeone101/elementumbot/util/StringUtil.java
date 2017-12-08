@@ -1,5 +1,8 @@
 package com.strangeone101.elementumbot.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class StringUtil {
 	
 	public enum Direction {LEFT, RIGHT};
@@ -68,6 +71,29 @@ public class StringUtil {
 		String first = string.substring(0, startIndex);
 		String last = string.substring(endIndex + 1);
 		return first + replaceString + last;
+	}
+	
+	/**
+	 * Splits the string every x characters. Allows the same 
+	 * string to wrap to the next line after so many characters
+	 * @param line The full string
+	 * @param length The length to cut off to
+	 * */
+	public static String lengthSplit(String line, int length)
+	{
+		Pattern p = Pattern.compile("\\G\\s*(.{1,"+length+"})(?=\\s|$)", Pattern.DOTALL);
+		Matcher m = p.matcher(line);
+		String newString = "";
+		char lastColor = 'f';
+		while (m.find())
+		{
+			String string = m.group(1);
+			if (string.contains("\u00A7")) {
+				lastColor = string.charAt(string.lastIndexOf('\u00A7') + 1);
+			}
+			newString = newString + "\n\u00A7" + lastColor + string;
+		}
+		return newString.substring(1);
 	}
 
 }

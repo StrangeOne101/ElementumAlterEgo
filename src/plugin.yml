@@ -2,13 +2,16 @@ name: ElementumAlterEgo
 main: com.strangeone101.elementumbot.AlterEgoPlugin
 version: ${project.version}
 prefix: ElementumAlterEgo
-softdepend: [LuckPerms]
+softdepend: [LuckPerms, ElementumBendingPack, ProjectKorra, Duels]
 commands:
    link:
       description: Links in game account with discord
       usage: /<command>
    unlink:
       description: Unlinks your in game account with discord
+      usage: /<command>
+   discordreport:
+      description: Reports something to the discord
       usage: /<command>
 permissions:
    alterego.command.link:
@@ -19,3 +22,5 @@ permissions:
       default: op
       children:
          alterego.command.unlink.others: true
+         alterego.command.discordreport: true
+         

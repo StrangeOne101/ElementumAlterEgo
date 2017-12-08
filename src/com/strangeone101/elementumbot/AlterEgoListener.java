@@ -1,5 +1,7 @@
 package com.strangeone101.elementumbot;
 
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -7,11 +9,16 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import com.strangeone101.elementumbot.config.ConfigManager;
+import com.strangeone101.elementumbot.config.MatchesManager;
+import com.strangeone101.elementumbot.util.Reactions;
 
 import de.btobastian.javacord.entities.Channel;
 import net.md_5.bungee.api.ChatColor;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.TextComponent;
 
 public class AlterEgoListener implements Listener {
 	
@@ -28,6 +35,22 @@ public class AlterEgoListener implements Listener {
 		message = MessageHandler.tagUsers(message);
 		
 		channel.sendMessage("[MCS] " + name + ": " + message);
+		
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				BaseComponent component = MatchesManager.getMatch(event.getMessage());
+				if (component != null) {
+					TextComponent reply = new TextComponent(AlterEgoPlugin.PREFIX + " " + ChatColor.RED);
+					reply.addExtra(component);
+					for (Player player : Bukkit.getOnlinePlayers()) {
+						player.spigot().sendMessage(reply);
+					}
+				}
+			}
+			
+		}.runTaskLater(AlterEgoPlugin.INSTANCE, 10);
 	}
 	
 	@EventHandler
