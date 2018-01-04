@@ -15,6 +15,7 @@ public class ConfigManager {
 
 	public static ConfigClass defaultConfig;
 	public static ConfigClass linkConfig;
+	public static ConfigClass returnConfig;
 	
 	private static final String _defaultToken = "***insert token here***";
 	private static final String _defaultRelayChannelID = "0000000000000000000";
@@ -41,6 +42,10 @@ public class ConfigManager {
 		for (String key : config2.getKeys(false)) {
 			LinkCommand.links.put(key, UUID.fromString(config2.getString(key)));
 		}
+		
+		returnConfig = new ConfigClass("savedRoles.yml");
+		
+		FileConfiguration config3 = returnConfig.get();
 		
 		save();
 	}

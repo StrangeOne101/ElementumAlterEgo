@@ -6,6 +6,13 @@ public abstract class CommandRunnable {
 		Command.registerCommand(name, this);
 	}
 	
+	public CommandRunnable(String name, String[] aliases) {
+		Command.registerCommand(name, this);
+		for (String cmd : aliases) {
+			Command.registerCommand(cmd, this);
+		}
+	}
+	
 	public CommandRunnable() {} //Allows people to bypass the autoregister
 	
 	public abstract void runCommand(Command command);

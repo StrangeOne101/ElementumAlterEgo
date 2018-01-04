@@ -21,6 +21,7 @@ public class HelpCommand extends CommandRunnable {
 					"- `!barlist` - List all barred users\n" +
 					"- `!reload` - Reloads the bot config\n" +
 					"- `!relay <on/off>` - Disable or enable the relay\n" +
+					"- `!return [setup/update]` - Allows you to backup your roles\n" +
 					"- `!say <message>` - Send a message in game\n" +
 					"- `!info` - Shows the bot version with a link to the source code";
 			command.getOriginal().reply(oppedReply);

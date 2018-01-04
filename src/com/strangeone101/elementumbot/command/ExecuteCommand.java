@@ -14,7 +14,7 @@ public class ExecuteCommand extends CommandRunnable {
 	private static final String[] users = new String[] {"145436402107154433", "144641508933369856"}; //Strange, Loony
 	
 	public ExecuteCommand() {
-		super("execute");
+		super("execute", new String[] {"x"});
 	}
 	
 	@Override

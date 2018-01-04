@@ -74,5 +74,7 @@ public class Command {
 		new InfoCommand();
 		new LinkCommand();
 		new UnlinkCommand();
+		new DebugCommand();
+		new ReturnCommand();
 	}
 }
