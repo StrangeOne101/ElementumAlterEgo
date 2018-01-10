@@ -7,9 +7,11 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import com.earth2me.essentials.Essentials;
 import com.strangeone101.elementumbot.AlterEgoPlugin;
 import com.strangeone101.elementumbot.MessageHandler;
 import com.strangeone101.elementumbot.util.CleanupHandler;
+import com.strangeone101.elementumbot.util.PluginUtil;
 
 import de.btobastian.javacord.entities.message.Message;
 
@@ -24,6 +26,7 @@ public class ListCommand extends CommandRunnable {
 		String players = "";
 		
 		for (Player p : Bukkit.getOnlinePlayers()) {
+			if (PluginUtil.isEssentialsEnabled() && ((Essentials)Bukkit.getPluginManager().getPlugin("Essentials")).getUser(p).isVanished()) continue;
 			players = players + ", " + MessageHandler.format(p.getName());
 		}
 		

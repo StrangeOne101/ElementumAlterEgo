@@ -33,7 +33,46 @@ public class Command {
 		
 		if (commands.containsKey(command)) {
 			commands.get(command).runCommand(this);
+		} else {
+			if (ConfigManager.getOpAliases().containsKey(command) && this.op) {
+				this.command = ConfigManager.getOpAliases().get(command);
+				//this.original.reply(command + " is cmd");
+				if (this.command.contains(" ")) {
+					this.args = recreateArgs(this.args, this.command);
+					this.command = this.command.split(" ")[0];
+				}
+				if (commands.containsKey(command)) {
+					commands.get(command).runCommand(this);
+					return;
+				}
+			} 
+			if (ConfigManager.getAliases().containsKey(command)) {
+				this.command = ConfigManager.getAliases().get(command);
+				if (this.command.contains(" ")) {
+					this.args = recreateArgs(this.args, this.command);
+					this.command = this.command.split(" ")[0];
+				}
+				if (commands.containsKey(command)) {
+					commands.get(command).runCommand(this);
+					return;
+				}
+			}
 		}
+	}
+	
+	private String[] recreateArgs(String[] original, String alias) {
+		String[] newArgs = new String[original.length + alias.split(" ").length - 1];
+		//this.original.reply(newArgs.length + " | " + original.length + " | " + (alias.split(" ").length - 1));
+		int i;
+		for (i = 1; i < alias.split(" ").length; i++) {
+			newArgs[i - 1] = alias.split(" ")[i];
+			//this.original.reply(alias.split(" ")[i] + " | " + (i - 1));
+		}
+		for (int j = 0; j < original.length; j++) {
+			newArgs[i - 1 + j] = original[j];
+			//this.original.reply(original[j] + " | " + (i - 1 + j));
+		}
+		return newArgs;
 	}
 	
 	public String getCommand() {
@@ -76,5 +115,6 @@ public class Command {
 		new UnlinkCommand();
 		new DebugCommand();
 		new ReturnCommand();
+		new WhoIsCommand();
 	}
 }

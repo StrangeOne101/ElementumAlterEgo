@@ -34,7 +34,7 @@ public class MessageHandler {
 	}
 	
 	public static String format(String string) {
-		return string.replaceAll("\\*", "\\\\*").replaceAll("_", "\\\\_");
+		return string.replaceAll("\\*", "\\\\*").replaceAll("_", "\\\\_").replaceAll("@everyone", "@ everyone").replaceAll("@here", "@ here");
 	}
 	
 	/*public static String toIngame(String string) {

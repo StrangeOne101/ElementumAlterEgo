@@ -8,6 +8,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import com.strangeone101.elementumbot.AlterEgoPlugin;
 import com.strangeone101.elementumbot.FakeCommandSender;
 import com.strangeone101.elementumbot.util.Reactions;
+import com.strangeone101.elementumbot.util.StringUtil;
 
 public class ExecuteCommand extends CommandRunnable {
 
@@ -29,7 +30,7 @@ public class ExecuteCommand extends CommandRunnable {
 			}
 			FakeCommandSender sender = new FakeCommandSender(command.getSender(), command.getOriginal());
 			
-			String message = command.getOriginal().getContent().substring("!execute ".length());
+			String message = StringUtil.combine(command.getArguments());
 			message = message.startsWith("/") ? message.substring(1) : message;
 			message = message.trim();
 			

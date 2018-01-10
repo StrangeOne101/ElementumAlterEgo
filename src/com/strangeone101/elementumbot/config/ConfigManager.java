@@ -2,7 +2,9 @@ package com.strangeone101.elementumbot.config;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.configuration.file.FileConfiguration;
@@ -32,6 +34,8 @@ public class ConfigManager {
 		config.addDefault("ReportChannelID", _defaultRelayChannelID);
 		config.addDefault("RelayEnabled", true);
 		config.addDefault("SayCommandFormat", "&7[Discord] <name>: &r<message>");
+		config.addDefault("Aliases", Arrays.asList(new String[] {"example:list"}));
+		config.addDefault("OpAliases", Arrays.asList(new String[] {"opexample:list"}));
 		config.options().copyDefaults(true);
 		
 		linkConfig = new ConfigClass("links.yml");
@@ -45,7 +49,7 @@ public class ConfigManager {
 		
 		returnConfig = new ConfigClass("savedRoles.yml");
 		
-		FileConfiguration config3 = returnConfig.get();
+		//FileConfiguration config3 = returnConfig.get();
 		
 		save();
 	}
@@ -87,6 +91,22 @@ public class ConfigManager {
 	
 	public static String getReportChannel() {
 		return defaultConfig.get().getString("ReportChannelID");
+	}
+	
+	public static Map<String, String> getAliases() {
+		Map<String, String> aliases = new HashMap<String, String>();
+		for (String s : defaultConfig.get().getStringList("Aliases")) {
+			aliases.put(s.split("\\:", 2)[0], s.split("\\:", 2)[1]);
+		}
+		return aliases;
+	}
+	
+	public static Map<String, String> getOpAliases() {
+		Map<String, String> aliases = new HashMap<String, String>();
+		for (String s : defaultConfig.get().getStringList("OpAliases")) {
+			aliases.put(s.split("\\:", 2)[0], s.split("\\:", 2)[1]);
+		}
+		return aliases;
 	}
 	
 	public static boolean isValid() {

@@ -95,5 +95,13 @@ public class StringUtil {
 		}
 		return newString.substring(1);
 	}
+	
+	public static String combine(String[] array) {
+		String s = "";
+		for (int i = 0; i < array.length; i++) {
+			s = s + (i != 0 ? " " : "") + array[i];
+		}
+		return s;
+	}
 
 }
