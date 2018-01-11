@@ -13,6 +13,7 @@ The bot comes with a few limited commands
 - `!listd` - Lists all users in game with their displaynames (nicknames)
 - `!link <user>` - Link your MC account to your discord account
 - `!unlink` - Unlink your MC account
+- `!whois <@user>` - Shows the IGN of a linked user
 - `!help` - Shows all commands the user can run
 
 ### Op Commands
@@ -37,6 +38,10 @@ RelayChannelID: '000000000000000'
 ReportChannelID: '000000000000000'
 RelayEnabled: true
 SayCommandFormat: '&7[Discord] <name>: &r<message>'
+Aliases:
+- 'example:list'
+OpAliases:
+- 'exampleop:list'
 ```
 **Token** - The token for the bot
 
