@@ -57,42 +57,42 @@
       <artifactId>spigot-api</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>C:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/spigot-1.11.2.jar</systemPath>
+      <systemPath>C:\Users\simpl\Documents\GitHub\ElementumAlterEgo/lib/spigot-1.11.2.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.earth2me.essentials</groupId>
       <artifactId>essentials</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>C:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/Essentials-2.x-SNAPSHOT.jar</systemPath>
+      <systemPath>C:\Users\simpl\Documents\GitHub\ElementumAlterEgo/lib/Essentials-2.x-SNAPSHOT.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>con.projectkorra</groupId>
       <artifactId>projectkorra</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>C:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/ProjectKorra-1.8.6.jar</systemPath>
+      <systemPath>C:\Users\simpl\Documents\GitHub\ElementumAlterEgo/lib/ProjectKorra-1.8.6.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>me.lucko.luckperms</groupId>
       <artifactId>luck-perms</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>C:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/LuckPerms-Bukkit-3.4.15.jar</systemPath>
+      <systemPath>C:\Users\simpl\Documents\GitHub\ElementumAlterEgo/lib/LuckPerms-Bukkit-3.4.15.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>me.realized.duels</groupId>
       <artifactId>duels</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>C:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/Duels.jar</systemPath>
+      <systemPath>C:\Users\simpl\Documents\GitHub\ElementumAlterEgo/lib/Duels.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.elementum.bendingpack</groupId>
       <artifactId>ElementumBendingPack</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>C:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/ElementumBendingPack-2.0.1.jar</systemPath>
+      <systemPath>C:\Users\simpl\Documents\GitHub\ElementumAlterEgo/lib/ElementumBendingPack-2.0.1.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

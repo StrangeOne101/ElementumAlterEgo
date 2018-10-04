@@ -116,5 +116,6 @@ public class Command {
 		new DebugCommand();
 		new ReturnCommand();
 		new WhoIsCommand();
+		new LatencyCommand();
 	}
 }
