@@ -25,7 +25,8 @@ public class LatencyCommand extends CommandRunnable {
 		try {
 			message = future.get();
 		} catch (Exception e) {
-			e.printStackTrace();
+			command.getOriginal().reply("An error occurred while waiting: " + e.getLocalizedMessage());
+			return;
 		}
 		
 		long latency = System.currentTimeMillis() - time;
