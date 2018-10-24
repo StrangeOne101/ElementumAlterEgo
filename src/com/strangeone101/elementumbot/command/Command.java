@@ -117,5 +117,12 @@ public class Command {
 		new ReturnCommand();
 		new WhoIsCommand();
 		new LatencyCommand();
+		new AliasCommand();
+	}
+	
+	public static boolean commandExists(String cmd) {
+		cmd = ConfigManager.getAliases().get(cmd);
+		
+		return commands.containsKey(cmd);
 	}
 }

@@ -18,6 +18,7 @@ public class ConfigManager {
 	public static ConfigClass defaultConfig;
 	public static ConfigClass linkConfig;
 	public static ConfigClass returnConfig;
+	public static ConfigClass aliasConfig;
 	
 	private static final String _defaultToken = "***insert token here***";
 	private static final String _defaultRelayChannelID = "0000000000000000000";
@@ -51,6 +52,7 @@ public class ConfigManager {
 		
 		//FileConfiguration config3 = returnConfig.get();
 		
+		aliasConfig = new ConfigClass("aliasCommands.yml"); //Nothing needs to be in there by default, just needs to exist
 		save();
 	}
 

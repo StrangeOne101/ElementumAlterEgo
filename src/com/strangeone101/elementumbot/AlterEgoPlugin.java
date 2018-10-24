@@ -16,6 +16,7 @@ import com.strangeone101.elementumbot.commandmc.LinkMCommand;
 import com.strangeone101.elementumbot.commandmc.UnlinkMCommand;
 import com.strangeone101.elementumbot.config.ConfigManager;
 import com.strangeone101.elementumbot.config.MatchesManager;
+import com.strangeone101.elementumbot.util.AliasRegistry;
 
 import de.btobastian.javacord.DiscordAPI;
 import de.btobastian.javacord.Javacord;
@@ -38,7 +39,8 @@ public class AlterEgoPlugin extends JavaPlugin {
 		INSTANCE = this;
 		
 		new ConfigManager(); //Set up config
-		new MatchesManager(); 
+		new MatchesManager();
+		new AliasRegistry();
 		
 		Command.registerDefaultCommands();
 		

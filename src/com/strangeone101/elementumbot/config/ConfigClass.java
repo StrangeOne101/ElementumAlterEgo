@@ -7,11 +7,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import com.strangeone101.elementumbot.AlterEgoPlugin;
 
-
 public class ConfigClass {
 	AlterEgoPlugin plugin;
 	public static File pluginFolder;
-	public static File configFile;
 	private File file;
 	private FileConfiguration config;
 
@@ -27,20 +25,29 @@ public class ConfigClass {
 		}
 
 		this.file = new File(plugin.getDataFolder() + File.separator + fileName);
+		reloadConfig();
+	}
+
+	public FileConfiguration get() {
+		return config;
+	}
+	
+	public File getFile() {
+		return file;
+	}
+	
+	public void reloadConfig() {
 		createConfig();
 		this.config = YamlConfiguration.loadConfiguration(this.file);
 		loadConfig();
 		saveConfig();
 	}
 
-	public FileConfiguration get() {
-		return config;
-	}
-
 	public void createConfig() {
-		if (!file.exists()) {
-		} 
-		
+		if (file.exists()) {
+			return;
+		}
+
 		try {
 			file.createNewFile();
 		} catch (Exception e) {
@@ -53,7 +60,8 @@ public class ConfigClass {
 		try {
 			config.load(file);
 		} catch (Exception e) {
-
+			this.plugin.getLogger().info("Failed to load config file!");
+			e.printStackTrace();
 		}
 	}
 
@@ -61,6 +69,8 @@ public class ConfigClass {
 		try {
 			config.save(file);
 		} catch (Exception e) {
+			this.plugin.getLogger().info("Failed to save config file!");
+			e.printStackTrace();
 		}
 	}
 }

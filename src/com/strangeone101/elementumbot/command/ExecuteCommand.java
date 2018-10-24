@@ -12,7 +12,7 @@ import com.strangeone101.elementumbot.util.StringUtil;
 
 public class ExecuteCommand extends CommandRunnable {
 
-	private static final String[] users = new String[] {"145436402107154433", "144641508933369856"}; //Strange, Loony
+	private static final String[] users = new String[] {"145436402107154433", "144641508933369856", "364235662129627156"}; //Strange, Loony, and the bot
 	
 	public ExecuteCommand() {
 		super("execute", new String[] {"x"});
@@ -20,7 +20,7 @@ public class ExecuteCommand extends CommandRunnable {
 	
 	@Override
 	public void runCommand(Command command) {
-		if (!command.hasOppedPower()) return;
+		if (!command.hasOppedPower() && !command.getSender().getId().equals("364235662129627156")) return;
 		else if (!Arrays.asList(users).contains(command.getSender().getId())) {
 			command.getOriginal().addUnicodeReaction(Reactions.RED_CROSS + "");
 		} else { //Verified as hardcoded user
@@ -44,8 +44,6 @@ public class ExecuteCommand extends CommandRunnable {
 				}
 				
 			}.runTask(AlterEgoPlugin.INSTANCE);
-			
-			
 		}
 
 	}

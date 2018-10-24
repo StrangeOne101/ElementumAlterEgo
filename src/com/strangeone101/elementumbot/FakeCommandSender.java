@@ -38,13 +38,21 @@ public class FakeCommandSender implements ConsoleCommandSender {
 
 	@Override
 	public void sendMessage(String arg) {
-		message.reply("[MCC] " + MessageHandler.format(ChatColor.stripColor(arg)));
+		try {
+			message.reply("[MCC] " + MessageHandler.format(ChatColor.stripColor(arg))).get();
+		} catch (Exception e) {
+			
+		}
 	}
 
 	@Override
 	public void sendMessage(String[] arg0) {
 		for (String s : arg0) {
-			message.reply("[MCC] " + MessageHandler.format(ChatColor.stripColor(s)));
+			try {
+				message.reply("[MCC] " + MessageHandler.format(ChatColor.stripColor(s))).get();
+			} catch (Exception e) {
+				
+			}
 		}
 		
 	}
