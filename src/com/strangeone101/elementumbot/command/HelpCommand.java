@@ -12,8 +12,9 @@ public class HelpCommand extends CommandRunnable {
 				+ "- `!list` - List all online users\n"
 				+ "- `!listd` - List all online users (with display names)\n"
 				+ "- `!link <user>` - Link your discord user to your MC account\n"
-				+ "- `!unlink` - Removes the link to your MC account"
-				+ "- `!whois <@user>` - Returns the in game name of a discord user\n";
+				+ "- `!unlink` - Removes the link to your MC account\n"
+				+ "- `!whois <@user>` - Returns the in game name of a discord user\n"
+				+ "- `!whatismypurpose` - Who knows \u00AF\\\\_(\u30C4)\\_/\u00AF\n";
 		command.getOriginal().reply(reply);
 		
 		if (command.hasOppedPower()) {

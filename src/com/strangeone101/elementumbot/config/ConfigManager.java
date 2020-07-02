@@ -36,6 +36,11 @@ public class ConfigManager {
 		config.addDefault("SayCommandFormat", "&7[Discord] <name>: &r<message>");
 		config.addDefault("Aliases", Arrays.asList(new String[] {"example:list"}));
 		config.addDefault("OpAliases", Arrays.asList(new String[] {"opexample:list"}));
+		config.addDefault("RankSync.Donor", Arrays.asList((new String[] {"000000000000"})));
+		config.addDefault("Report.Usage", "&cCommand usage is /report <user> <reason>");
+		config.addDefault("Report.Success", "&aThanks. %player% has been reported and will be dealt with shortly.");
+		config.addDefault("Report.Offline", "&cThat player is offline.");
+		config.addDefault("Report.IveBeenNaughty", "&cYou have been reported by %player% for the reason: %reason%");
 		config.options().copyDefaults(true);
 		
 		linkConfig = new ConfigClass("links.yml");
@@ -44,7 +49,7 @@ public class ConfigManager {
 		
 		
 		for (String key : config2.getKeys(false)) {
-			LinkCommand.links.put(key, UUID.fromString(config2.getString(key)));
+			LinkCommand.links.put(UUID.fromString(key), config2.getString(key));
 		}
 		
 		returnConfig = new ConfigClass("savedRoles.yml");
@@ -62,8 +67,8 @@ public class ConfigManager {
 	public static void save() {
 		defaultConfig.saveConfig();
 		
-		for (String id : LinkCommand.links.keySet()) {
-			linkConfig.get().set(id, LinkCommand.links.get(id).toString());
+		for (UUID id : LinkCommand.links.keySet()) {
+			linkConfig.get().set(id.toString(), LinkCommand.links.get(id));
 		}
 		
 		linkConfig.saveConfig();

@@ -1,5 +1,7 @@
 package com.strangeone101.elementumbot;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
@@ -12,6 +14,8 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.permissions.PermissionAttachment;
 import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
 
 import de.btobastian.javacord.entities.User;
 import de.btobastian.javacord.entities.message.Message;
@@ -21,14 +25,40 @@ public class FakeCommandSender implements ConsoleCommandSender {
 	private User user;
 	private Message message;
 	
+	private BukkitTask messageSendFunction;
+	private List<String> messages = new ArrayList<String>();
+	
 	public FakeCommandSender(User user, Message message) {
 		this.user = user;
 		this.message = message;
+	}
+	
+	protected void sendDiscordMessage(String text) {
+		messages.add("[MCC] " + MessageHandler.format(ChatColor.stripColor(text)));
+		
+		FakeCommandSender instance = this;
+		if (messageSendFunction == null) {
+			messageSendFunction = new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					message.reply(String.join("\n", instance.messages));
+					instance.messages.clear();
+					instance.messageSendFunction = null;
+				}
+				
+			}.runTaskLater(AlterEgoPlugin.INSTANCE, 2L);
+		}
 	}
 
 	@Override
 	public String getName() {
 		return "Alter Ego (" + user.getName() + ")";
+	}
+
+	@Override
+	public Spigot spigot() {
+		return null;
 	}
 
 	@Override
@@ -38,13 +68,13 @@ public class FakeCommandSender implements ConsoleCommandSender {
 
 	@Override
 	public void sendMessage(String arg) {
-		message.reply("[MCC] " + MessageHandler.format(ChatColor.stripColor(arg)));
+		sendDiscordMessage(arg);
 	}
 
 	@Override
 	public void sendMessage(String[] arg0) {
 		for (String s : arg0) {
-			message.reply("[MCC] " + MessageHandler.format(ChatColor.stripColor(s)));
+			sendDiscordMessage(s);
 		}
 		
 	}
@@ -142,7 +172,7 @@ public class FakeCommandSender implements ConsoleCommandSender {
 
 	@Override
 	public void sendRawMessage(String arg0) {
-		message.reply("[MCC] " + MessageHandler.format(ChatColor.stripColor(arg0)));
+		sendDiscordMessage(arg0);
 	}
 
 }

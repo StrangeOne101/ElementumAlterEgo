@@ -18,13 +18,13 @@ import com.strangeone101.elementumbot.util.Reactions;
 import de.btobastian.javacord.entities.User;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.ClickEvent.Action;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.ClickEvent.Action;
 
 public class LinkCommand extends CommandRunnable {
 	
-	public static Map<String, UUID> links = new HashMap<String, UUID>();
+	public static Map<UUID, String> links = new HashMap<UUID, String>();
 	public static Map<Integer, String> linksBeingPrepared = new HashMap<Integer, String>(); //ID, User ID
 
 	public LinkCommand() {
@@ -34,7 +34,7 @@ public class LinkCommand extends CommandRunnable {
 	@SuppressWarnings("deprecation")
 	@Override
 	public void runCommand(Command command) {
-		if (links.containsKey(command.getSender().getId())) {
+		if (links.values().contains(command.getSender().getId())) {
 			command.getOriginal().reply("You already have an account linked! Use `!unlink` to unlink your account!");
 			return;
 		}
@@ -98,14 +98,37 @@ public class LinkCommand extends CommandRunnable {
 		player.spigot().sendMessage(base);
 	}
 	
+	public static boolean isLinked(UUID uuid) {
+		return links.containsKey(uuid) && !links.get(uuid).equals("0");
+	}
+	
+	public static boolean isLinked(String id) {
+		return links.containsValue(id);
+	}
+	
+	public static UUID getUUIDFromID(String id) {
+		for (UUID uuid : LinkCommand.links.keySet()) {
+			if (LinkCommand.links.get(uuid).equals(id)) {
+				return uuid;
+			}
+		}
+		return null;
+	}
+	
 	public static void finalizeLink(int id, Player player) {
 		User user = AlterEgoPlugin.API.getCachedUserById(linksBeingPrepared.get(id));
-		links.put(linksBeingPrepared.get(id), player.getUniqueId());
+		boolean reward = !links.containsKey(player.getUniqueId());
+		links.put(player.getUniqueId(), linksBeingPrepared.get(id));
 		linksBeingPrepared.remove(id);
 		
 		user.sendMessage("Your account has been successfully linked to MC user " + player.getName());
 		AlterEgoPlugin.INSTANCE.getLogger().info("Discord user " + user.getName() + "(" + user.getMentionTag() + ") successfully linked with MC user " + player.getName());
 		ConfigManager.save();
+		
+		if (reward) {
+			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate key " + player.getName() + " epic");
+			player.sendMessage(ChatColor.YELLOW + "You are rewarded 1 Epic Key for linking your account!");
+		}
 		
 		if (Bukkit.getPluginCommand("LuckPerms") != null) {
 			RankSync.syncRank(user);

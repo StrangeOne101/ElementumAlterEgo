@@ -13,6 +13,9 @@ commands:
    discordreport:
       description: Reports something to the discord
       usage: /<command>
+   alterego:
+      description: Kill me
+      usage: /<command>
 permissions:
    alterego.command.link:
       default: true

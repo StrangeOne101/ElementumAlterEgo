@@ -21,7 +21,7 @@ public class LinkMCommand implements CommandExecutor {
 			sender.sendMessage(ChatColor.RED + "You don't have permission to run this command!");
 			return true;
 		}
-		if (LinkCommand.links.containsValue(((Player)sender).getUniqueId()) && args.length == 0) {
+		if (LinkCommand.links.containsKey(((Player)sender).getUniqueId()) && args.length == 0) {
 			sender.sendMessage(AlterEgoPlugin.PREFIX + ChatColor.RED + " You already have an account linked! Use " + ChatColor.YELLOW + "/unlink" + ChatColor.RED + " to unlink.");
 			return true;
 		}

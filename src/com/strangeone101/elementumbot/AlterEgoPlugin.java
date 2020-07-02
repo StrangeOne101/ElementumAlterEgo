@@ -1,16 +1,18 @@
 package com.strangeone101.elementumbot;
 
+import java.io.File;
 import java.util.UUID;
 
+import com.strangeone101.elementumbot.chatbot.LearningChatbot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.google.common.util.concurrent.FutureCallback;
-import com.strangeone101.elementumbot.ai.tasks.FlyGlitchDetector;
 import com.strangeone101.elementumbot.command.Command;
 import com.strangeone101.elementumbot.command.LinkCommand;
+import com.strangeone101.elementumbot.commandmc.AlterEgoCommand;
 import com.strangeone101.elementumbot.commandmc.DiscordReportMCommand;
 import com.strangeone101.elementumbot.commandmc.LinkMCommand;
 import com.strangeone101.elementumbot.commandmc.UnlinkMCommand;
@@ -45,8 +47,11 @@ public class AlterEgoPlugin extends JavaPlugin {
 		Bukkit.getPluginCommand("link").setExecutor(new LinkMCommand());
 		Bukkit.getPluginCommand("unlink").setExecutor(new UnlinkMCommand());
 		Bukkit.getPluginCommand("discordreport").setExecutor(new DiscordReportMCommand());
-				
-		new FlyGlitchDetector();
+		Bukkit.getPluginCommand("alterego").setExecutor(new AlterEgoCommand());
+		
+		//new FlyGlitchDetector(); Bugged, will be fixed in future
+		
+		//new LearningChatbot(new File(getDataFolder(), "brain.dat"));
 		
 		if (!ConfigManager.isValid()) {
 			try {
@@ -138,7 +143,7 @@ public class AlterEgoPlugin extends JavaPlugin {
         
         LinkCommand.links.clear();
         for (String key : ConfigManager.linkConfig.get().getKeys(false)) {
-			LinkCommand.links.put(key, UUID.fromString(ConfigManager.linkConfig.get().getString(key)));
+			LinkCommand.links.put(UUID.fromString(ConfigManager.linkConfig.get().getString(key)), key);
 		}
         
         AlterEgoPlugin.API.setIdle(false);
@@ -154,5 +159,12 @@ public class AlterEgoPlugin extends JavaPlugin {
 		}
 		AlterEgoPlugin.INSTANCE.getLogger().warning("[Report] " + message);
 		
+	}
+	
+	public static void relay(String message) {
+		if (ConfigManager.isValidRelayChannel()) {
+			message = MessageHandler.format(ChatColor.stripColor(message));
+			AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).sendMessage("[MCS] " + message);
+		}
 	}
 }

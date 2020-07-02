@@ -12,9 +12,7 @@ import com.elementum.bendingpack.earth.EarthSurf;
 import com.projectkorra.projectkorra.ability.CoreAbility;
 import com.projectkorra.projectkorra.airbending.AirSpout;
 import com.projectkorra.projectkorra.airbending.Tornado;
-import com.projectkorra.projectkorra.airbending.flight.AirFlight;
 import com.projectkorra.projectkorra.firebending.FireJet;
-import com.projectkorra.projectkorra.util.Flight;
 import com.projectkorra.projectkorra.waterbending.WaterSpout;
 import com.strangeone101.elementumbot.AlterEgoPlugin;
 
@@ -42,7 +40,7 @@ public class FlyGlitchDetector implements Runnable {
 
 		flightAbilities.add(AirSpout.class);
 		flightAbilities.add(WaterSpout.class);
-		flightAbilities.add(AirFlight.class);
+		//flightAbilities.add(AirFlight.class);
 		flightAbilities.add(FireJet.class);
 		flightAbilities.add(Tornado.class);
 		flightAbilities.add(EarthSurf.class);
@@ -54,7 +52,7 @@ public class FlyGlitchDetector implements Runnable {
 	public void run() {
 		playerloop:
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (!player.isFlying() || Flight.hasFlight(player)) { //If they aren't flying or have temp flight
+			if (!player.isFlying() || false) {//Flight.hasFlight(player)) { //If they aren't flying or have temp flight
 				warns.remove(player.getUniqueId());
 				continue;
 			}
