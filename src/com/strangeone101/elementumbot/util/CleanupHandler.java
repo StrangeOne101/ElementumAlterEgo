@@ -3,8 +3,7 @@ package com.strangeone101.elementumbot.util;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.strangeone101.elementumbot.AlterEgoPlugin;
-
-import de.btobastian.javacord.entities.message.Message;
+import org.javacord.api.entity.message.Message;
 
 public class CleanupHandler {
 	

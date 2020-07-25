@@ -12,8 +12,7 @@ import com.strangeone101.elementumbot.AlterEgoPlugin;
 import com.strangeone101.elementumbot.command.LinkCommand;
 import com.strangeone101.elementumbot.config.ConfigManager;
 import com.strangeone101.elementumbot.elementum.RankSync;
-
-import de.btobastian.javacord.entities.User;
+import org.javacord.api.entity.user.User;
 
 public class UnlinkMCommand implements CommandExecutor {
 
@@ -37,10 +36,10 @@ public class UnlinkMCommand implements CommandExecutor {
 			if (Bukkit.getOfflinePlayer(args[0]) != null) {
 				if (LinkCommand.isLinked(Bukkit.getOfflinePlayer(args[0]).getUniqueId())) {
 					OfflinePlayer player = Bukkit.getOfflinePlayer(args[0]);
-					User user = AlterEgoPlugin.API.getCachedUserById(LinkCommand.links.get(player.getUniqueId()));
+					User user = AlterEgoPlugin.API.getCachedUserById(LinkCommand.links.get(player.getUniqueId())).get();
 					user.sendMessage("Your account has been unlinked to MC user " + Bukkit.getOfflinePlayer(args[0]).getName());
 					AlterEgoPlugin.INSTANCE.getLogger().info("Discord user " + user.getName() + "(" + user.getMentionTag() + ") unlinked with MC user " + player.getName());
-					LinkCommand.links.put(player.getUniqueId(), "0");
+					LinkCommand.links.put(player.getUniqueId(), 0L);
 					RankSync.syncRank(user);
 						
 					ConfigManager.save();
@@ -51,10 +50,10 @@ public class UnlinkMCommand implements CommandExecutor {
 			}
 		} else {
 			if (LinkCommand.isLinked(((Player)sender).getUniqueId())) {
-				User user = AlterEgoPlugin.API.getCachedUserById(LinkCommand.links.get(((Player)sender).getUniqueId()));
+				User user = AlterEgoPlugin.API.getCachedUserById(LinkCommand.links.get(((Player)sender).getUniqueId())).get();
 				user.sendMessage("Your account has been unlinked to MC user " + sender.getName());
 				AlterEgoPlugin.INSTANCE.getLogger().info("Discord user " + user.getName() + "(" + user.getMentionTag() + ") unlinked with MC user " + sender.getName());
-				LinkCommand.links.put(((Player)sender).getUniqueId(), "0");
+				LinkCommand.links.put(((Player)sender).getUniqueId(), 0L);
 				RankSync.syncRank(user);
 					
 				ConfigManager.save();

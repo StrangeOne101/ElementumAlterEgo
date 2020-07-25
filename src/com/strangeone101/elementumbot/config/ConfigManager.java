@@ -49,7 +49,7 @@ public class ConfigManager {
 		
 		
 		for (String key : config2.getKeys(false)) {
-			LinkCommand.links.put(UUID.fromString(key), config2.getString(key));
+			LinkCommand.links.put(UUID.fromString(key), Long.valueOf(config2.getString(key)));
 		}
 		
 		returnConfig = new ConfigClass("savedRoles.yml");
@@ -86,8 +86,8 @@ public class ConfigManager {
 		return defaultConfig.get().getBoolean("RelayEnabled");
 	}
 	
-	public static long getToken() {
-		return Long.parseLong(defaultConfig.get().getString("Token"));
+	public static String getToken() {
+		return defaultConfig.get().getString("Token");
 	}
 	
 	public static long getRelayChannel() {
@@ -129,29 +129,29 @@ public class ConfigManager {
 	public static void addBarredUser(long id) {
 		List<String> list = getBarredUsers();
 		list.remove(id); //In case it was already there - no double ups allowed
-		list.add(id);
+		list.add(id + "");
 		defaultConfig.get().set("BarredUsers", list);
 		save();
 	}
 	
-	public static void addOp(String id) {
+	public static void addOp(long id) {
 		List<String> list = getOps();
 		list.remove(id); //In case it was already there - no double ups allowed
-		list.add(id);
+		list.add(id + "");
 		defaultConfig.get().set("Ops", list);
 		save();
 	}
 	
-	public static void removeBarredUser(String id) {
+	public static void removeBarredUser(long id) {
 		List<String> list = getBarredUsers();
-		list.remove(id);
+		list.remove(id + "");
 		defaultConfig.get().set("BarredUsers", list);
 		save();
 	}
 	
-	public static void removeOp(String id) {
+	public static void removeOp(long id) {
 		List<String> list = getOps();
-		list.remove(id);
+		list.remove(id + "");
 		defaultConfig.get().set("Ops", list);
 		save();
 	}

@@ -6,8 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 
 import com.strangeone101.elementumbot.AlterEgoPlugin;
-
-import de.btobastian.javacord.entities.User;
+import org.javacord.api.entity.user.User;
 
 public class WhoIsCommand extends CommandRunnable {
 	
@@ -18,27 +17,27 @@ public class WhoIsCommand extends CommandRunnable {
 	@Override
 	public void runCommand(Command command) {
 		if (command.getArguments().length == 0) {
-			command.getOriginal().reply("Error: Usage is `!whois user`!");
+			command.reply("Error: Usage is `!whois user`!");
 			return;
 		}
 		
-		if (command.getOriginal().getMentions().size() > 0) {
-			User user = command.getOriginal().getMentions().get(0);
+		if (command.getOriginal().getMentionedUsers().size() > 0) {
+			User user = command.getOriginal().getMentionedUsers().get(0);
 			
 			if (!LinkCommand.links.containsValue(user.getId())) {
-				command.getOriginal().reply("Error: User has not linked their discord account to MC!");
+				command.reply("Error: User has not linked their discord account to MC!");
 				return;
 			}
 			
 			for (UUID id : LinkCommand.links.keySet()) {
 				if (LinkCommand.links.get(id).equals(user.getId())) {
 					OfflinePlayer player = Bukkit.getOfflinePlayer(id);
-					command.getOriginal().reply(user.getName() + " is " + player.getName() + " in game.");
+					command.reply(user.getName() + " is " + player.getName() + " in game.");
 					return;
 				}
 			}
 
-			command.getOriginal().reply("Error: Discord dun goofed! How the hell did this happen???");
+			command.reply("Error: Discord dun goofed! How the hell did this happen???");
 		} else {
 			int matchID = -1;
 			User user = null;
@@ -66,17 +65,17 @@ public class WhoIsCommand extends CommandRunnable {
 				}
 			}
 			if (user == null) { //If it's STILL null...
-				command.getOriginal().reply("Error: User not found!");
+				command.reply("Error: User not found!");
 			} else {
 				if (!LinkCommand.links.containsValue(user.getId())) {
-					command.getOriginal().reply("Error: User has not linked their discord account to MC!");
+					command.reply("Error: User has not linked their discord account to MC!");
 					return;
 				}
 				
 				for (UUID id : LinkCommand.links.keySet()) {
 					if (LinkCommand.links.get(id).equals(user.getId())) {
 						OfflinePlayer player = Bukkit.getOfflinePlayer(id);
-						command.getOriginal().reply(user.getName() + " is " + player.getName() + " in game.");
+						command.reply(user.getName() + " is " + player.getName() + " in game.");
 						return;
 					}
 				}

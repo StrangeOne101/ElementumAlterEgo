@@ -16,9 +16,8 @@ import org.bukkit.permissions.PermissionAttachmentInfo;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
-import de.btobastian.javacord.entities.User;
-import de.btobastian.javacord.entities.message.Message;
+import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.user.User;
 
 public class FakeCommandSender implements ConsoleCommandSender {
 	
@@ -42,7 +41,7 @@ public class FakeCommandSender implements ConsoleCommandSender {
 
 				@Override
 				public void run() {
-					message.reply(String.join("\n", instance.messages));
+					message.getChannel().sendMessage(String.join("\n", instance.messages));
 					instance.messages.clear();
 					instance.messageSendFunction = null;
 				}

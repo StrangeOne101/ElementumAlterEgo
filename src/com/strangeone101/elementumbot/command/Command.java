@@ -1,6 +1,7 @@
 package com.strangeone101.elementumbot.command;
 
 import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 
 import com.strangeone101.elementumbot.config.ConfigManager;
 import org.javacord.api.entity.message.Message;
@@ -93,6 +94,10 @@ public class Command {
 	
 	public boolean hasOppedPower() {
 		return op;
+	}
+
+	public CompletableFuture<Message> reply(String message) {
+		return original.getChannel().sendMessage(message);
 	}
 	
 	public static void registerCommand(String command, CommandRunnable executor) {

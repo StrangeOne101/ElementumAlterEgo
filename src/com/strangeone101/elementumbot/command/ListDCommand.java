@@ -13,8 +13,7 @@ import com.strangeone101.elementumbot.AlterEgoPlugin;
 import com.strangeone101.elementumbot.MessageHandler;
 import com.strangeone101.elementumbot.util.CleanupHandler;
 import com.strangeone101.elementumbot.util.PluginUtil;
-
-import de.btobastian.javacord.entities.message.Message;
+import org.javacord.api.entity.message.Message;
 
 public class ListDCommand extends CommandRunnable {
 
@@ -34,7 +33,7 @@ public class ListDCommand extends CommandRunnable {
 		if (players.equals("")) players = "None";
 		else players = players.substring(2);
 		
-		Future<Message> msg = command.getOriginal().reply("Currently online: " + ChatColor.stripColor(players));
+		Future<Message> msg = command.reply("Currently online: " + ChatColor.stripColor(players));
 		CleanupHandler.cleanup(command.getOriginal(), 1000L * 60 * 5);
 		
 		new BukkitRunnable() {

@@ -18,19 +18,19 @@ public class RelayCommand extends CommandRunnable {
 		String[] validations = new String[] {"on", "off", "enable", "disable"};
 		
 		if (command.getArguments().length == 0 || !Arrays.asList(validations).contains(command.getArguments()[0].toLowerCase())) {
-			command.getOriginal().reply("Usage is `!relay <on|off>`");
+			command.reply("Usage is `!relay <on|off>`");
 			return;
 		} else if (Arrays.asList(validations).indexOf(command.getArguments()[0].toLowerCase()) % 2 == 0) { //If it's on/enable
-			if (ConfigManager.getRelay()) command.getOriginal().reply("Relay is already enabled!");
+			if (ConfigManager.getRelay()) command.reply("Relay is already enabled!");
 			else {
 				ConfigManager.setRelay(true);
-				command.getOriginal().addUnicodeReaction(Reactions.GREEN_TICK + "");
+				command.getOriginal().addReaction(Reactions.GREEN_TICK + "");
 			}
 		} else { //If it's off/disable
-			if (!ConfigManager.getRelay()) command.getOriginal().reply("Relay is already disabled!");
+			if (!ConfigManager.getRelay()) command.reply("Relay is already disabled!");
 			else {
 				ConfigManager.setRelay(false);
-				command.getOriginal().addUnicodeReaction(Reactions.GREEN_TICK + "");
+				command.getOriginal().addReaction(Reactions.GREEN_TICK + "");
 			}
 		}
 		

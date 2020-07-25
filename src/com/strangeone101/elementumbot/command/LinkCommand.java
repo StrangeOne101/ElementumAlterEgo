@@ -15,17 +15,17 @@ import com.strangeone101.elementumbot.config.ConfigManager;
 import com.strangeone101.elementumbot.elementum.RankSync;
 import com.strangeone101.elementumbot.util.Reactions;
 
-import de.btobastian.javacord.entities.User;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ClickEvent.Action;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.javacord.api.entity.user.User;
 
 public class LinkCommand extends CommandRunnable {
 	
-	public static Map<UUID, String> links = new HashMap<UUID, String>();
-	public static Map<Integer, String> linksBeingPrepared = new HashMap<Integer, String>(); //ID, User ID
+	public static Map<UUID, Long> links = new HashMap<UUID, Long>();
+	public static Map<Integer, Long> linksBeingPrepared = new HashMap<Integer, Long>(); //ID, User ID
 
 	public LinkCommand() {
 		super("link");
@@ -35,25 +35,25 @@ public class LinkCommand extends CommandRunnable {
 	@Override
 	public void runCommand(Command command) {
 		if (links.values().contains(command.getSender().getId())) {
-			command.getOriginal().reply("You already have an account linked! Use `!unlink` to unlink your account!");
+			command.reply("You already have an account linked! Use `!unlink` to unlink your account!");
 			return;
 		}
 		
 		if (command.getArguments().length == 0) {
-			command.getOriginal().reply("Usage is `!link <mcuser>`. You must be in game when you run this command!");
+			command.reply("Usage is `!link <mcuser>`. You must be in game when you run this command!");
 			return;
 		}
 		
 		if (Bukkit.getOfflinePlayer(command.getArguments()[0]) != null) {
 			OfflinePlayer ofplayer = Bukkit.getOfflinePlayer(command.getArguments()[0]);
 			if (ofplayer.isOnline()) {
-				prepare((Player) ofplayer, command.getSender());
-				command.getOriginal().addUnicodeReaction(Reactions.GREEN_TICK + "");
+				prepare((Player) ofplayer, command.getSender().asUser().get());
+				command.getOriginal().addReaction(Reactions.GREEN_TICK + "");
 			} else {
-				command.getOriginal().reply("Player is not online! Please run the command when you are online!");
+				command.reply("Player is not online! Please run the command when you are online!");
 			}
 		} else {
-			command.getOriginal().reply("User not found! Be sure you spelt your name correctly!");
+			command.reply("User not found! Be sure you spelt your name correctly!");
 			return;
 		}
 
@@ -102,11 +102,11 @@ public class LinkCommand extends CommandRunnable {
 		return links.containsKey(uuid) && !links.get(uuid).equals("0");
 	}
 	
-	public static boolean isLinked(String id) {
+	public static boolean isLinked(long id) {
 		return links.containsValue(id);
 	}
 	
-	public static UUID getUUIDFromID(String id) {
+	public static UUID getUUIDFromID(long id) {
 		for (UUID uuid : LinkCommand.links.keySet()) {
 			if (LinkCommand.links.get(uuid).equals(id)) {
 				return uuid;
@@ -116,7 +116,7 @@ public class LinkCommand extends CommandRunnable {
 	}
 	
 	public static void finalizeLink(int id, Player player) {
-		User user = AlterEgoPlugin.API.getCachedUserById(linksBeingPrepared.get(id));
+		User user = AlterEgoPlugin.API.getCachedUserById(linksBeingPrepared.get(id)).get();
 		boolean reward = !links.containsKey(player.getUniqueId());
 		links.put(player.getUniqueId(), linksBeingPrepared.get(id));
 		linksBeingPrepared.remove(id);
@@ -137,10 +137,10 @@ public class LinkCommand extends CommandRunnable {
 	}
 	
 	public static void reportLink(int id, Player player) {
-		User user = AlterEgoPlugin.API.getCachedUserById(linksBeingPrepared.get(id));
+		User user = AlterEgoPlugin.API.getCachedUserById(linksBeingPrepared.get(id)).get();
 		
 		if (ConfigManager.isValidReportChannel()) {
-			AlterEgoPlugin.API.getChannelById(ConfigManager.getReportChannel()).sendMessage("[MCL] Discord user " + user.getMentionTag() + " tried to link with player " + player.getName());
+			AlterEgoPlugin.API.getChannelById(ConfigManager.getReportChannel()).get().asTextChannel().get().sendMessage("[MCL] Discord user " + user.getMentionTag() + " tried to link with player " + player.getName());
 		}
 		AlterEgoPlugin.INSTANCE.getLogger().warning("Discord user " + user.getName() + "(" + user.getMentionTag() + ") tried to link with player " + player.getName());
 		

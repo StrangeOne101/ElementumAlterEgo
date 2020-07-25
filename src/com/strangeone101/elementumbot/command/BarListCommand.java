@@ -25,7 +25,7 @@ public class BarListCommand extends CommandRunnable {
 			newIDs = "Barred Users: " + newIDs;
 		}
 		
-		command.getOriginal().reply(newIDs);
+		command.reply(newIDs);
 	}
 
 }

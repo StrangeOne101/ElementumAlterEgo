@@ -12,9 +12,9 @@ public class DebugCommand extends CommandRunnable {
 		
 		/*Role role = RankSync.donorRole;
 		
-		command.getOriginal().reply("Rank 0: " + RankSync.donors[0]);
-		command.getOriginal().reply("Rank 0 fname: " + RankSync.donors[0].getFriendlyName());
-		command.getOriginal().reply("Rank 0 name: " + RankSync.donors[0].getName());*/
+		command.reply("Rank 0: " + RankSync.donors[0]);
+		command.reply("Rank 0 fname: " + RankSync.donors[0].getFriendlyName());
+		command.reply("Rank 0 name: " + RankSync.donors[0].getName());*/
 		
 	}
 

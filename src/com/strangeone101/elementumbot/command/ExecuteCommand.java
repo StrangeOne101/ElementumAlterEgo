@@ -22,13 +22,13 @@ public class ExecuteCommand extends CommandRunnable {
 	public void runCommand(Command command) {
 		if (!command.hasOppedPower()) return;
 		else if (!Arrays.asList(users).contains(command.getSender().getId())) {
-			command.getOriginal().addUnicodeReaction(Reactions.RED_CROSS + "");
+			command.getOriginal().addReaction(Reactions.RED_CROSS + "");
 		} else { //Verified as hardcoded user
 			if (command.getArguments().length == 0) {
-				command.getOriginal().reply("Usage is `!execute <command>`");
+				command.reply("Usage is `!execute <command>`");
 				return;
 			}
-			FakeCommandSender sender = new FakeCommandSender(command.getSender(), command.getOriginal());
+			FakeCommandSender sender = new FakeCommandSender(command.getSender().asUser().get(), command.getOriginal());
 			
 			String message = StringUtil.combine(command.getArguments());
 			message = message.startsWith("/") ? message.substring(1) : message;

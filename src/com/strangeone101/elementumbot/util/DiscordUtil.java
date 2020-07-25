@@ -10,9 +10,8 @@ import org.bukkit.ChatColor;
 
 import com.google.common.collect.Lists;
 import com.strangeone101.elementumbot.AlterEgoPlugin;
-
-import de.btobastian.javacord.entities.User;
-import de.btobastian.javacord.entities.permissions.Role;
+import org.javacord.api.entity.permission.Role;
+import org.javacord.api.entity.user.User;
 
 public class DiscordUtil {
 	
@@ -66,9 +65,9 @@ public class DiscordUtil {
 		mcColorCodeMap.put("FFFF55", ChatColor.YELLOW);
 		mcColorCodeMap.put("FFFFFF", ChatColor.WHITE);
 		
-		int red = role.getColor().getRed();
-		int green = role.getColor().getGreen();
-		int blue = role.getColor().getBlue();
+		int red = role.getColor().get().getRed();
+		int green = role.getColor().get().getGreen();
+		int blue = role.getColor().get().getBlue();
 		
 		String closetColor = "";
 		int closestDiff = Integer.MAX_VALUE;

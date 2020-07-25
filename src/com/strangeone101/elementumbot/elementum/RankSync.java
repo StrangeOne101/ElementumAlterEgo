@@ -12,7 +12,6 @@ import com.strangeone101.elementumbot.AlterEgoPlugin;
 import com.strangeone101.elementumbot.command.LinkCommand;
 
 import com.strangeone101.elementumbot.config.ConfigManager;
-import de.btobastian.javacord.entities.permissions.Role;
 import joptsimple.internal.Strings;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
@@ -24,6 +23,7 @@ import net.luckperms.api.model.user.User;
 import net.luckperms.api.query.QueryOptions;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
+import org.javacord.api.entity.permission.Role;
 
 
 public class RankSync {
@@ -95,7 +95,8 @@ public class RankSync {
 			}*/
 			for (String key : ConfigManager.defaultConfig.get().getConfigurationSection("RankSync").getKeys(false)) {
 				for (String id : ConfigManager.defaultConfig.get().getStringList("RankSync." + key)) {
-					Role role = AlterEgoPlugin.SERVER.getRoleById(id);
+					if (!AlterEgoPlugin.SERVER.getRoleById(id).isPresent()) continue;
+					Role role = AlterEgoPlugin.SERVER.getRoleById(id).get();
 
 					if (role != null && !allRoles.contains(role))
 						allRoles.add(role);
@@ -106,7 +107,7 @@ public class RankSync {
 		}
 	}
 	
-	public static void syncRank(de.btobastian.javacord.entities.User user) {
+	public static void syncRank(org.javacord.api.entity.user.User user) {
 		if (AlterEgoPlugin.SERVER == null) return;
 		if (LinkCommand.isLinked(user.getId())) {
 			syncRank(LuckPermsProvider.get().getUserManager().getUser(LinkCommand.getUUIDFromID(user.getId())));
@@ -119,7 +120,7 @@ public class RankSync {
 		if (LinkCommand.isLinked(user.getUniqueId())) {
 
 			try {
-				de.btobastian.javacord.entities.User discordUser = AlterEgoPlugin.API.getUserById(LinkCommand.links.get(user.getUniqueId())).get();
+				org.javacord.api.entity.user.User discordUser = AlterEgoPlugin.API.getUserById(LinkCommand.links.get(user.getUniqueId())).get();
 
 				List<String> groups = getPermissionGroups(user); //Gets all roles this luckperms user has
 				List<Role> roles = getDiscordRoles(groups); //Get the discord equivilant of the groups.
@@ -168,7 +169,9 @@ public class RankSync {
 		List<Role> roles = new ArrayList<>();
 		for (String key : groups) {
 			for (String id : ConfigManager.defaultConfig.get().getStringList("RankSync." + key)) {
-				Role role = AlterEgoPlugin.SERVER.getRoleById(id);
+				if (!AlterEgoPlugin.SERVER.getRoleById(id).isPresent()) continue;
+
+				Role role = AlterEgoPlugin.SERVER.getRoleById(id).get();
 				if (!roles.contains(role) && role != null) {
 					roles.add(role);
 				}

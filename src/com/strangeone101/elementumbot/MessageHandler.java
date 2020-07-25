@@ -21,6 +21,7 @@ import net.md_5.bungee.api.chat.HoverEvent.Action;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.permission.Role;
 
 public class MessageHandler {
 
@@ -28,6 +29,8 @@ public class MessageHandler {
 		if (ConfigManager.getBarredUsers().contains(message.getAuthor().getId())) {
 			return;
 		}
+
+		if (!message.getAuthor().asUser().isPresent()) return; //From a non user? Whatever that is. Maybe webhooks or something.
 		
 		if (message.getContent().startsWith("!")) {
 			new Command(message);
@@ -36,7 +39,7 @@ public class MessageHandler {
 			if (!message.getContent().startsWith("!") && !message.getContent().startsWith("#")) {
 				String displayName = message.getAuthor().getDisplayName() == null ? message.getAuthor().getName() : message.getAuthor().getDisplayName();
 				
-				Role role = DiscordUtil.getTopRole(message.getAuthor());
+				Role role = DiscordUtil.getTopRole(message.getAuthor().asUser().get());
 				String roleDisplay = ChatColor.DARK_GRAY + "No Role"; //If they have no role, this is the default text that shows
 				
 				if (role != null) {
@@ -107,11 +110,12 @@ public class MessageHandler {
 				if (right != i && right != -1 && right > i + 3 && right <= string.length()) {
 					String name = string.substring(i + 1, right + 1);
 					for (UUID uuid : LinkCommand.links.keySet()) {
-						String id = LinkCommand.links.get(uuid);
+						long id = LinkCommand.links.get(uuid);
+						int l = (id + "").length();
 						OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
 						if (player != null && player.getName().equalsIgnoreCase(name) && player.hasPlayedBefore() && !player.isOnline()) {
 							string = StringUtil.replaceBetween(string, i, right, "<@" + id + ">");
-							i += id.length() + 3;
+							i += l + 3;
 						}
 					}
 				}

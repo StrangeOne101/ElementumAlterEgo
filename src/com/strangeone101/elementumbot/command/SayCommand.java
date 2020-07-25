@@ -3,8 +3,8 @@ package com.strangeone101.elementumbot.command;
 import com.strangeone101.elementumbot.AlterEgoPlugin;
 import com.strangeone101.elementumbot.util.Reactions;
 import com.strangeone101.elementumbot.util.StringUtil;
-
-import de.btobastian.javacord.entities.Channel;
+import org.javacord.api.entity.channel.Channel;
+import org.javacord.api.entity.channel.TextChannel;
 
 public class SayCommand extends CommandRunnable {
 
@@ -17,30 +17,30 @@ public class SayCommand extends CommandRunnable {
 		if (!command.hasOppedPower()) return;
 		
 		if (command.getArguments().length < 2) {
-			command.getOriginal().reply("Error: Command usage is `!say <channel> <message>`!");
+			command.reply("Error: Command usage is `!say <channel> <message>`!");
 			return;
 		}
 		
-		Channel chan = null;
+		TextChannel chan = null;
 		if (command.getArguments()[0].startsWith("<#")) { //If it's a mentioned channel (e.g. #general), it is in the format of <#XXXXXXXXXXXXXXX>
 			String channelID = command.getArguments()[0].substring(2, command.getArguments()[0].length() - 1); 
 			
-			if (AlterEgoPlugin.API.getChannelById(channelID) != null) {
-				chan = AlterEgoPlugin.API.getChannelById(channelID);
+			if (AlterEgoPlugin.API.getTextChannelById(channelID).isPresent()) {
+				chan = AlterEgoPlugin.API.getTextChannelById(channelID).get();
 			} else {
-				command.getOriginal().reply("Error: Channel not found!");
+				command.reply("Error: Channel not found!");
 				return;
 			}
 		} else {
-			for (Channel channel : AlterEgoPlugin.SERVER.getChannels()) {
-				if (channel.getName().equalsIgnoreCase(command.getArguments()[0])) {
+			for (TextChannel channel : AlterEgoPlugin.SERVER.getTextChannels()) {
+				if (channel.asServerChannel().get().getName().equalsIgnoreCase(command.getArguments()[0])) {
 					chan = channel;
 					break;
 				}
 			}
 			
 			if (chan == null) { //Still no channel found
-				command.getOriginal().reply("Error: Channel not found!");
+				command.reply("Error: Channel not found!");
 				return;
 			}
 		}
@@ -50,7 +50,7 @@ public class SayCommand extends CommandRunnable {
 		message = message.trim();
 		
 		chan.sendMessage(message);
-		command.getOriginal().addUnicodeReaction(Reactions.GREEN_TICK + "");
+		command.getOriginal().addReaction(Reactions.GREEN_TICK + "");
 	}
 
 }

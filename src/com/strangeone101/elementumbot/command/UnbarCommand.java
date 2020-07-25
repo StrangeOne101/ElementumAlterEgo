@@ -2,8 +2,7 @@ package com.strangeone101.elementumbot.command;
 
 import com.strangeone101.elementumbot.config.ConfigManager;
 import com.strangeone101.elementumbot.util.Reactions;
-
-import de.btobastian.javacord.entities.User;
+import org.javacord.api.entity.user.User;
 
 public class UnbarCommand extends CommandRunnable {
 
@@ -14,15 +13,15 @@ public class UnbarCommand extends CommandRunnable {
 	@Override
 	public void runCommand(Command command) {
 		if (!command.hasOppedPower()) return;
-		if (command.getOriginal().getMentions().isEmpty()) {
-			command.getOriginal().reply("Invalid usage! Usage is `!unbar @user`");
+		if (command.getOriginal().getMentionedUsers().isEmpty()) {
+			command.reply("Invalid usage! Usage is `!unbar @user`");
 			return;
 		}
 		
-		for (User user : command.getOriginal().getMentions()) {
+		for (User user : command.getOriginal().getMentionedUsers()) {
 			ConfigManager.removeBarredUser(user.getId());
 		}
-		command.getOriginal().addUnicodeReaction(Reactions.GREEN_TICK + "");
+		command.getOriginal().addReaction(Reactions.GREEN_TICK + "");
 	}
 
 }

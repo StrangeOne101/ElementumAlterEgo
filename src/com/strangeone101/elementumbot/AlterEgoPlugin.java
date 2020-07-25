@@ -21,7 +21,10 @@ import com.strangeone101.elementumbot.config.MatchesManager;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.Javacord;
+import org.javacord.api.entity.channel.Channel;
 import org.javacord.api.entity.server.Server;
+import org.javacord.api.util.ratelimit.LocalRatelimiter;
+import org.javacord.api.util.ratelimit.Ratelimiter;
 
 public class AlterEgoPlugin extends JavaPlugin {
 	
@@ -58,17 +61,20 @@ public class AlterEgoPlugin extends JavaPlugin {
 			return;
 		}
 		
-		API = new DiscordApiBuilder().setToken(ConfigManager.getToken()).login().join();
+		API = new DiscordApiBuilder().setToken(ConfigManager.getToken()).setGlobalRatelimiter(new LocalRatelimiter(10, 2)).login().join();
 
 		if (setup()) {
 			API.addMessageCreateListener(event -> {
 				MessageHandler.handle(event.getMessage(), event.getApi());
 			});
+
+			//Register listener. Just won't be active unless relay channel is valid and working
+			Bukkit.getPluginManager().registerEvents(new AlterEgoListener(), INSTANCE);
 		}
 
 
 		
-		API.connect(new FutureCallback<DiscordAPI>() {
+		/*API.connect(new FutureCallback<DiscordAPI>() {
             @Override
             public void onSuccess(DiscordAPI api) {
                 // register listener
@@ -105,10 +111,10 @@ public class AlterEgoPlugin extends JavaPlugin {
             public void onFailure(Throwable t) {
                 t.printStackTrace();
             }
-        });
+        });*/
 		
-		API.setAutoReconnect(true);
-		API.getRateLimitManager().addRateLimit(RateLimitType.SERVER_MESSAGE, 500L);
+		/*API.setAutoReconnect(true);
+		API.getRateLimitManager().addRateLimit(RateLimitType.SERVER_MESSAGE, 500L);*/
 		
 		getLogger().info("Alter Ego Bot Enabled!");
 		
@@ -135,8 +141,8 @@ public class AlterEgoPlugin extends JavaPlugin {
 	@Override
 	public void onDisable() {		
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
-		Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel());
-		channel.sendMessage("[MCS] " + "Server restarting!");
+		Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).get();
+		channel.asTextChannel().get().sendMessage("[MCS] " + "Server restarting!");
 		
 		API.disconnect();
 		
@@ -148,7 +154,7 @@ public class AlterEgoPlugin extends JavaPlugin {
 	@Override
 	public void reloadConfig() {
 		super.reloadConfig();
-		AlterEgoPlugin.API.setIdle(true);
+		//AlterEgoPlugin.API.setIdle(true);
 		ConfigManager.defaultConfig.loadConfig();
 		MatchesManager.reloadMatches();
 		
@@ -164,10 +170,10 @@ public class AlterEgoPlugin extends JavaPlugin {
         
         LinkCommand.links.clear();
         for (String key : ConfigManager.linkConfig.get().getKeys(false)) {
-			LinkCommand.links.put(UUID.fromString(ConfigManager.linkConfig.get().getString(key)), key);
+			LinkCommand.links.put(UUID.fromString(ConfigManager.linkConfig.get().getString(key)), Long.valueOf(key));
 		}
         
-        AlterEgoPlugin.API.setIdle(false);
+        //AlterEgoPlugin.API.setIdle(false);
 	}
 	
 	/**
@@ -176,7 +182,7 @@ public class AlterEgoPlugin extends JavaPlugin {
 	 */
 	public static void report(String message) {
 		if (ConfigManager.isValidReportChannel()) {
-			AlterEgoPlugin.API.getChannelById(ConfigManager.getReportChannel()).sendMessage("[Report] " +message);
+			AlterEgoPlugin.API.getChannelById(ConfigManager.getReportChannel()).get().asTextChannel().get().sendMessage("[Report] " +message);
 		}
 		AlterEgoPlugin.INSTANCE.getLogger().warning("[Report] " + message);
 		
@@ -185,7 +191,7 @@ public class AlterEgoPlugin extends JavaPlugin {
 	public static void relay(String message) {
 		if (ConfigManager.isValidRelayChannel()) {
 			message = MessageHandler.format(ChatColor.stripColor(message));
-			AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).sendMessage("[MCS] " + message);
+			AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).get().asTextChannel().get().sendMessage("[MCS] " + message);
 		}
 	}
 }

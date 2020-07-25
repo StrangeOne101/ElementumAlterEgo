@@ -15,7 +15,7 @@ public class HelpCommand extends CommandRunnable {
 				+ "- `!unlink` - Removes the link to your MC account\n"
 				+ "- `!whois <@user>` - Returns the in game name of a discord user\n"
 				+ "- `!whatismypurpose` - Who knows \u00AF\\\\_(\u30C4)\\_/\u00AF\n";
-		command.getOriginal().reply(reply);
+		command.reply(reply);
 		
 		if (command.hasOppedPower()) {
 			String oppedReply = "Op Commands: \n- `!bar @user` - Bars a user from running commands\n" +
@@ -26,7 +26,7 @@ public class HelpCommand extends CommandRunnable {
 					"- `!return [setup/update]` - Allows you to backup your roles\n" +
 					"- `!say <message>` - Send a message in game\n" +
 					"- `!info` - Shows the bot version with a link to the source code";
-			command.getOriginal().reply(oppedReply);
+			command.reply(oppedReply);
 		}
 	}
 

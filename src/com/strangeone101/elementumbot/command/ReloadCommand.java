@@ -15,7 +15,7 @@ public class ReloadCommand extends CommandRunnable {
 		
 		AlterEgoPlugin.INSTANCE.reloadConfig();
 		
-		command.getOriginal().addUnicodeReaction(Reactions.GREEN_TICK + "");
+		command.getOriginal().addReaction(Reactions.GREEN_TICK + "");
 	}
 
 }

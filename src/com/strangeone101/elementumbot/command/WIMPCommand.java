@@ -36,7 +36,7 @@ public class WIMPCommand extends CommandRunnable {
 	
 	@Override
 	public void runCommand(Command command) {
-		command.getOriginal().reply(replies.get(0));
+		command.reply(replies.get(0));
 		Collections.shuffle(replies);
 	}
 	

@@ -85,13 +85,13 @@ public class AlterEgoListener implements Listener {
 	@EventHandler
 	public void onLeave(PlayerQuitEvent event) {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
-		AlterEgoPlugin.relay(event.getPlayer().getName() + " left the game");
+		AlterEgoPlugin.relay(event.getQuitMessage());
 	}
 	
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
-		AlterEgoPlugin.relay(event.getPlayer().getName() + " joined the game");
+		AlterEgoPlugin.relay(event.getJoinMessage());
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)

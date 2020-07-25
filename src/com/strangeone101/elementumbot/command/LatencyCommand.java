@@ -1,8 +1,8 @@
 package com.strangeone101.elementumbot.command;
 
-import java.util.concurrent.Future;
+import org.javacord.api.entity.message.Message;
 
-import de.btobastian.javacord.entities.message.Message;
+import java.util.concurrent.Future;
 
 public class LatencyCommand extends CommandRunnable {
 
@@ -14,23 +14,23 @@ public class LatencyCommand extends CommandRunnable {
 	public void runCommand(Command command) {
 		if (!command.hasOppedPower()) return;
 		if (command.getArguments().length != 0) {
-			command.getOriginal().reply("Invalid usage! Usage is !latency");
+			command.reply("Invalid usage! Usage is !latency");
 			return;
 		}
 		
 		long time = System.currentTimeMillis();
-		Future<Message> future = command.getOriginal().reply("Testing latency...");
+		Future<Message> future = command.reply("Testing latency...");
 		Message message = null;
 		
 		try {
 			message = future.get();
 		} catch (Exception e) {
-			command.getOriginal().reply("An error occurred while waiting: " + e.getLocalizedMessage());
+			command.reply("An error occurred while waiting: " + e.getLocalizedMessage());
 			return;
 		}
 		
 		long latency = System.currentTimeMillis() - time;
-		command.getOriginal().reply("Latency is " + latency + "ms!");
+		command.reply("Latency is " + latency + "ms!");
 		if (message != null) {
 			message.delete();
 		}
