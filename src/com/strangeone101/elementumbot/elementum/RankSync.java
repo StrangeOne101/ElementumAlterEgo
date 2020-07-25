@@ -20,6 +20,9 @@ import net.luckperms.api.context.ContextManager;
 import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.group.GroupManager;
 import net.luckperms.api.model.user.User;
+import net.luckperms.api.node.Node;
+import net.luckperms.api.node.types.InheritanceNode;
+import net.luckperms.api.node.types.PermissionNode;
 import net.luckperms.api.query.QueryOptions;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -147,11 +150,13 @@ public class RankSync {
 	}
 
 	private static boolean isInGroup(User user, String group) {
-		ContextManager cm = LuckPermsProvider.get().getContextManager();
-		QueryOptions queryOptions = cm.getQueryOptions(user).orElse(cm.getStaticQueryOptions());
-		CachedPermissionData permissionData = user.getCachedData().getPermissionData(queryOptions);
+		for (Node n : user.getDistinctNodes()) {
+			if (n.getType() instanceof InheritanceNode && !n.hasExpired() && !n.isNegated()) {
+				return n.getKey().equalsIgnoreCase("group." + group);
+			}
+		}
 
-		return permissionData.checkPermission("group." + group).asBoolean();
+		return false;
 	}
 
 	private static List<String> getPermissionGroups(User user) {
