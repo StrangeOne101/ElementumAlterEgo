@@ -15,27 +15,26 @@ import com.strangeone101.elementumbot.util.StringUtil;
 import com.strangeone101.elementumbot.util.StringUtil.Direction;
 import com.strangeone101.elementumbot.util.StringUtil.WordType;
 
-import de.btobastian.javacord.DiscordAPI;
-import de.btobastian.javacord.entities.message.Message;
-import de.btobastian.javacord.entities.permissions.Role;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.HoverEvent.Action;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.javacord.api.DiscordApi;
+import org.javacord.api.entity.message.Message;
 
 public class MessageHandler {
 
-	public static void handle(Message message, DiscordAPI api) {
+	public static void handle(Message message, DiscordApi api) {
 		if (ConfigManager.getBarredUsers().contains(message.getAuthor().getId())) {
 			return;
 		}
 		
 		if (message.getContent().startsWith("!")) {
 			new Command(message);
-		} else if (message.getChannelReceiver() != null && message.getChannelReceiver().getId() != null && //If the channel doesn't exist (PMs), ignore it
-				message.getChannelReceiver().getId().equals(ConfigManager.getRelayChannel()) && message.getAuthor() != api.getYourself()) {
+		} else if (message.getServerTextChannel().isPresent() && //If the channel doesn't exist (PMs), ignore it
+				message.getServerTextChannel().get().getId() == ConfigManager.getRelayChannel() && message.getAuthor() != api.getYourself()) {
 			if (!message.getContent().startsWith("!") && !message.getContent().startsWith("#")) {
-				String displayName = message.getAuthor().getNickname(AlterEgoPlugin.SERVER) == null ? message.getAuthor().getName() : message.getAuthor().getNickname(AlterEgoPlugin.SERVER);
+				String displayName = message.getAuthor().getDisplayName() == null ? message.getAuthor().getName() : message.getAuthor().getDisplayName();
 				
 				Role role = DiscordUtil.getTopRole(message.getAuthor());
 				String roleDisplay = ChatColor.DARK_GRAY + "No Role"; //If they have no role, this is the default text that shows

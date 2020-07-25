@@ -3,9 +3,9 @@ package com.strangeone101.elementumbot.command;
 import java.util.HashMap;
 
 import com.strangeone101.elementumbot.config.ConfigManager;
-
-import de.btobastian.javacord.entities.User;
-import de.btobastian.javacord.entities.message.Message;
+import org.javacord.api.entity.message.Message;
+import org.javacord.api.entity.message.MessageAuthor;
+import org.javacord.api.entity.user.User;
 
 public class Command {
 	
@@ -13,7 +13,7 @@ public class Command {
 	
 	private String command;
 	private String[] args;
-	private User sender;
+	private MessageAuthor sender;
 	private Message original;
 	private boolean op;
 	
@@ -86,8 +86,8 @@ public class Command {
 	public Message getOriginal() {
 		return original;
 	}
-	
-	public User getSender() {
+
+	public MessageAuthor getSender() {
 		return sender;
 	}
 	

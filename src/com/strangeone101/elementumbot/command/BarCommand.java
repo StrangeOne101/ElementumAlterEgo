@@ -2,8 +2,7 @@ package com.strangeone101.elementumbot.command;
 
 import com.strangeone101.elementumbot.config.ConfigManager;
 import com.strangeone101.elementumbot.util.Reactions;
-
-import de.btobastian.javacord.entities.User;
+import org.javacord.api.entity.user.User;
 
 public class BarCommand extends CommandRunnable {
 	
@@ -14,16 +13,16 @@ public class BarCommand extends CommandRunnable {
 	@Override
 	public void runCommand(Command command) {
 		if (!command.hasOppedPower()) return;
-		if (command.getOriginal().getMentions().isEmpty()) {
-			command.getOriginal().reply("Invalid usage! Usage is `!bar @user`");
+		if (command.getOriginal().getMentionedUsers().isEmpty()) {
+			command.getOriginal().getChannel().sendMessage("Invalid usage! Usage is `!bar @user`");
 			return;
 		}
 		
-		for (User user : command.getOriginal().getMentions()) {
+		for (User user : command.getOriginal().getMentionedUsers()) {
 			if (ConfigManager.getOps().contains(user.getId())) continue;
 			ConfigManager.addBarredUser(user.getId());
 		}
-		command.getOriginal().addUnicodeReaction(Reactions.GREEN_TICK + "");
+		command.getOriginal().addReaction(Reactions.GREEN_TICK + "");
 	}
 
 }

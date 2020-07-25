@@ -18,19 +18,15 @@ import com.strangeone101.elementumbot.commandmc.LinkMCommand;
 import com.strangeone101.elementumbot.commandmc.UnlinkMCommand;
 import com.strangeone101.elementumbot.config.ConfigManager;
 import com.strangeone101.elementumbot.config.MatchesManager;
-
-import de.btobastian.javacord.DiscordAPI;
-import de.btobastian.javacord.Javacord;
-import de.btobastian.javacord.entities.Channel;
-import de.btobastian.javacord.entities.Server;
-import de.btobastian.javacord.entities.message.Message;
-import de.btobastian.javacord.listener.message.MessageCreateListener;
-import de.btobastian.javacord.utils.ratelimits.RateLimitType;
+import org.javacord.api.DiscordApi;
+import org.javacord.api.DiscordApiBuilder;
+import org.javacord.api.Javacord;
+import org.javacord.api.entity.server.Server;
 
 public class AlterEgoPlugin extends JavaPlugin {
 	
 	public static AlterEgoPlugin INSTANCE;
-	public static DiscordAPI API;
+	public static DiscordApi API;
 	public static Server SERVER;
 	
 	public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&2[&aAlterEgo&2]&r");
@@ -62,7 +58,15 @@ public class AlterEgoPlugin extends JavaPlugin {
 			return;
 		}
 		
-		API = Javacord.getApi(ConfigManager.getToken(), true);
+		API = new DiscordApiBuilder().setToken(ConfigManager.getToken()).login().join();
+
+		if (setup()) {
+			API.addMessageCreateListener(event -> {
+				MessageHandler.handle(event.getMessage(), event.getApi());
+			});
+		}
+
+
 		
 		API.connect(new FutureCallback<DiscordAPI>() {
             @Override
@@ -110,7 +114,24 @@ public class AlterEgoPlugin extends JavaPlugin {
 		
 		super.onEnable();
 	}
-	
+
+	private boolean setup() {
+		if (!ConfigManager.isValidRelayChannel()) {
+			getLogger().severe("Relay channel not defined! Won't relay!");
+			return false;
+		}
+
+		if (AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()) == null) {
+			getLogger().severe("Relay channel not found! Won't relay in game chat!");
+			return false;
+		}
+
+		getLogger().info("Relay channel found and working!");
+		SERVER = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).get().asServerChannel().get().getServer();
+
+		return true;
+	}
+
 	@Override
 	public void onDisable() {		
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;

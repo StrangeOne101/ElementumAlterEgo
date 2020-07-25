@@ -13,6 +13,7 @@ commands:
    discordreport:
       description: Reports something to the discord
       usage: /<command>
+      aliases: [report]
    alterego:
       description: Kill me
       usage: /<command>

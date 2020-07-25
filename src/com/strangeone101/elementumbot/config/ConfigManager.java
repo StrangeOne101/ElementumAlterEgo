@@ -33,7 +33,7 @@ public class ConfigManager {
 		config.addDefault("RelayChannelID", _defaultRelayChannelID);
 		config.addDefault("ReportChannelID", _defaultRelayChannelID);
 		config.addDefault("RelayEnabled", true);
-		config.addDefault("SayCommandFormat", "&7[Discord] <name>: &r<message>");
+		config.addDefault("RelayFormat", "%player%: %message%");
 		config.addDefault("Aliases", Arrays.asList(new String[] {"example:list"}));
 		config.addDefault("OpAliases", Arrays.asList(new String[] {"opexample:list"}));
 		config.addDefault("RankSync.Donor", Arrays.asList((new String[] {"000000000000"})));
@@ -86,16 +86,16 @@ public class ConfigManager {
 		return defaultConfig.get().getBoolean("RelayEnabled");
 	}
 	
-	public static String getToken() {
-		return defaultConfig.get().getString("Token");
+	public static long getToken() {
+		return Long.parseLong(defaultConfig.get().getString("Token"));
 	}
 	
-	public static String getRelayChannel() {
-		return defaultConfig.get().getString("RelayChannelID");
+	public static long getRelayChannel() {
+		return Long.parseLong(defaultConfig.get().getString("RelayChannelID"));
 	}
 	
-	public static String getReportChannel() {
-		return defaultConfig.get().getString("ReportChannelID");
+	public static long getReportChannel() {
+		return Long.parseLong(defaultConfig.get().getString("ReportChannelID"));
 	}
 	
 	public static Map<String, String> getAliases() {
@@ -115,18 +115,18 @@ public class ConfigManager {
 	}
 	
 	public static boolean isValid() {
-		return !getToken().equalsIgnoreCase(_defaultToken);
+		return !(getToken() + "").equalsIgnoreCase(_defaultToken);
 	}
 	
 	public static boolean isValidRelayChannel() {
-		return !getRelayChannel().equalsIgnoreCase(_defaultRelayChannelID);
+		return !(getRelayChannel() + "").equalsIgnoreCase(_defaultRelayChannelID);
 	}
 	
 	public static boolean isValidReportChannel() {
-		return !getReportChannel().equalsIgnoreCase(_defaultRelayChannelID);
+		return !(getReportChannel() + "").equalsIgnoreCase(_defaultRelayChannelID);
 	}
 	
-	public static void addBarredUser(String id) {
+	public static void addBarredUser(long id) {
 		List<String> list = getBarredUsers();
 		list.remove(id); //In case it was already there - no double ups allowed
 		list.add(id);
