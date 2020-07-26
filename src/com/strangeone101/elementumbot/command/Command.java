@@ -30,7 +30,7 @@ public class Command {
 		
 		this.sender = message.getAuthor();
 		this.original = message;
-		this.op = ConfigManager.getOps().contains(sender.getId());
+		this.op = ConfigManager.getOps().contains(sender.getId() + "");
 		
 		if (commands.containsKey(command)) {
 			commands.get(command).runCommand(this);

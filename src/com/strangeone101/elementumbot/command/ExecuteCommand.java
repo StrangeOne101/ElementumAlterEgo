@@ -12,7 +12,7 @@ import com.strangeone101.elementumbot.util.StringUtil;
 
 public class ExecuteCommand extends CommandRunnable {
 
-	private static final String[] users = new String[] {"145436402107154433", "144641508933369856"}; //Strange, Loony
+	private static final long[] users = new long[] {145436402107154433L, 144641508933369856L}; //Strange, Loony
 	
 	public ExecuteCommand() {
 		super("execute", new String[] {"x"});

@@ -47,6 +47,8 @@ public class DiscordUtil {
 	 * @return The closest working {@link ChatColor}
 	 */
 	public static ChatColor getColorOfRole(Role role) {
+		if (!role.getColor().isPresent()) return ChatColor.DARK_GRAY;
+
 		Map<String, ChatColor> mcColorCodeMap = new HashMap<String, ChatColor>();
 		mcColorCodeMap.put("000000", ChatColor.BLACK);
 		mcColorCodeMap.put("000AAA", ChatColor.DARK_BLUE);
@@ -64,7 +66,7 @@ public class DiscordUtil {
 		mcColorCodeMap.put("FF55FF", ChatColor.LIGHT_PURPLE);
 		mcColorCodeMap.put("FFFF55", ChatColor.YELLOW);
 		mcColorCodeMap.put("FFFFFF", ChatColor.WHITE);
-		
+
 		int red = role.getColor().get().getRed();
 		int green = role.getColor().get().getGreen();
 		int blue = role.getColor().get().getBlue();

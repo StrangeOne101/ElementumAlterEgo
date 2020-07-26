@@ -33,9 +33,11 @@ public class ConfigManager {
 		config.addDefault("RelayChannelID", _defaultRelayChannelID);
 		config.addDefault("ReportChannelID", _defaultRelayChannelID);
 		config.addDefault("RelayEnabled", true);
-		config.addDefault("RelayFormat", "%player%: %message%");
+		config.addDefault("RelayFormat", "**%player%** \u00BB %message%");
+		config.addDefault("InGameFormat", "&7[Discord] <name>: &r<message>");
 		config.addDefault("Aliases", Arrays.asList(new String[] {"example:list"}));
 		config.addDefault("OpAliases", Arrays.asList(new String[] {"opexample:list"}));
+		config.addDefault("LinkRewardCommands", Arrays.asList((new String[] {"crate key %player% epic", "tellraw %player% {\"color\":\"yellow\",\"text\":\"You are rewarded 1 Epic Key for linking your account!\"}"})));
 		config.addDefault("RankSync.Donor", Arrays.asList((new String[] {"000000000000"})));
 		config.addDefault("Report.Usage", "&cCommand usage is /report <user> <reason>");
 		config.addDefault("Report.Success", "&aThanks. %player% has been reported and will be dealt with shortly.");
@@ -88,6 +90,14 @@ public class ConfigManager {
 	
 	public static String getToken() {
 		return defaultConfig.get().getString("Token");
+	}
+
+	public static String getRelayFormat() {
+		return defaultConfig.get().getString("RelayFormat");
+	}
+
+	public static List<String> getLinkRewardCommands() {
+		return defaultConfig.get().getStringList("LinkRewardCommands");
 	}
 	
 	public static long getRelayChannel() {
@@ -162,7 +172,7 @@ public class ConfigManager {
 	}
 	
 	public static String getSayCommandFormat() {
-		return ChatColor.translateAlternateColorCodes('&', defaultConfig.get().getString("SayCommandFormat"));
+		return ChatColor.translateAlternateColorCodes('&', defaultConfig.get().getString("InGameFormat"));
 	}
 
 }

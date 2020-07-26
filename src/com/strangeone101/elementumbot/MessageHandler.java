@@ -35,20 +35,23 @@ public class MessageHandler {
 		if (message.getContent().startsWith("!")) {
 			new Command(message);
 		} else if (message.getServerTextChannel().isPresent() && //If the channel doesn't exist (PMs), ignore it
-				message.getServerTextChannel().get().getId() == ConfigManager.getRelayChannel() && message.getAuthor() != api.getYourself()) {
+				message.getServerTextChannel().get().getId() == ConfigManager.getRelayChannel() && message.getAuthor().asUser().get() != api.getYourself()) {
 			if (!message.getContent().startsWith("!") && !message.getContent().startsWith("#")) {
 				String displayName = message.getAuthor().getDisplayName() == null ? message.getAuthor().getName() : message.getAuthor().getDisplayName();
-				
-				Role role = DiscordUtil.getTopRole(message.getAuthor().asUser().get());
+
 				String roleDisplay = ChatColor.DARK_GRAY + "No Role"; //If they have no role, this is the default text that shows
-				
-				if (role != null) {
+
+				Role role = DiscordUtil.getTopRole(message.getAuthor().asUser().get());
+
+				//AlterEgoPlugin.INSTANCE.getLogger().info(role.toString());
+
+				if (!role.isEveryoneRole()) {
 					roleDisplay = DiscordUtil.getColorOfRole(role) + role.getName(); //The name of the role with the color converted to MC color codes
 				}
 				
 				//The message is formatted to the one defined in the config. We replace name with either their nickname or username 
 				String sentMessage = ConfigManager.getSayCommandFormat().replace("<name>", displayName).replace("<message>", message.getContent());
-				String hoverText = ChatColor.GRAY + message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator() + "\n" + roleDisplay;
+				String hoverText = ChatColor.GRAY + message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator().get() + "\n" + roleDisplay;
 				if (LinkCommand.isLinked(message.getAuthor().getId())) {
 					hoverText = hoverText + "\n" + ChatColor.GRAY + "IGN: " + Bukkit.getOfflinePlayer(LinkCommand.getUUIDFromID(message.getAuthor().getId())).getName();
 				}
@@ -113,7 +116,7 @@ public class MessageHandler {
 						long id = LinkCommand.links.get(uuid);
 						int l = (id + "").length();
 						OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
-						if (player != null && player.getName().equalsIgnoreCase(name) && player.hasPlayedBefore() && !player.isOnline()) {
+						if (player != null && player.getName().equalsIgnoreCase(name) && player.hasPlayedBefore()) {
 							string = StringUtil.replaceBetween(string, i, right, "<@" + id + ">");
 							i += l + 3;
 						}

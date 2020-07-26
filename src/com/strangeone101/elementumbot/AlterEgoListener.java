@@ -40,9 +40,9 @@ public class AlterEgoListener implements Listener {
 		String name = event.getPlayer().getDisplayName().replace(Reactions.LEFT_CURLY_BRACE, '<')
 				.replace(Reactions.RIGHT_CURLY_BRACE, '>');
 		
-		String message = MessageHandler.tagUsers(event.getMessage());
+		String message = MessageHandler.format(MessageHandler.tagUsers(event.getMessage()));
 		
-		AlterEgoPlugin.relay(name + ": " + message);
+		AlterEgoPlugin.relay(ConfigManager.getRelayFormat().replaceAll("%player%", event.getPlayer().getName()).replaceAll("%message%", message));
 		
 		new BukkitRunnable() {
 
@@ -78,17 +78,17 @@ public class AlterEgoListener implements Listener {
 	public void onRankChange(UserDataRecalculateEvent event) {
 		if (LinkCommand.isLinked(event.getUser().getUniqueId())) {
 			RankSync.syncRank(event.getUser());
-			AlterEgoPlugin.INSTANCE.getLogger().info("Recalculated user " + event.getUser().getFriendlyName());
+			//AlterEgoPlugin.INSTANCE.getLogger().info("Recalculated user " + event.getUser().getFriendlyName());
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onLeave(PlayerQuitEvent event) {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
 		AlterEgoPlugin.relay(event.getQuitMessage());
 	}
 	
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onJoin(PlayerJoinEvent event) {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
 		AlterEgoPlugin.relay(event.getJoinMessage());

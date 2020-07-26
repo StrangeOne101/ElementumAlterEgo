@@ -142,7 +142,7 @@ public class AlterEgoPlugin extends JavaPlugin {
 	public void onDisable() {		
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
 		Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).get();
-		channel.asTextChannel().get().sendMessage("[MCS] " + "Server restarting!");
+		channel.asTextChannel().get().sendMessage("[MCS] " + "Server restarting!").join();
 		
 		API.disconnect();
 		
@@ -190,8 +190,8 @@ public class AlterEgoPlugin extends JavaPlugin {
 	
 	public static void relay(String message) {
 		if (ConfigManager.isValidRelayChannel()) {
-			message = MessageHandler.format(ChatColor.stripColor(message));
-			AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).get().asTextChannel().get().sendMessage("[MCS] " + message);
+			message = ChatColor.stripColor(message);
+			AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).get().asTextChannel().get().sendMessage(message);
 		}
 	}
 }

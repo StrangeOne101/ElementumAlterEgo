@@ -1,17 +1,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>ElementumAlterEgo</groupId>
+  <groupId>com.strangeone101</groupId>
   <artifactId>ElementumAlterEgo</artifactId>
   <version>1.7</version>
   <repositories>
-    <repository>
-  		<id>javacord-repo</id>
-  		<url>http://repo.bastian-oppermann.de</url>
-	</repository>
 	<repository>
         <id>bungeecord-repo</id>
         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
+      <repository>
+          <id>maven-central</id>
+          <url>https://repo1.maven.org/maven2/</url>
+      </repository>
   </repositories>
   <scm>
         <connection>scm:svn:http://127.0.0.1/dummy</connection>
@@ -87,12 +87,14 @@
   </build>
   <dependencies>
   	<dependency>
-  		<groupId>de.btobastian.javacord</groupId>
+  		<groupId>org.javacord</groupId>
   		<artifactId>javacord</artifactId>
   		<!--<version>2.0.17</version>-->
         <version>3.0.6</version>
    		<!-- This will use the shaded javacord which contains all required dependencies -->
   		<classifier>shaded</classifier>
+        <!--<type>pom</type>-->
+        <type>jar</type>
   	</dependency>
   	 <dependency>
         <groupId>net.md-5</groupId>

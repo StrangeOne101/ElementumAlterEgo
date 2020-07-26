@@ -2,6 +2,7 @@ name: ElementumAlterEgo
 main: com.strangeone101.elementumbot.AlterEgoPlugin
 version: ${project.version}
 prefix: ElementumAlterEgo
+api-version: 1.13
 softdepend: [LuckPerms, ElementumBendingPack, ProjectKorra, Duels, Essentials]
 commands:
    link:

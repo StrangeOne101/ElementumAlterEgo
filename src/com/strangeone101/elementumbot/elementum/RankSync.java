@@ -21,6 +21,7 @@ import net.luckperms.api.model.group.Group;
 import net.luckperms.api.model.group.GroupManager;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
+import net.luckperms.api.node.NodeType;
 import net.luckperms.api.node.types.InheritanceNode;
 import net.luckperms.api.node.types.PermissionNode;
 import net.luckperms.api.query.QueryOptions;
@@ -151,8 +152,11 @@ public class RankSync {
 
 	private static boolean isInGroup(User user, String group) {
 		for (Node n : user.getDistinctNodes()) {
-			if (n.getType() instanceof InheritanceNode && !n.hasExpired() && !n.isNegated()) {
-				return n.getKey().equalsIgnoreCase("group." + group);
+			//AlterEgoPlugin.INSTANCE.getLogger().info(n.toString());
+			if (n.getType() == NodeType.INHERITANCE && !n.hasExpired() && !n.isNegated()) {
+				if (n.getKey().equalsIgnoreCase("group." + group)) {
+					return true;
+				}
 			}
 		}
 
@@ -164,8 +168,10 @@ public class RankSync {
 
 		for (String mcGroup : ConfigManager.defaultConfig.get().getConfigurationSection("RankSync").getKeys(false)) {
 			if (isInGroup(user, mcGroup)) {
+
 				groups.add(mcGroup);
 			}
+			//AlterEgoPlugin.INSTANCE.getLogger().info("Is " + user.getUsername() + " in group " + mcGroup + ": " + isInGroup(user, mcGroup));
 		}
 		return groups;
 	}

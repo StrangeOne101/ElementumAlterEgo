@@ -126,8 +126,9 @@ public class LinkCommand extends CommandRunnable {
 		ConfigManager.save();
 		
 		if (reward) {
-			Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "crate key " + player.getName() + " epic");
-			player.sendMessage(ChatColor.YELLOW + "You are rewarded 1 Epic Key for linking your account!");
+			for (String cmd : ConfigManager.getLinkRewardCommands()) {
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), cmd.replaceAll("%player%", player.getName()));
+			}
 		}
 		
 		if (Bukkit.getPluginCommand("LuckPerms") != null) {
