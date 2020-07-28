@@ -37,7 +37,7 @@ public class MessageHandler {
 		} else if (message.getServerTextChannel().isPresent() && //If the channel doesn't exist (PMs), ignore it
 				message.getServerTextChannel().get().getId() == ConfigManager.getRelayChannel() && message.getAuthor().asUser().get() != api.getYourself()) {
 			if (!message.getContent().startsWith("!") && !message.getContent().startsWith("#")) {
-				String displayName = message.getAuthor().getDisplayName() == null ? message.getAuthor().getName() : message.getAuthor().getDisplayName();
+				String displayName = StringUtil.emojiTranslate(message.getAuthor().getDisplayName() == null ? message.getAuthor().getName() : message.getAuthor().getDisplayName()).trim();
 
 				String roleDisplay = ChatColor.DARK_GRAY + "No Role"; //If they have no role, this is the default text that shows
 
@@ -50,7 +50,7 @@ public class MessageHandler {
 				}
 				
 				//The message is formatted to the one defined in the config. We replace name with either their nickname or username 
-				String sentMessage = ConfigManager.getSayCommandFormat().replace("<name>", displayName).replace("<message>", message.getContent());
+				String sentMessage = ConfigManager.getSayCommandFormat().replace("<name>", DiscordUtil.getColorOfRole(role) + displayName).replace("<message>", StringUtil.emojiTranslate(message.getContent()));
 				String hoverText = ChatColor.GRAY + message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator().get() + "\n" + roleDisplay;
 				if (LinkCommand.isLinked(message.getAuthor().getId())) {
 					hoverText = hoverText + "\n" + ChatColor.GRAY + "IGN: " + Bukkit.getOfflinePlayer(LinkCommand.getUUIDFromID(message.getAuthor().getId())).getName();

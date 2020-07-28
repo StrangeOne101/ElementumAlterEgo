@@ -104,4 +104,23 @@ public class StringUtil {
 		return s;
 	}
 
+	/**
+	 * Translates some emoji to plaintext
+	 * @param string The string
+	 * @return An emoji free string
+	 */
+	public static String emojiTranslate(String string) {
+		return string.replace("\u1F602", "lol")
+			.replace("\u1F604", ":D")
+			.replace("[\u1F642\u1F60A]", ":)") //
+			.replace("\u1F609", ";)")
+				.replace("\u1F61B", ":P")
+				.replace("\u1F61C", ";P")
+				.replace("\u1F609", ";)")
+			.replace("\u1F914", "HMMMMM")
+			.replace("\u1F62E", ":o")
+			.replaceAll("\u2764\uFE0F", "\u00A7c\u2764\u00A7r") //Replace emoji hearts with red chatcolor ascii hearts
+			.replaceAll("[\ud83c\udf00-\ud83d\ude4f]|[\ud83d\ude80-\ud83d\udeff]", ""); //Filter all emoji not in here
+	}
+
 }

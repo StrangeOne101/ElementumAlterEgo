@@ -1,9 +1,5 @@
 package com.strangeone101.elementumbot;
 
-import com.strangeone101.elementumbot.chatbot.LearningChatbot;
-import me.lucko.luckperms.common.api.LuckPermsApiProvider;
-import me.lucko.luckperms.common.plugin.LuckPermsPlugin;
-import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.event.user.UserDataRecalculateEvent;
 import org.bukkit.Bukkit;
@@ -85,18 +81,18 @@ public class AlterEgoListener implements Listener {
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onLeave(PlayerQuitEvent event) {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
-		AlterEgoPlugin.relay(event.getQuitMessage());
+		AlterEgoPlugin.relay(MessageHandler.format(event.getQuitMessage()));
 	}
 	
-	@EventHandler(priority = EventPriority.MONITOR)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent event) {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
-		AlterEgoPlugin.relay(event.getJoinMessage());
+		AlterEgoPlugin.relay(MessageHandler.format("[+] " + event.getPlayer().getName())); //For some reason, event.getJoinMessage() is null. Fucks sake.
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onDeath(PlayerDeathEvent event) {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
-		AlterEgoPlugin.relay(event.getDeathMessage());
+		AlterEgoPlugin.relay(MessageHandler.format(event.getDeathMessage()));
 	}
 }
