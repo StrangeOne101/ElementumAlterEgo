@@ -1,6 +1,8 @@
 package com.strangeone101.elementumbot;
 
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -22,6 +24,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.entity.message.Message;
 import org.javacord.api.entity.permission.Role;
+import org.javacord.api.entity.user.User;
 
 public class MessageHandler {
 
@@ -50,7 +53,7 @@ public class MessageHandler {
 				}
 				
 				//The message is formatted to the one defined in the config. We replace name with either their nickname or username 
-				String sentMessage = ConfigManager.getSayCommandFormat().replace("<name>", DiscordUtil.getColorOfRole(role) + displayName).replace("<message>", StringUtil.emojiTranslate(message.getContent()));
+				String sentMessage = ConfigManager.getSayCommandFormat().replace("<name>", DiscordUtil.getColorOfRole(role) + displayName).replace("<message>", StringUtil.emojiTranslate(message.getReadableContent()));
 				String hoverText = ChatColor.GRAY + message.getAuthor().getName() + "#" + message.getAuthor().getDiscriminator().get() + "\n" + roleDisplay;
 				if (LinkCommand.isLinked(message.getAuthor().getId())) {
 					hoverText = hoverText + "\n" + ChatColor.GRAY + "IGN: " + Bukkit.getOfflinePlayer(LinkCommand.getUUIDFromID(message.getAuthor().getId())).getName();
@@ -80,7 +83,7 @@ public class MessageHandler {
 	}
 	
 	public static String format(String string) {
-		return string.replaceAll("\\*", "\\\\*").replaceAll("_", "\\\\_").replaceAll("@everyone", "@ everyone").replaceAll("@here", "@ here");
+		return string.replaceAll("\\*", "\\\\*").replaceAll("_", "\\\\_").replaceAll("`", "\\`").replaceAll("\\|", "\\\\|").replaceAll("@everyone", "@ everyone").replaceAll("@here", "@ here");
 	}
 	
 	/*public static String toIngame(String string) {
@@ -105,9 +108,31 @@ public class MessageHandler {
 		}
 		return string;
 	}*/
-	
-	public static String tagUsers(String string) {
-		if (string.matches(".*( |\\B)@{1}[A-Z|a-z]+.*")) {
+
+	/**
+	 * Tags users in discord from in game
+	 * @param string
+	 * @return
+	 */
+	public static String tagRelayUsers(String string) {
+		Pattern pattern = Pattern.compile("(?<=[ ,]|^)(@{1}[A-z0-9_]{3,18})");
+		Matcher matcher = pattern.matcher(string);
+		while (matcher.find()) {
+			String name = matcher.group().substring(1);
+			for (UUID uuid : LinkCommand.links.keySet()) {
+				long id = LinkCommand.links.get(uuid);
+				OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+				if (player != null && player.getName().equalsIgnoreCase(name) && player.hasPlayedBefore()) {
+					string = string.replaceAll("@" + name, "<@" + id + ">");
+					break;
+				}
+			}
+		}
+
+		return string;
+
+
+		/*if (string.matches(".*( |\\B)@{1}[A-z0-9_]+.*")) {
 			for (int i = 0; i < string.length(); i++) {
 				int right = StringUtil.getBoundary(string, i, Direction.RIGHT, WordType.WORD_WITH_NUMERICS);
 				if (right != i && right != -1 && right > i + 3 && right <= string.length()) {
@@ -124,7 +149,7 @@ public class MessageHandler {
 				}
 			}
 		}
-		return string;
+		return string;*/
 	}
 	
 	

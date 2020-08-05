@@ -169,8 +169,12 @@ public class AlterEgoPlugin extends JavaPlugin {
         }
         
         LinkCommand.links.clear();
-        for (String key : ConfigManager.linkConfig.get().getKeys(false)) {
+        /*for (String key : ConfigManager.linkConfig.get().getKeys(false)) {
 			LinkCommand.links.put(UUID.fromString(ConfigManager.linkConfig.get().getString(key)), Long.valueOf(key));
+		}*/
+
+		for (String key : ConfigManager.linkConfig.get().getKeys(false)) {
+			LinkCommand.links.put(UUID.fromString(key), Long.valueOf(ConfigManager.linkConfig.get().getString(key)));
 		}
         
         //AlterEgoPlugin.API.setIdle(false);

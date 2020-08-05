@@ -33,18 +33,18 @@ public class AlterEgoListener implements Listener {
 	public void onChat(AsyncPlayerChatEvent event) {
 		if (event.isCancelled() || !ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
 		
-		String name = event.getPlayer().getDisplayName().replace(Reactions.LEFT_CURLY_BRACE, '<')
-				.replace(Reactions.RIGHT_CURLY_BRACE, '>');
+		String name = MessageHandler.format(event.getPlayer().getDisplayName().replace(Reactions.LEFT_CURLY_BRACE, '<')
+				.replace(Reactions.RIGHT_CURLY_BRACE, '>'));
 		
-		String message = MessageHandler.format(MessageHandler.tagUsers(event.getMessage()));
+		String message = MessageHandler.format(MessageHandler.tagRelayUsers(event.getMessage()));
 		
-		AlterEgoPlugin.relay(ConfigManager.getRelayFormat().replaceAll("%player%", event.getPlayer().getName()).replaceAll("%message%", message));
+		AlterEgoPlugin.relay(ConfigManager.getRelayFormat().replace("%player%", event.getPlayer().getName()).replace("%message%", message));
 		
 		new BukkitRunnable() {
 
 			@Override
 			public void run() {
-				BaseComponent component = MatchesManager.getMatch(event.getMessage());
+				BaseComponent component = MatchesManager.getMatch(event.getMessage(), event.getPlayer());
 				if (component != null) {
 					TextComponent reply = new TextComponent(AlterEgoPlugin.PREFIX + " " + ChatColor.RED);
 					reply.addExtra(component);

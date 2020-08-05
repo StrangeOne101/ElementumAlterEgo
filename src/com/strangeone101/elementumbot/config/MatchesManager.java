@@ -15,6 +15,7 @@ import com.strangeone101.elementumbot.AlterEgoPlugin;
 import com.strangeone101.elementumbot.util.ChatParser;
 
 import net.md_5.bungee.api.chat.BaseComponent;
+import org.bukkit.command.CommandSender;
 
 public class MatchesManager {
 	
@@ -44,10 +45,20 @@ public class MatchesManager {
 	 * @param line The line to check
 	 * @return The base component, or {@code null}
 	 */
+	@Deprecated
 	public static BaseComponent getMatch(String line) {
 		for (String match : matches.keySet()) {
 			if (line.toLowerCase().matches(".*" + match + ".*")) {
 				return ChatParser.parse(matches.get(match));
+			}
+		}
+		return null;
+	}
+
+	public static BaseComponent getMatch(String line, CommandSender sender) {
+		for (String match : matches.keySet()) {
+			if (line.toLowerCase().matches(".*" + match + ".*")) {
+				return ChatParser.parse(matches.get(match).replaceAll("%player%", sender.getName()));
 			}
 		}
 		return null;

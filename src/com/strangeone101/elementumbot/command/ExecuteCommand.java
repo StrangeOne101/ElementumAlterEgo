@@ -12,7 +12,7 @@ import com.strangeone101.elementumbot.util.StringUtil;
 
 public class ExecuteCommand extends CommandRunnable {
 
-	private static final long[] users = new long[] {145436402107154433L, 144641508933369856L}; //Strange, Loony
+	private static final String[] users = new String[] {"145436402107154433", "144641508933369856"}; //Strange, Loony
 	
 	public ExecuteCommand() {
 		super("execute", new String[] {"x"});
@@ -21,7 +21,7 @@ public class ExecuteCommand extends CommandRunnable {
 	@Override
 	public void runCommand(Command command) {
 		if (!command.hasOppedPower()) return;
-		else if (!Arrays.asList(users).contains(command.getSender().getId())) {
+		else if (!Arrays.asList(users).contains(command.getSender().getId() + "")) {
 			command.getOriginal().addReaction(Reactions.RED_CROSS + "");
 		} else { //Verified as hardcoded user
 			if (command.getArguments().length == 0) {

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.strangeone101</groupId>
   <artifactId>ElementumAlterEgo</artifactId>
-  <version>1.7</version>
+  <version>1.7.1</version>
   <repositories>
 	<repository>
         <id>bungeecord-repo</id>
