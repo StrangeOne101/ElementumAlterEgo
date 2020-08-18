@@ -140,10 +140,13 @@ public class AlterEgoPlugin extends JavaPlugin {
 
 	@Override
 	public void onDisable() {		
-		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
-		Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).get();
-		channel.asTextChannel().get().sendMessage("[MCS] " + "Server restarting!").join();
-		
+		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) {
+			Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).get();
+			getLogger().info("Sending restart message to relay");
+			channel.asTextChannel().get().sendMessage("[MCS] " + "Server restarting!").join();
+		}
+
+		getLogger().info("Disconnecting from discord");
 		API.disconnect();
 		
 		ConfigManager.save();
@@ -186,7 +189,7 @@ public class AlterEgoPlugin extends JavaPlugin {
 	 */
 	public static void report(String message) {
 		if (ConfigManager.isValidReportChannel()) {
-			AlterEgoPlugin.API.getChannelById(ConfigManager.getReportChannel()).get().asTextChannel().get().sendMessage("[Report] " +message);
+			AlterEgoPlugin.API.getChannelById(ConfigManager.getReportChannel()).get().asTextChannel().get().sendMessage("[Report] " + MessageHandler.format(message));
 		}
 		AlterEgoPlugin.INSTANCE.getLogger().warning("[Report] " + message);
 		

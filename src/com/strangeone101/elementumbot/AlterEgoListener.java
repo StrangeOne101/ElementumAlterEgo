@@ -38,7 +38,7 @@ public class AlterEgoListener implements Listener {
 		
 		String message = MessageHandler.format(MessageHandler.tagRelayUsers(event.getMessage()));
 		
-		AlterEgoPlugin.relay(ConfigManager.getRelayFormat().replace("%player%", event.getPlayer().getName()).replace("%message%", message));
+		AlterEgoPlugin.relay(ConfigManager.getRelayFormat().replace("%player%", MessageHandler.format(event.getPlayer().getName())).replace("%message%", message));
 		
 		new BukkitRunnable() {
 
