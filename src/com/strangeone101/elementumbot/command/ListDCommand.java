@@ -33,7 +33,7 @@ public class ListDCommand extends CommandRunnable {
 		if (players.equals("")) players = "None";
 		else players = players.substring(2);
 		
-		Future<Message> msg = command.reply("Currently online: " + ChatColor.stripColor(players));
+		Future<Message> msg = command.reply("Currently online (" + players.split(",").length + "): " + ChatColor.stripColor(players));
 		CleanupHandler.cleanup(command.getOriginal(), 1000L * 60 * 5);
 		
 		new BukkitRunnable() {

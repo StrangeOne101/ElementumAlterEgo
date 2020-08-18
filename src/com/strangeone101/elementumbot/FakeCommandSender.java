@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import com.strangeone101.elementumbot.command.LinkCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Server;
@@ -52,7 +53,13 @@ public class FakeCommandSender implements ConsoleCommandSender {
 
 	@Override
 	public String getName() {
-		return "Alter Ego (" + user.getName() + ")";
+		String userS = user.getName();
+		if (LinkCommand.isLinked(user.getId())) userS = Bukkit.getOfflinePlayer(LinkCommand.getUUIDFromID(user.getId())).getName();
+
+		if (userS.length() >= 16) userS = userS.substring(0, 16);
+		else userS = "#" + userS;
+
+		return userS;
 	}
 
 	@Override

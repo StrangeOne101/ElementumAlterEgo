@@ -18,7 +18,7 @@ public class UnlinkCommand extends CommandRunnable {
 
 	@Override
 	public void runCommand(Command command) {
-		if (!LinkCommand.links.values().contains(command.getSender().getId()) || (!command.hasOppedPower() && command.getArguments().length != 0)) {
+		if (!LinkCommand.links.values().contains(command.getSender().getId()) || (command.hasOppedPower() && command.getArguments().length != 0)) {
 			command.reply("Cannot unlink an account that is not already linked!");
 			return;
 		}
