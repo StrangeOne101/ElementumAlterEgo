@@ -17,6 +17,7 @@ public class Command {
 	private MessageAuthor sender;
 	private Message original;
 	private boolean op;
+	private boolean isAlias;
 	
 	public Command(Message message) {
 		this.command = message.getContent().split(" ")[0].toLowerCase();
@@ -37,6 +38,7 @@ public class Command {
 		} else {
 			if (ConfigManager.getOpAliases().containsKey(command) && this.op) {
 				this.command = ConfigManager.getOpAliases().get(command);
+				this.isAlias = true;
 				//this.original.reply(command + " is cmd");
 				if (this.command.contains(" ")) {
 					this.args = recreateArgs(this.args, this.command);
@@ -49,6 +51,7 @@ public class Command {
 			} 
 			if (ConfigManager.getAliases().containsKey(command)) {
 				this.command = ConfigManager.getAliases().get(command);
+				this.isAlias = true;
 				if (this.command.contains(" ")) {
 					this.args = recreateArgs(this.args, this.command);
 					this.command = this.command.split(" ")[0];
@@ -94,6 +97,10 @@ public class Command {
 	
 	public boolean hasOppedPower() {
 		return op;
+	}
+
+	public boolean isAlias() {
+		return isAlias;
 	}
 
 	public CompletableFuture<Message> reply(String message) {

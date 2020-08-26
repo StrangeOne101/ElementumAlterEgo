@@ -3,6 +3,8 @@ package com.strangeone101.elementumbot;
 import java.io.File;
 import java.util.UUID;
 
+import com.strangeone101.elementumbot.ai.tasks.FlyGlitchDetector;
+import com.strangeone101.elementumbot.ai.tasks.PlayTitleUpdater;
 import com.strangeone101.elementumbot.chatbot.LearningChatbot;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -47,8 +49,10 @@ public class AlterEgoPlugin extends JavaPlugin {
 		Bukkit.getPluginCommand("unlink").setExecutor(new UnlinkMCommand());
 		Bukkit.getPluginCommand("discordreport").setExecutor(new DiscordReportMCommand());
 		Bukkit.getPluginCommand("alterego").setExecutor(new AlterEgoCommand());
+
+		new PlayTitleUpdater();
 		
-		//new FlyGlitchDetector(); Bugged, will be fixed in future
+		new FlyGlitchDetector();
 		
 		//new LearningChatbot(new File(getDataFolder(), "brain.dat"));
 		
@@ -71,47 +75,6 @@ public class AlterEgoPlugin extends JavaPlugin {
 			//Register listener. Just won't be active unless relay channel is valid and working
 			Bukkit.getPluginManager().registerEvents(new AlterEgoListener(), INSTANCE);
 		}
-
-
-		
-		/*API.connect(new FutureCallback<DiscordAPI>() {
-            @Override
-            public void onSuccess(DiscordAPI api) {
-                // register listener
-                api.registerListener(new MessageCreateListener() {
-                    @Override
-                    public void onMessageCreate(DiscordAPI api, Message message) {
-                        // check the content of the message
-                        MessageHandler.handle(message, api);
-                    }
-                });
-                
-                AlterEgoPlugin.API.setIdle(false);
-                
-                if (!ConfigManager.isValidRelayChannel()) {
-                	getLogger().severe("Relay channel not defined! Won't relay!");
-                	return;
-                }
-                if (AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()) == null) {
-                	getLogger().severe("Relay channel not found! Won't relay in game chat!");
-                } else { //If the channel exists, prepare listener for relay 
-                	getLogger().info("Relay channel found and working!");
-                	
-                	if (ConfigManager.isValidRelayChannel()) {
-            			SERVER = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).getServer();
-            		}
-                }
-                
-                //Register listener. Just won't be active unless relay channel is valid and working
-                Bukkit.getPluginManager().registerEvents(new AlterEgoListener(), INSTANCE);
-                
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-                t.printStackTrace();
-            }
-        });*/
 		
 		/*API.setAutoReconnect(true);
 		API.getRateLimitManager().addRateLimit(RateLimitType.SERVER_MESSAGE, 500L);*/
@@ -143,7 +106,7 @@ public class AlterEgoPlugin extends JavaPlugin {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) {
 			Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).get();
 			getLogger().info("Sending restart message to relay");
-			channel.asTextChannel().get().sendMessage("[MCS] " + "Server restarting!").join();
+			channel.asTextChannel().get().sendMessage("[MCS] " + "Server restarting!");
 		}
 
 		getLogger().info("Disconnecting from discord");

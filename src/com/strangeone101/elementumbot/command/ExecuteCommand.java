@@ -20,8 +20,8 @@ public class ExecuteCommand extends CommandRunnable {
 	
 	@Override
 	public void runCommand(Command command) {
-		if (!command.hasOppedPower()) return;
-		else if (!Arrays.asList(users).contains(command.getSender().getId() + "")) {
+		if (!command.hasOppedPower() && !command.isAlias()) return;
+		else if (!Arrays.asList(users).contains(command.getSender().getId() + "") && !command.isAlias()) {
 			command.getOriginal().addReaction(Reactions.RED_CROSS + "");
 		} else { //Verified as hardcoded user
 			if (command.getArguments().length == 0) {

@@ -43,6 +43,14 @@ public class ConfigManager {
 		config.addDefault("Report.Success", "&aThanks. %player% has been reported and will be dealt with shortly.");
 		config.addDefault("Report.Offline", "&cThat player is offline.");
 		config.addDefault("Report.IveBeenNaughty", "&cYou have been reported by %player% for the reason: %reason%");
+		config.addDefault("AntiSpam.Enabled", true);
+		config.addDefault("AntiSpam.VerbalWarning", "&cPlease stop spamming so much. Continuing to do so will result in warns and possibly mutes.");
+		config.addDefault("AntiSpam.Warning", "/warn %player% Spamming");
+		config.addDefault("AntiSpam.Mute.Minor", "/tempmute %player% 10m Spamming");
+		config.addDefault("AntiSpam.Mute.Medium", "/tempmute %player% 1h Spamming");
+		config.addDefault("AntiSpam.Mute.Major", "/tempmute %player% 24h Spamming");
+		config.addDefault("AntiSpam.Mute.Extreme", "/ban %player% Excessive bot spamming");
+		config.addDefault("AntiSpam.Mute.Extreme", "/ban %player% Excessive bot spamming");
 		config.options().copyDefaults(true);
 		
 		linkConfig = new ConfigClass("links.yml");

@@ -181,4 +181,26 @@ public class FakeCommandSender implements ConsoleCommandSender {
 		sendDiscordMessage(arg0);
 	}
 
+	public static FakeCommandSender self() {
+		return new FakeCommandSender(null, null) {
+			public boolean isOp() {
+				return true;
+			}
+
+			public String getName() {
+				return "AlterEgo";
+			};
+
+			@Override
+			public void sendMessage(String arg) {
+				Bukkit.getServer().getConsoleSender().sendMessage(arg);
+			}
+
+			@Override
+			public void sendMessage(String[] arg) {
+				Bukkit.getServer().getConsoleSender().sendMessage(arg);
+			}
+		};
+	}
+
 }

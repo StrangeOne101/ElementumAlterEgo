@@ -1,5 +1,6 @@
 package com.strangeone101.elementumbot;
 
+import com.strangeone101.elementumbot.ai.tasks.AntiSpam;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.event.user.UserDataRecalculateEvent;
 import org.bukkit.Bukkit;
@@ -9,8 +10,10 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.server.BroadcastMessageEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import com.strangeone101.elementumbot.command.LinkCommand;
@@ -69,6 +72,18 @@ public class AlterEgoListener implements Listener {
 			}
 			
 		}.runTaskLaterAsynchronously(AlterEgoPlugin.INSTANCE, 10);
+
+		if (AntiSpam.isEnabled()) {
+			new BukkitRunnable() {
+
+				@Override
+				public void run() {
+					AntiSpam.addLog(event.getPlayer(), event.getMessage());
+				}
+			}.runTaskAsynchronously(AlterEgoPlugin.INSTANCE);
+		}
+
+
 	}
 	
 	public void onRankChange(UserDataRecalculateEvent event) {
@@ -76,6 +91,11 @@ public class AlterEgoListener implements Listener {
 			RankSync.syncRank(event.getUser());
 			//AlterEgoPlugin.INSTANCE.getLogger().info("Recalculated user " + event.getUser().getFriendlyName());
 		}
+	}
+
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onBroadcast(BroadcastMessageEvent event) {
+		AlterEgoPlugin.relay(MessageHandler.format(event.getMessage()));
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -87,12 +107,29 @@ public class AlterEgoListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent event) {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
-		AlterEgoPlugin.relay(MessageHandler.format("[+] " + event.getPlayer().getName())); //For some reason, event.getJoinMessage() is null. Fucks sake.
+		//Disabled because Broadcast event covers this too
+		//AlterEgoPlugin.relay(MessageHandler.format("[+] " + event.getPlayer().getName())); //For some reason, event.getJoinMessage() is null. Fucks sake.
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onDeath(PlayerDeathEvent event) {
 		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
 		AlterEgoPlugin.relay(MessageHandler.format(event.getDeathMessage()));
+	}
+
+	@EventHandler
+	public void onCommand(PlayerCommandSendEvent event) {
+		if (AntiSpam.isEnabled()) {
+			BukkitRunnable runnable = new BukkitRunnable() {
+				@Override
+				public void run() {
+					for (String cmd : event.getCommands()) {
+						AntiSpam.addLog(event.getPlayer(), cmd);
+					}
+				}
+			};
+			runnable.runTaskAsynchronously(AlterEgoPlugin.INSTANCE);
+		}
+
 	}
 }
