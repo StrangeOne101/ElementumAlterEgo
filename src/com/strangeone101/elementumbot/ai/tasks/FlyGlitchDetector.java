@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import com.projectkorra.projectkorra.ability.FlightAbility;
 import com.projectkorra.projectkorra.airbending.AirScooter;
 import com.projectkorra.projectkorra.airbending.flight.FlightMultiAbility;
 import com.projectkorra.projectkorra.util.FlightHandler;
@@ -49,6 +50,7 @@ public class FlyGlitchDetector implements Runnable {
 		flightAbilities.add(FireJet.class);
 		flightAbilities.add(Tornado.class);
 		flightAbilities.add(AirScooter.class);
+		flightAbilities.add(FlightAbility.class);
 		if (CoreAbility.getAbility("EarthSurf") != null) {
 			flightAbilities.add(CoreAbility.getAbility("EarthSurf").getClass());
 		}
@@ -64,7 +66,7 @@ public class FlyGlitchDetector implements Runnable {
 	public void run() {
 		playerloop:
 		for (Player player : Bukkit.getOnlinePlayers()) {
-			if (!player.isFlying() || player.getGameMode() == GameMode.CREATIVE) {//Flight.hasFlight(player)) { //If they aren't flying or have temp flight
+			if (!player.isFlying() || player.getGameMode() == GameMode.CREATIVE || player.getGameMode() == GameMode.SPECTATOR) {//Flight.hasFlight(player)) { //If they aren't flying or have temp flight
 				warns.remove(player.getUniqueId());
 				continue;
 			}
@@ -76,11 +78,11 @@ public class FlyGlitchDetector implements Runnable {
 				}
 			}
 			
-			/*if (Bukkit.getPluginManager().isPluginEnabled("Duels")) {
-				if (me.realized.duels.Core.getInstance().getSpectatorManager().isSpectating(player)) {
+			if (Bukkit.getPluginManager().isPluginEnabled("Duels")) {
+				if (me.realized.duels.DuelsPlugin.getInstance().getSpectateManager().isSpectating(player)) {
 					continue playerloop;
 				}
-			}*/
+			}
 			
 			for (Class<? extends CoreAbility> abil: flightAbilities) { //If they are flying with an ability, that's okay!
 				if (CoreAbility.hasAbility(player, abil)) continue playerloop;

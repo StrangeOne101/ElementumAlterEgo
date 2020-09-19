@@ -10,6 +10,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerCommandSendEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -34,14 +35,16 @@ public class AlterEgoListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onChat(AsyncPlayerChatEvent event) {
-		if (event.isCancelled() || !ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
-		
-		String name = MessageHandler.format(event.getPlayer().getDisplayName().replace(Reactions.LEFT_CURLY_BRACE, '<')
-				.replace(Reactions.RIGHT_CURLY_BRACE, '>'));
-		
-		String message = MessageHandler.format(MessageHandler.tagRelayUsers(event.getMessage()));
-		
-		AlterEgoPlugin.relay(ConfigManager.getRelayFormat().replace("%player%", MessageHandler.format(event.getPlayer().getName())).replace("%message%", message));
+		if (event.isCancelled()) return;
+
+		if (ConfigManager.isValidRelayChannel() && ConfigManager.getRelay()) {
+			String name = MessageHandler.format(event.getPlayer().getDisplayName().replace(Reactions.LEFT_CURLY_BRACE, '<')
+					.replace(Reactions.RIGHT_CURLY_BRACE, '>'));
+
+			String message = MessageHandler.format(MessageHandler.tagRelayUsers(event.getMessage()));
+
+			AlterEgoPlugin.relay(ConfigManager.getRelayFormat().replace("%player%", MessageHandler.format(event.getPlayer().getName())).replace("%message%", message));
+		}
 		
 		new BukkitRunnable() {
 
@@ -118,17 +121,21 @@ public class AlterEgoListener implements Listener {
 	}
 
 	@EventHandler
-	public void onCommand(PlayerCommandSendEvent event) {
+	public void onCommand(PlayerCommandPreprocessEvent event) {
 		if (AntiSpam.isEnabled()) {
-			BukkitRunnable runnable = new BukkitRunnable() {
-				@Override
-				public void run() {
-					for (String cmd : event.getCommands()) {
-						AntiSpam.addLog(event.getPlayer(), cmd);
+			if (!event.isAsynchronous()) {
+				BukkitRunnable runnable = new BukkitRunnable() {
+					@Override
+					public void run() {
+						AntiSpam.addLog(event.getPlayer(), event.getMessage().startsWith("/") ? event.getMessage() : "/" + event.getMessage());
 					}
-				}
-			};
-			runnable.runTaskAsynchronously(AlterEgoPlugin.INSTANCE);
+				};
+				runnable.runTaskAsynchronously(AlterEgoPlugin.INSTANCE);
+			} else {
+				AntiSpam.addLog(event.getPlayer(), event.getMessage().startsWith("/") ? event.getMessage() : "/" + event.getMessage());
+			}
+
+
 		}
 
 	}

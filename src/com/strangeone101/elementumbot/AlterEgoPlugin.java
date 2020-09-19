@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.strangeone101.elementumbot.ai.tasks.FlyGlitchDetector;
 import com.strangeone101.elementumbot.ai.tasks.PlayTitleUpdater;
 import com.strangeone101.elementumbot.chatbot.LearningChatbot;
+import com.strangeone101.elementumbot.commandmc.AntiSpamMCommand;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -49,6 +50,7 @@ public class AlterEgoPlugin extends JavaPlugin {
 		Bukkit.getPluginCommand("unlink").setExecutor(new UnlinkMCommand());
 		Bukkit.getPluginCommand("discordreport").setExecutor(new DiscordReportMCommand());
 		Bukkit.getPluginCommand("alterego").setExecutor(new AlterEgoCommand());
+		Bukkit.getPluginCommand("antispam").setExecutor(new AntiSpamMCommand());
 
 		new PlayTitleUpdater();
 		
@@ -96,14 +98,15 @@ public class AlterEgoPlugin extends JavaPlugin {
 		}
 
 		getLogger().info("Relay channel found and working!");
-		SERVER = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).get().asServerChannel().get().getServer();
+
+		SERVER = API.getServers().stream().findFirst().get();
 
 		return true;
 	}
 
 	@Override
 	public void onDisable() {		
-		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) {
+		if (ConfigManager.isValidRelayChannel() && ConfigManager.getRelay()) {
 			Channel channel = AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()).get();
 			getLogger().info("Sending restart message to relay");
 			channel.asTextChannel().get().sendMessage("[MCS] " + "Server restarting!");

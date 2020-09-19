@@ -18,6 +18,11 @@ commands:
    alterego:
       description: Kill me
       usage: /<command>
+      permission: alterego.command.discordreport
+   antispam:
+      description: Manage antispam
+      usage: /<command>
+      permission: alterego.command.antispam
 permissions:
    alterego.command.link:
       default: true

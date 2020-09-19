@@ -16,7 +16,7 @@ public class PlayTitleUpdater extends BukkitRunnable {
     
     @Override
     public void run() {
-        String s = counter % 2 == 0 ? "on Elementum | " + Bukkit.getOnlinePlayers().size() + " online" : (counter % 4 == 1 ? "on Elementum | Join @ elementum.me" : "on Elementum | Coming on?");
+        String s = "on Elementum.me | " + Bukkit.getOnlinePlayers().size() + " online";
         AlterEgoPlugin.INSTANCE.API.updateActivity(ActivityType.PLAYING, s);
         counter++;
     }

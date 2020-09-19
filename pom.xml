@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.strangeone101</groupId>
   <artifactId>ElementumAlterEgo</artifactId>
-  <version>1.8</version>
+  <version>1.8.3</version>
   <repositories>
 	<repository>
         <id>bungeecord-repo</id>
@@ -136,7 +136,7 @@
       	<artifactId>duels</artifactId>
       	<version>LATEST</version>
       	<scope>system</scope>
-      	<systemPath>${project.basedir}/lib/Duels.jar</systemPath>
+      	<systemPath>${project.basedir}/lib/Duels-3.4.0.jar</systemPath>
     </dependency>
     <dependency>
 		<groupId>com.elementum.bendingpack</groupId>
