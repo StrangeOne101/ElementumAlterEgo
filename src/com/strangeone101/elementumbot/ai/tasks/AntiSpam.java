@@ -93,7 +93,7 @@ public class AntiSpam {
         RatingLog newLog = new RatingLog();
         for (int i = 0; i < LOG_LENGTH && i < log.logs.size(); i++) {
             String compare = log.logs.get(i);
-            int sizeDifference = Math.abs(compare.length() - string.length());
+            int size = compare.length() > string.length() ? compare.length() : string.length();
             int differenceBetween = LevenshteinDistance.distance(compare, string); //The lower, the more spammy
 
             double score = 0;
@@ -102,12 +102,11 @@ public class AntiSpam {
             if (differenceBetween == 0) { //Exactly the same as the message we are checking.
                 if (time < 30 * 1000) score += 1;
                 if (time < 10 * 1000) score += 9;
-            } else if ((differenceBetween <= 2 && string.length() <= 4) || (differenceBetween <= 3 && string.length() <= 5)) {
-                if (string.length() == 1) differenceBetween += 1; //small patch to people that use 1 letter.
-                if (time < 10 * 1000) score += string.length() / differenceBetween * 2;
-            } else if ((differenceBetween <= 3 && string.length() > 10) || (differenceBetween < 2 && string.length() <= 10)) {
+            } else if ((differenceBetween <= 2 && size <= 4) || (differenceBetween <= 3 && size <= 5)) {
+                if (time < 10 * 1000) score += differenceBetween / (size + (size == 1 ? 1 : 0)) * 2; //small patch to people that use 1 letter.
+            } else if ((differenceBetween <= 3 && size > 10) || (differenceBetween < 2 && size <= 10)) {
                 if (time < 10 * 1000) score += 2;
-            } else if ((differenceBetween <= 5 && string.length() > 10) || (differenceBetween < 4 && string.length() <= 10)) {
+            } else if ((differenceBetween <= 5 && size > 10) || (differenceBetween < 4 && size <= 10)) {
                 if (time < 10 * 1000) score += 1;
             } else {
                 if (time < 1000) score += 0.5;
@@ -233,15 +232,14 @@ public class AntiSpam {
 
                 for (int i = 0; i < log.ratingLogs.size(); i++) {
                     RatingLog l = log.ratingLogs.get(log.ratingLogs.size() - i - 1); //Get in reverse order
-                    String time = (l.timeDiff / 1000) + "s";
+                    String time = ((double)l.timeDiff / 1000D) + "s";
                     string += ChatColor.YELLOW + "- " + ChatColor.RED + "+" + l.score + ChatColor.YELLOW
                             + " (" + ChatColor.RED + l.difference +ChatColor.YELLOW + " difference) @ "
-                            + l.level + ChatColor.RED + "L " + time + ChatColor.YELLOW + " ago\n"
+                            + l.level + ChatColor.YELLOW + "L " + ChatColor.RED + time + ChatColor.YELLOW + " in between\n"
                             + ChatColor.RED + l.oldMessage + "\n" + ChatColor.GREEN + l.newMessage + "\n";
                 }
             }
         }
-
 
         return string;
     }
