@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.strangeone101</groupId>
   <artifactId>ElementumAlterEgo</artifactId>
-  <version>1.8.3</version>
+  <version>1.8.4</version>
   <repositories>
 	<repository>
         <id>bungeecord-repo</id>
@@ -103,6 +103,13 @@
         <type>jar</type>
         <scope>provided</scope>
     </dependency>
+      <dependency>
+          <groupId>me.leoko</groupId>
+          <artifactId>advancedban</artifactId>
+          <version>2.2.1</version>
+          <scope>system</scope>
+          <systemPath>${project.basedir}/lib/AdvancedBan-2.2.1-RELEASE.jar</systemPath>
+      </dependency>
 	<dependency>
 		<groupId>org.spigotmc</groupId>
       	<artifactId>spigot-api</artifactId>

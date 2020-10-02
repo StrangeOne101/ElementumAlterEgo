@@ -3,7 +3,7 @@ main: com.strangeone101.elementumbot.AlterEgoPlugin
 version: ${project.version}
 prefix: ElementumAlterEgo
 api-version: 1.13
-softdepend: [LuckPerms, ElementumBendingPack, ProjectKorra, Duels, Essentials]
+softdepend: [LuckPerms, ElementumBendingPack, ProjectKorra, Duels, Essentials, AdvancedBan]
 commands:
    link:
       description: Links in game account with discord

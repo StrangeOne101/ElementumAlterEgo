@@ -51,11 +51,15 @@ public class FlyGlitchDetector implements Runnable {
 		flightAbilities.add(Tornado.class);
 		flightAbilities.add(AirScooter.class);
 		flightAbilities.add(FlightAbility.class);
+
 		if (CoreAbility.getAbility("EarthSurf") != null) {
 			flightAbilities.add(CoreAbility.getAbility("EarthSurf").getClass());
 		}
 		if (CoreAbility.getAbility("WaterFlow") != null) {
 			flightAbilities.add(CoreAbility.getAbility("WaterFlow").getClass());
+		}
+		if (CoreAbility.getAbility("FireSki") != null) {
+			flightAbilities.add(CoreAbility.getAbility("FireSki").getClass());
 		}
 
 		random = new Random();

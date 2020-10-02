@@ -4,6 +4,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.strangeone101.elementumbot.elementum.AdvancedBanSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -34,6 +35,11 @@ public class MessageHandler {
 		}
 
 		if (!message.getAuthor().asUser().isPresent()) return; //From a non user? Whatever that is. Maybe webhooks or something.
+
+		if (AdvancedBanSupport.isMutedInGame(message.getAuthor().getId())) {
+			message.delete("User is muted in game");
+			return;
+		}
 		
 		if (message.getContent().startsWith("!")) {
 			new Command(message);

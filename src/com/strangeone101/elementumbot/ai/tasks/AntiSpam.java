@@ -84,10 +84,10 @@ public class AntiSpam {
                 log.lastLevel -= (int)((System.currentTimeMillis() - log.lastRating + 1000 * 60 * 60) / 1000 * 60 * 60);
                 if (log.lastLevel < 1) log.lastLevel = 1;
             }
-
-            log.spamRating -= (int)((System.currentTimeMillis() - log.lastMessage) / 500); //Take away some spam rating for every half second that has passed
-            if (log.spamRating < 0) log.spamRating = 0;
         }
+
+        log.spamRating -= (int)((System.currentTimeMillis() - log.lastMessage) / 250); //Take away some spam rating for every 4th of a second that has passed
+        if (log.spamRating < 0) log.spamRating = 0;
 
         int newScore = 0;
         RatingLog newLog = new RatingLog();
@@ -100,27 +100,26 @@ public class AntiSpam {
             long time = System.currentTimeMillis() - log.logTimes.get(i);
 
             if (differenceBetween == 0) { //Exactly the same as the message we are checking.
-                if (time < 30 * 1000) score += 1;
-                if (time < 10 * 1000) score += 9;
+                if (time < 30 * 1000) score += 3;
+                if (time < 10 * 1000) score += 12;
             } else if ((differenceBetween <= 2 && size <= 4) || (differenceBetween <= 3 && size <= 5)) {
-                if (time < 10 * 1000) score += differenceBetween / (size + (size == 1 ? 1 : 0)) * 2; //small patch to people that use 1 letter.
+                if (time < 10 * 1000) score += differenceBetween / (size + (size == 1 ? 1 : 0)) * 6; //small patch to people that use 1 letter.
             } else if ((differenceBetween <= 3 && size > 10) || (differenceBetween < 2 && size <= 10)) {
-                if (time < 10 * 1000) score += 2;
+                if (time < 10 * 1000) score += 4;
             } else if ((differenceBetween <= 5 && size > 10) || (differenceBetween < 4 && size <= 10)) {
-                if (time < 10 * 1000) score += 1;
+                if (time < 10 * 1000) score += 2;
             } else {
-                if (time < 1000) score += 0.5;
+                if (time < 1000) score += 1;
             }
 
             score /= (i + 1); //The further away the test, we will reduce the score
-            if (string.toUpperCase().equals(string)) score *= 2; //double score for full caps
+            if (string.toUpperCase().equals(string) && string.matches(".*[A-z].*")) score *= 2; //double score for full caps
 
-            if (time < 200)       score *= 50;
-            else if (time < 500)       score *= 20;
-            else if (time < 1 * 1000)  score *= 10;
-            else if (time < 2 * 1000)  score *= 4;
-            else if (time < 3 * 1000)  score *= 2;
-            else if (time < 5 * 1000)  score *= 1.5;
+            if (time < 200)       score *= 20;
+            else if (time < 500)       score *= 7;
+            else if (time < 1 * 1000)  score *= 3;
+            else if (time < 2 * 1000)  score *= 1.5;
+            //else if (time < 3 * 1000)  score *= 2;
 
             if (score > newScore) {
                 newScore = (int) score;

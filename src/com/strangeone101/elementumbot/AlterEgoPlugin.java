@@ -7,6 +7,7 @@ import com.strangeone101.elementumbot.ai.tasks.FlyGlitchDetector;
 import com.strangeone101.elementumbot.ai.tasks.PlayTitleUpdater;
 import com.strangeone101.elementumbot.chatbot.LearningChatbot;
 import com.strangeone101.elementumbot.commandmc.AntiSpamMCommand;
+import com.strangeone101.elementumbot.elementum.AdvancedBanSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -55,6 +56,10 @@ public class AlterEgoPlugin extends JavaPlugin {
 		new PlayTitleUpdater();
 		
 		new FlyGlitchDetector();
+
+		if (Bukkit.getPluginManager().isPluginEnabled("AdvancedBan")) {
+			new AdvancedBanSupport();
+		}
 		
 		//new LearningChatbot(new File(getDataFolder(), "brain.dat"));
 		
