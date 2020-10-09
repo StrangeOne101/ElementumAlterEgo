@@ -58,7 +58,7 @@ public class AntiSpam {
         int difference;
         long timeDiff;
         int level;
-        String oldMessage, newMessage;
+        String oldMessage, newMessage = "";
     }
 
 
@@ -129,6 +129,10 @@ public class AntiSpam {
                 newLog.timeDiff = time;
                 newLog.newMessage = string;
                 newLog.oldMessage = compare;
+            } else { //The same or lower
+                if (newLog.newMessage.equals(string)) { //If the messages are the same for an even older message, that means that spammed said message at least 3x
+                    newScore += (int) score;
+                }
             }
         }
 
