@@ -35,7 +35,7 @@ public class AlterEgoListener implements Listener {
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onChat(AsyncPlayerChatEvent event) {
-		if (event.isCancelled()) return;
+		if (event.isCancelled() || event.getMessage() == null) return;
 
 		if (ConfigManager.isValidRelayChannel() && ConfigManager.getRelay()) {
 			String name = MessageHandler.format(event.getPlayer().getDisplayName().replace(Reactions.LEFT_CURLY_BRACE, '<')
@@ -98,18 +98,19 @@ public class AlterEgoListener implements Listener {
 
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onBroadcast(BroadcastMessageEvent event) {
+		if (event.getMessage() != null)
 		AlterEgoPlugin.relay(MessageHandler.format(event.getMessage()));
 	}
 	
 	@EventHandler(priority = EventPriority.MONITOR)
 	public void onLeave(PlayerQuitEvent event) {
-		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
+		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay() || event.getQuitMessage() == null) return;
 		AlterEgoPlugin.relay(MessageHandler.format(event.getQuitMessage()));
 	}
 	
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onJoin(PlayerJoinEvent event) {
-		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay()) return;
+		if (!ConfigManager.isValidRelayChannel() || !ConfigManager.getRelay() || event.getJoinMessage() == null) return;
 		//Disabled because Broadcast event covers this too
 		//AlterEgoPlugin.relay(MessageHandler.format("[+] " + event.getPlayer().getName())); //For some reason, event.getJoinMessage() is null. Fucks sake.
 	}
@@ -122,7 +123,7 @@ public class AlterEgoListener implements Listener {
 
 	@EventHandler
 	public void onCommand(PlayerCommandPreprocessEvent event) {
-		if (AntiSpam.isEnabled()) {
+		if (AntiSpam.isEnabled() && event.getMessage() != null) {
 			if (!event.isAsynchronous()) {
 				BukkitRunnable runnable = new BukkitRunnable() {
 					@Override

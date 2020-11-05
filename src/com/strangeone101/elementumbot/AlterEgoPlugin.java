@@ -104,7 +104,7 @@ public class AlterEgoPlugin extends JavaPlugin {
 
 		getLogger().info("Relay channel found and working!");
 
-		SERVER = API.getServers().stream().findFirst().get();
+		SERVER = API.getServers().stream().findFirst().orElse(API.getServerById("144641603326181376").get());
 
 		return true;
 	}

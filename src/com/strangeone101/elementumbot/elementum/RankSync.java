@@ -154,7 +154,7 @@ public class RankSync {
 		for (Node n : user.getDistinctNodes()) {
 			//AlterEgoPlugin.INSTANCE.getLogger().info(n.toString());
 			if (n.getType() == NodeType.INHERITANCE && !n.hasExpired() && !n.isNegated()) {
-				if (n.getKey().equalsIgnoreCase("group." + group)) {
+				if (n.getKey().equalsIgnoreCase("group." + group.toLowerCase())) {
 					return true;
 				}
 			}
