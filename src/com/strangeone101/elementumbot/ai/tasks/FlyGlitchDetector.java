@@ -62,6 +62,9 @@ public class FlyGlitchDetector implements Runnable {
 			flightAbilities.add(CoreAbility.getAbility("FireSki").getClass());
 		}
 
+		if (CoreAbility.getAbility("MetalHook") != null) {
+			flightAbilities.add(CoreAbility.getAbility("MetalHook").getClass());
+		}
 		random = new Random();
 		Bukkit.getScheduler().runTaskTimer(AlterEgoPlugin.INSTANCE, this, 20 * 30, 20 * 30);
 	}
