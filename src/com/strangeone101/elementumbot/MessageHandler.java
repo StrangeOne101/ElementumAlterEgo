@@ -40,6 +40,11 @@ public class MessageHandler {
 			message.delete("User is muted in game");
 			return;
 		}
+
+		if(message.getServerTextChannel().isPresent() && //If the message is in a server
+				message.getServerTextChannel().get().getId() == ConfigManager.getSuggestionChannel()) { //and in the suggestion channel
+			message.addReactions("\uD83D\uDC4D", "\uD83E\uDD37", "\uD83D\uDC4E"); //add reactions
+		}
 		
 		if (message.getContent().startsWith("!")) {
 			new Command(message);

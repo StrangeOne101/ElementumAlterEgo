@@ -102,9 +102,20 @@ public class AlterEgoPlugin extends JavaPlugin {
 			return false;
 		}
 
+		if (!ConfigManager.isValidSuggestionChannel()) {
+			getLogger().severe("Suggestion channel not defined! Won't add reactions!");
+			return false;
+		}
+
+		if (AlterEgoPlugin.API.getChannelById(ConfigManager.getSuggestionChannel()) == null) {
+			getLogger().severe("Suggestion channel not found! Won't react to suggestions!");
+			return false;
+		}
+
 		getLogger().info("Relay channel found and working!");
 
-		SERVER = API.getServers().stream().findFirst().orElse(API.getServerById("144641603326181376").get());
+		SERVER = API.getServers().iterator().next();
+		getLogger().info("Found server with ID: " + SERVER.getId());
 
 		return true;
 	}
@@ -131,10 +142,14 @@ public class AlterEgoPlugin extends JavaPlugin {
 		//AlterEgoPlugin.API.setIdle(true);
 		ConfigManager.defaultConfig.loadConfig();
 		MatchesManager.reloadMatches();
-		
+
 		if (!ConfigManager.isValidRelayChannel()) {
         	getLogger().severe("Relay channel not defined! Won't relay!");
         	return;
+        }
+        if (!ConfigManager.isValidSuggestionChannel()) {
+            getLogger().severe("Suggestion channel not defined! Won't add reactions!");
+            return;
         }
         if (AlterEgoPlugin.API.getChannelById(ConfigManager.getRelayChannel()) == null) {
         	getLogger().severe("Relay channel not found! Won't relay in game chat!");

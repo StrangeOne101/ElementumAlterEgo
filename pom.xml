@@ -86,16 +86,13 @@
     </plugins>
   </build>
   <dependencies>
-  	<dependency>
-  		<groupId>org.javacord</groupId>
-  		<artifactId>javacord</artifactId>
-  		<!--<version>2.0.17</version>-->
-        <version>3.0.6</version>
-   		<!-- This will use the shaded javacord which contains all required dependencies -->
-  		<classifier>shaded</classifier>
-        <!--<type>pom</type>-->
-        <type>jar</type>
-  	</dependency>
+      <dependency>
+          <groupId>org.javacord</groupId>
+          <artifactId>javacord</artifactId>
+          <!--<version>2.0.17</version>-->
+          <version>3.0.6</version>
+          <type>pom</type>
+      </dependency>
   	 <dependency>
         <groupId>net.md-5</groupId>
         <artifactId>bungeecord-api</artifactId>
