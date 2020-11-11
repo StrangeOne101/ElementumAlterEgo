@@ -175,9 +175,9 @@ public class AlterEgoPlugin extends JavaPlugin {
 	 */
 	public static void report(String message) {
 		if (ConfigManager.isValidReportChannel()) {
-			AlterEgoPlugin.API.getChannelById(ConfigManager.getReportChannel()).get().asTextChannel().get().sendMessage("[Report] " + MessageHandler.format(message));
+			AlterEgoPlugin.API.getChannelById(ConfigManager.getReportChannel()).get().asTextChannel().get().sendMessage("[Report] " + (message));
 		}
-		AlterEgoPlugin.INSTANCE.getLogger().warning("[Report] " + message);
+		AlterEgoPlugin.INSTANCE.getLogger().warning("[Log] " + message);
 		
 	}
 	

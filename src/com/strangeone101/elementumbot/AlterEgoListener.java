@@ -23,6 +23,8 @@ import com.strangeone101.elementumbot.config.MatchesManager;
 import com.strangeone101.elementumbot.elementum.RankSync;
 import com.strangeone101.elementumbot.util.Reactions;
 
+import me.leoko.advancedban.bukkit.event.PunishmentEvent;
+import me.leoko.advancedban.utils.Punishment;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.TextComponent;
