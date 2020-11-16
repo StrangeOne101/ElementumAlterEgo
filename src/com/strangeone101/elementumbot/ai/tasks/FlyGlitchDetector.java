@@ -96,7 +96,7 @@ public class FlyGlitchDetector implements Runnable {
 			}
 			
 			if (warns.contains(player.getUniqueId())) {
-				AlterEgoPlugin.report("Player " + player.getName() + " is abusing flyglitch");
+				AlterEgoPlugin.report("**" + player.getName() + "**" + " is abusing flyglitch");
 				player.sendMessage(AlterEgoPlugin.PREFIX + " " + ChatColor.RED + annoyedMessages.get(random.nextInt(annoyedMessages.size())));
 				warns.remove(player.getUniqueId());
 				Bukkit.dispatchCommand(player, "flyglitch");
