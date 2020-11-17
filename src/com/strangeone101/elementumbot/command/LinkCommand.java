@@ -99,16 +99,16 @@ public class LinkCommand extends CommandRunnable {
 	}
 	
 	public static boolean isLinked(UUID uuid) {
-		return links.containsKey(uuid) && !links.get(uuid).equals("0");
+		return links.containsKey(uuid) && links.get(uuid) != 0L && uuid != null;
 	}
 	
 	public static boolean isLinked(long id) {
-		return links.containsValue(id);
+		return links.containsValue(id) && id != 0;
 	}
 	
 	public static UUID getUUIDFromID(long id) {
 		for (UUID uuid : LinkCommand.links.keySet()) {
-			if (LinkCommand.links.get(uuid).equals(id)) {
+			if (LinkCommand.links.get(uuid) == id) {
 				return uuid;
 			}
 		}

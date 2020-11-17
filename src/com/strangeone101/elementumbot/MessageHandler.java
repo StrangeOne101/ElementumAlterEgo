@@ -34,7 +34,7 @@ public class MessageHandler {
 			return;
 		}
 
-		if (!message.getAuthor().asUser().isPresent()) return; //From a non user? Whatever that is. Maybe webhooks or something.
+		if (!message.getAuthor().asUser().isPresent() || message.getAuthor().isYourself()) return; //From a non user? Whatever that is. Maybe webhooks or something.
 
 		if (AdvancedBanSupport.isMutedInGame(message.getAuthor().getId())) {
 			message.delete("User is muted in game");
