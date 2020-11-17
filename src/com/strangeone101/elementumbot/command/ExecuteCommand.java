@@ -1,7 +1,9 @@
 package com.strangeone101.elementumbot.command;
 
 import java.util.Arrays;
+import java.util.UUID;
 
+import com.strangeone101.elementumbot.RestrictedCommandSender;
 import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -22,32 +24,46 @@ public class ExecuteCommand extends CommandRunnable {
 	public void runCommand(Command command) {
 		if (!command.hasOppedPower() && !command.isAlias()) return;
 		else if (!Arrays.asList(users).contains(command.getSender().getId() + "") && !command.isAlias()) {
+			if (LinkCommand.isLinked(command.getSender().getId())) {
+				UUID uuid = LinkCommand.getUUIDFromID(command.getSender().getId());
+				runCommand(command, uuid);
+				return;
+			}
+
+
 			command.getOriginal().addReaction(Reactions.RED_CROSS + "");
 		} else { //Verified as hardcoded user
 			if (command.getArguments().length == 0) {
 				command.reply("Usage is `!execute <command>`");
 				return;
 			}
-			FakeCommandSender sender = new FakeCommandSender(command.getSender().asUser().get(), command.getOriginal());
-			
-			String message = StringUtil.combine(command.getArguments());
-			message = message.startsWith("/") ? message.substring(1) : message;
-			message = message.trim();
-			
-			final String finalMsg = message;
-			
-			new BukkitRunnable() {
 
-				@Override
-				public void run() {
-					Bukkit.dispatchCommand(sender, finalMsg);
-				}
-				
-			}.runTask(AlterEgoPlugin.INSTANCE);
-			
+			runCommand(command, null);
 			
 		}
 
+	}
+
+	private void runCommand(Command command, UUID uuid) {
+		FakeCommandSender sender = new FakeCommandSender(command.getSender().asUser().get(), command.getOriginal());
+
+		if (uuid != null) sender = new RestrictedCommandSender(command.getSender().asUser().get(), command.getOriginal(), uuid);
+
+		String message = StringUtil.combine(command.getArguments());
+		message = message.startsWith("/") ? message.substring(1) : message;
+		message = message.trim();
+
+		final String finalMsg = message;
+
+		FakeCommandSender finalSender = sender;
+		new BukkitRunnable() {
+
+			@Override
+			public void run() {
+				Bukkit.dispatchCommand(finalSender, finalMsg);
+			}
+
+		}.runTask(AlterEgoPlugin.INSTANCE);
 	}
 
 }

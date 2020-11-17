@@ -72,7 +72,12 @@ public class AlterEgoPlugin extends JavaPlugin {
 			return;
 		}
 		
-		API = new DiscordApiBuilder().setToken(ConfigManager.getToken()).setGlobalRatelimiter(new LocalRatelimiter(10, 2)).login().join();
+		API = new DiscordApiBuilder()
+				.setToken(ConfigManager.getToken())
+				//.setGlobalRatelimiter(new LocalRatelimiter(10, 2))
+				//.setAllIntents()
+				.login().join();
+
 
 		if (setup()) {
 			API.addMessageCreateListener(event -> {

@@ -54,8 +54,7 @@ public class AdvancedBanSupport implements Listener {
 //    
 //
 //    	}
-    	
-		String message = "**" + punishment.getName() + "**" + " received a " + "**" + punishment.getType() + "**" + " from " + "**" + punishment.getOperator() + "**" + " for the reason: " + "_" + punishment.getReason() + "_";
+		String message = "**" + punishment.getName() + "**" + " received a " + "**" + punishment.getType() + "**" + (punishment.getType().isTemp() ? " for **" + punishment.getDuration(true) + "**" : "") + " from " + "**" + punishment.getOperator() + "**" + " for the reason: " + "_" + punishment.getReason() + "_";
 		AlterEgoPlugin.report(message);
     	
 		

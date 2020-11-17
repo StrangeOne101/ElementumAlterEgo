@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>ElementumAlterEgo</groupId>
+  <groupId>com.strangeone101</groupId>
   <artifactId>ElementumAlterEgo</artifactId>
-  <version>1.6.1</version>
+  <version>1.8.4</version>
   <scm>
     <connection>scm:svn:http://127.0.0.1/dummy</connection>
     <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
@@ -75,12 +75,12 @@
   </build>
   <repositories>
     <repository>
-      <id>javacord-repo</id>
-      <url>http://repo.bastian-oppermann.de</url>
-    </repository>
-    <repository>
       <id>bungeecord-repo</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+    <repository>
+      <id>maven-central</id>
+      <url>https://repo1.maven.org/maven2/</url>
     </repository>
   </repositories>
   <dependencies>
@@ -106,7 +106,18 @@
           <artifactId>bungeecord-protocol</artifactId>
           <groupId>net.md-5</groupId>
         </exclusion>
+        <exclusion>
+          <artifactId>guava</artifactId>
+          <groupId>com.google.guava</groupId>
+        </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>me.leoko</groupId>
+      <artifactId>advancedban</artifactId>
+      <version>2.2.1</version>
+      <scope>system</scope>
+      <systemPath>D:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/AdvancedBan-2.2.1-RELEASE.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.spigotmc</groupId>
@@ -134,14 +145,14 @@
       <artifactId>luck-perms</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>D:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/LuckPerms-Bukkit-5.0.72.jar</systemPath>
+      <systemPath>D:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/LuckPerms-Bukkit-5.1.61.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>me.realized.duels</groupId>
       <artifactId>duels</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>D:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/Duels.jar</systemPath>
+      <systemPath>D:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/Duels-3.4.0.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.elementum.bendingpack</groupId>
