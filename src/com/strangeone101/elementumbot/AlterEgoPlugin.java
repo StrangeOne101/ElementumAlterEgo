@@ -74,8 +74,8 @@ public class AlterEgoPlugin extends JavaPlugin {
 		
 		API = new DiscordApiBuilder()
 				.setToken(ConfigManager.getToken())
-				//.setGlobalRatelimiter(new LocalRatelimiter(10, 2))
-				//.setAllIntents()
+				.setGlobalRatelimiter(new LocalRatelimiter(10, 2))
+				.setAllIntents()
 				.login().join();
 
 
