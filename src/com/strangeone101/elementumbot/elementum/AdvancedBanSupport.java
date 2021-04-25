@@ -12,8 +12,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.user.User;
 
+import java.awt.Color;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -55,7 +57,25 @@ public class AdvancedBanSupport implements Listener {
 //
 //    	}
 		String message = "**" + punishment.getName() + "**" + " received a " + "**" + punishment.getType() + "**" + (punishment.getType().isTemp() ? " for **" + punishment.getDuration(true) + "**" : "") + " from " + "**" + punishment.getOperator() + "**" + " for the reason: " + "_" + punishment.getReason() + "_";
-		AlterEgoPlugin.report(message);
+		Color color = punishment.getType() == PunishmentType.BAN || punishment.getType() == PunishmentType.IP_BAN ||
+                punishment.getType() == PunishmentType.TEMP_BAN || punishment.getType() == PunishmentType.TEMP_IP_BAN ? new Color(240, 72, 72)
+                : punishment.getType() == PunishmentType.MUTE || punishment.getType() == PunishmentType.TEMP_MUTE ? new Color(255, 128, 0)
+                : punishment.getType() == PunishmentType.WARNING || punishment.getType() == PunishmentType.TEMP_WARNING ? new Color(255, 255, 51)
+                : new Color(32, 32, 32);
+
+		EmbedBuilder embed = new EmbedBuilder()
+                .setColor(color)
+                .setTitle(punishment.getName() + " received a punishment.")
+                .addField("Name", punishment.getName(), true)
+                .addField("Type", punishment.getType().toString(), true)
+                .addField("Operator", punishment.getOperator())
+                .addField("Reason", punishment.getReason());
+
+		if(punishment.getType().isTemp()) {
+		    embed.addField("Duration", "For **" + punishment.getDuration(true) + "**");
+        }
+
+		AlterEgoPlugin.report(embed, message);
     	
 		
 	}

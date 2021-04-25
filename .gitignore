@@ -217,3 +217,5 @@ pip-log.txt
 
 target/*
 /target/
+/.idea/
+ElementumAlterEgo*.iml
