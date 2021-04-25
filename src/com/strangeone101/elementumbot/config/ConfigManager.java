@@ -66,7 +66,7 @@ public class ConfigManager {
 		config.addDefault("ReportReasons.Spamming.Color", "255,128,0");
 		config.addDefault("ReportReasons.Discrimination.Name", "Discrimination");
 		config.addDefault("ReportReasons.Discrimination.Question", "What kind of discrimination?");
-		config.addDefault("ReportReasons.Discrimination.Choices", Arrays.asList("Homophobia", "Racism", "Transphobia", "Other"));
+		config.addDefault("ReportReasons.Discrimination.Choices", Arrays.asList("Homophobia", "Racism", "Sexism", "Transphobia", "Other"));
 		config.addDefault("ReportReasons.Discrimination.Color", "153,76,0");
 		config.addDefault("ReportReasons.SexualChat.Name", "Excessive Sexual Chat");
 		config.addDefault("ReportReasons.SexualChat.Question", "Was it towards another player or just in chat?");
