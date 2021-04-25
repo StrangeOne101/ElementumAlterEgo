@@ -26,6 +26,7 @@ import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.Javacord;
 import org.javacord.api.entity.channel.Channel;
+import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.util.ratelimit.LocalRatelimiter;
 import org.javacord.api.util.ratelimit.Ratelimiter;
@@ -173,7 +174,7 @@ public class AlterEgoPlugin extends JavaPlugin {
         
         //AlterEgoPlugin.API.setIdle(false);
 	}
-	
+
 	/**
 	 * Reports something to the staff channel
 	 * @param message The message
@@ -183,9 +184,20 @@ public class AlterEgoPlugin extends JavaPlugin {
 			AlterEgoPlugin.API.getChannelById(ConfigManager.getReportChannel()).get().asTextChannel().get().sendMessage("[Report] " + (message));
 		}
 		AlterEgoPlugin.INSTANCE.getLogger().warning("[Log] " + message);
-		
 	}
-	
+
+    /**
+     * Reports something to the staff channel
+     * @param message The embed
+     * @param text Text to log
+     */
+    public static void report(EmbedBuilder message, String text) {
+        if (ConfigManager.isValidReportChannel()) {
+            AlterEgoPlugin.API.getChannelById(ConfigManager.getReportChannel()).get().asTextChannel().get().sendMessage(message);
+        }
+        AlterEgoPlugin.INSTANCE.getLogger().warning("[Log] " + text);
+    }
+
 	public static void relay(String message) {
 		if (ConfigManager.isValidRelayChannel()) {
 			message = ChatColor.stripColor(message);
