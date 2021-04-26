@@ -43,7 +43,7 @@ public class ConfigManager {
 		config.addDefault("Report.Usage", "&cCommand usage is /report <user>");
 		config.addDefault("Report.Success", "&aThanks. %player% has been reported and will be dealt with shortly.");
 		config.addDefault("Report.Offline", "&cThat player is offline.");
-		config.addDefault("Report.IveBeenNaughty", "&cYou have been reported by %player% for the reason: %reason%");
+		config.addDefault("Report.IveBeenNaughty", "&cYou have been reported by %player% for the reason: %reason%/n&f- %details%");
 		config.addDefault("AntiSpam.Enabled", true);
 		config.addDefault("AntiSpam.VerbalWarning", "&cPlease stop spamming so much. Continuing to do so will result in warns and possibly mutes.");
 		config.addDefault("AntiSpam.Warning", "/warn %player% Spamming");
