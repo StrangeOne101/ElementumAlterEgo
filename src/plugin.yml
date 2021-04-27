@@ -33,4 +33,5 @@ permissions:
       children:
          alterego.command.unlink.others: true
          alterego.command.discordreport: true
+         alterego.command.discordreport.unreportable: true
          

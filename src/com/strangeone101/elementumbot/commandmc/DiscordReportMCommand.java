@@ -36,21 +36,27 @@ public class DiscordReportMCommand implements CommandExecutor {
 
 		if (args.length < 1 || args[0].equalsIgnoreCase(sender.getName())) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.defaultConfig.get().getString("Report.Usage")
-					.replaceAll("\\n", "\n")));
+					.replaceAll("/n", "\n")));
 			return true;
 		}
 
-		if (Bukkit.getPlayer(args[0]) == null) {
+		Player reported = Bukkit.getPlayer(args[0]);
+		if (reported == null) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.defaultConfig.get().getString("Report.Offline")
 					.replaceAll("%player%", args[0])
-					.replaceAll("\\n", "\n")));
+					.replaceAll("/n", "\n")));
+			return true;
+		}
+
+		if(reported.hasPermission("alterego.command.discordreport.unreportable")) {
+			sender.sendMessage(ChatColor.RED + "You cannot report staff!");
 			return true;
 		}
 
 		Player player = (Player) sender;
 		ConfigurationSection section = ConfigManager.defaultConfig.get().getConfigurationSection("ReportReasons");
 
-		if(args.length < 2) {
+		if(args.length < 2 || !section.contains(args[1])) {
 			ItemStack stack = new ItemStack(Material.WRITTEN_BOOK);
 			BookMeta meta = (BookMeta) stack.getItemMeta();
 
@@ -61,10 +67,11 @@ public class DiscordReportMCommand implements CommandExecutor {
 				builder.append(ChatColor.BLACK + "\n> ");
 				builder.append(
 						new ComponentBuilder(ChatColor.BLACK + reasonName)
-						.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report " + args[0] + " " + key))
-						.create()
+								.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report " + args[0] + " " + key))
+								.create()
 				);
 			}
+			builder.append(ChatColor.RED + "\n\nTroll reports are against the rules!");
 			meta.spigot().addPage(builder.create());
 
 			meta.setTitle("Report");
@@ -76,14 +83,11 @@ public class DiscordReportMCommand implements CommandExecutor {
 		}
 
 		String reasonKey = args[1];
-		if(!section.contains(reasonKey)) {
-			sender.sendMessage(ChatColor.RED + "Invalid reason.");
-			return true;
-		}
 
 		ConfigurationSection reason = section.getConfigurationSection(reasonKey);
 
-		if(args.length < 3) {
+		String details = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+		if(args.length < 3 || !reason.getStringList("Choices").contains(details)) {
 			ItemStack stack = new ItemStack(Material.WRITTEN_BOOK);
 			BookMeta meta = (BookMeta) stack.getItemMeta();
 
@@ -96,6 +100,11 @@ public class DiscordReportMCommand implements CommandExecutor {
 								.create()
 				);
 			}
+			builder.append(
+					new ComponentBuilder(ChatColor.BOLD + "\n\nGo back")
+							.event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/report " + args[0]))
+							.create()
+			);
 			meta.spigot().addPage(builder.create());
 
 			meta.setTitle("Report");
@@ -106,15 +115,9 @@ public class DiscordReportMCommand implements CommandExecutor {
 			return true;
 		}
 
-		String details = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
-		if(!reason.getStringList("Choices").contains(details)) {
-			sender.sendMessage(ChatColor.RED + "Invalid details.");
-			return true;
-		}
-
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.defaultConfig.get().getString("Report.Success")
 				.replaceAll("%player%", args[0])
-				.replaceAll("\\n", "\n")));
+				.replaceAll("/n", "\n")));
 
 		String message = sender.getName() + " has reported user " + args[0] + " for the following reason: " + reason.getString("Name") + " " + details;
 
@@ -125,7 +128,7 @@ public class DiscordReportMCommand implements CommandExecutor {
 				new EmbedBuilder()
 						.setColor(color)
 						.setTitle("Report by " + sender.getName())
-						.setDescription("[Report] `" + sender.getName() + "` has reported user `" + args[0] + "`.")
+						.setDescription("`" + sender.getName() + "` has reported user `" + args[0] + "`.")
 						.addField("Reason", reason.getString("Name"))
 						.addField(reason.getString("Question"), details),
 				message
@@ -133,9 +136,10 @@ public class DiscordReportMCommand implements CommandExecutor {
 
 		String messageToReported = ChatColor.translateAlternateColorCodes('&', ConfigManager.defaultConfig.get().getString("Report.IveBeenNaughty")
 				.replaceAll("%player%", sender.getName())
-				.replaceAll("%reason%", String.join(" ", Arrays.copyOfRange(args, 1, args.length)))
-				.replaceAll("\\n", "\n"));
-		Bukkit.getPlayer(args[0]).sendMessage(messageToReported);
+				.replaceAll("%reason%", reason.getString("Name"))
+				.replaceAll("%details%", details)
+				.replaceAll("/n", "\n"));
+		reported.sendMessage(messageToReported);
 		return true;
 	}
 
