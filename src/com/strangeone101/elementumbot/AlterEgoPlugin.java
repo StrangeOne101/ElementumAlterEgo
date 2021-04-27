@@ -198,6 +198,18 @@ public class AlterEgoPlugin extends JavaPlugin {
         AlterEgoPlugin.INSTANCE.getLogger().warning("[Log] " + text);
     }
 
+	/**
+	 * Logs a punishment to the logs channel
+	 * @param message The embed
+	 * @param text Text to log
+	 */
+	public static void logPunishment(EmbedBuilder message, String text) {
+		if (ConfigManager.isValidLogsChannel()) {
+			AlterEgoPlugin.API.getChannelById(ConfigManager.getLogsChannel()).get().asTextChannel().get().sendMessage(message);
+		}
+		AlterEgoPlugin.INSTANCE.getLogger().warning("[Log] " + text);
+	}
+
 	public static void relay(String message) {
 		if (ConfigManager.isValidRelayChannel()) {
 			message = ChatColor.stripColor(message);

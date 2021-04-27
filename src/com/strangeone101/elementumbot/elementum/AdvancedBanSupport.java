@@ -75,7 +75,7 @@ public class AdvancedBanSupport implements Listener {
 		    embed.addField("Duration", "For **" + punishment.getDuration(true) + "**");
         }
 
-		AlterEgoPlugin.report(embed, message);
+		AlterEgoPlugin.logPunishment(embed, message);
     	
 		
 	}
