@@ -33,6 +33,7 @@ public class ConfigManager {
 		config.addDefault("RelayChannelID", _defaultRelayChannelID);
 		config.addDefault("ReportChannelID", _defaultRelayChannelID);
 		config.addDefault("SuggestionChannelID", _defaultRelayChannelID);
+		config.addDefault("LogsChannelID", _defaultRelayChannelID);
 		config.addDefault("RelayEnabled", true);
 		config.addDefault("RelayFormat", "**%player%** \u00BB %message%");
 		config.addDefault("InGameFormat", "&7[Discord] <name>: &r<message>");
@@ -144,6 +145,10 @@ public class ConfigManager {
 	public static long getSuggestionChannel() {
 		return Long.parseLong(defaultConfig.get().getString("SuggestionChannelID"));
 	}
+
+	public static long getLogsChannel() {
+		return Long.parseLong(defaultConfig.get().getString("LogsChannelID"));
+	}
 	
 	public static Map<String, String> getAliases() {
 		Map<String, String> aliases = new HashMap<String, String>();
@@ -175,6 +180,10 @@ public class ConfigManager {
 
 	public static boolean isValidSuggestionChannel() {
 		return !(getSuggestionChannel() + "").equalsIgnoreCase(_defaultRelayChannelID);
+	}
+
+	public static boolean isValidLogsChannel() {
+		return !(getLogsChannel() + "").equalsIgnoreCase(_defaultRelayChannelID);
 	}
 	
 	public static void addBarredUser(long id) {

@@ -36,7 +36,7 @@ public class DiscordReportMCommand implements CommandExecutor {
 
 		if (args.length < 1 || args[0].equalsIgnoreCase(sender.getName())) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.defaultConfig.get().getString("Report.Usage")
-					.replaceAll("/n", "\n")));
+					.replaceAll("\\\\n", "\n")));
 			return true;
 		}
 
@@ -44,7 +44,7 @@ public class DiscordReportMCommand implements CommandExecutor {
 		if (reported == null) {
 			sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.defaultConfig.get().getString("Report.Offline")
 					.replaceAll("%player%", args[0])
-					.replaceAll("/n", "\n")));
+					.replaceAll("\\\\n", "\n")));
 			return true;
 		}
 
@@ -117,7 +117,7 @@ public class DiscordReportMCommand implements CommandExecutor {
 
 		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ConfigManager.defaultConfig.get().getString("Report.Success")
 				.replaceAll("%player%", args[0])
-				.replaceAll("/n", "\n")));
+				.replaceAll("\\\\n", "\n")));
 
 		String message = sender.getName() + " has reported user " + args[0] + " for the following reason: " + reason.getString("Name") + " " + details;
 
@@ -138,7 +138,7 @@ public class DiscordReportMCommand implements CommandExecutor {
 				.replaceAll("%player%", sender.getName())
 				.replaceAll("%reason%", reason.getString("Name"))
 				.replaceAll("%details%", details)
-				.replaceAll("/n", "\n"));
+				.replaceAll("\\\\n", "\n"));
 		reported.sendMessage(messageToReported);
 		return true;
 	}
