@@ -12,6 +12,10 @@
         <id>bungeecord-repo</id>
         <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
+      <repository>
+          <id>jitpack-repo</id>
+          <url>https://jitpack.io</url>
+      </repository>
 
 
   </repositories>
@@ -144,11 +148,15 @@
       	<systemPath>${project.basedir}/lib/LuckPerms-Bukkit-5.1.61.jar</systemPath>
     </dependency>
     <dependency>
-		<groupId>me.realized.duels</groupId>
-      	<artifactId>duels</artifactId>
-      	<version>LATEST</version>
-      	<scope>system</scope>
-      	<systemPath>${project.basedir}/lib/Duels-3.4.0.jar</systemPath>
+        <groupId>com.github.Realizedd.Duels</groupId>
+        <artifactId>duels-api</artifactId>
+        <version>3.4.1</version>
+        <exclusions>
+            <exclusion>
+                <groupId>*</groupId>
+                <artifactId>*</artifactId>
+            </exclusion>
+        </exclusions>
     </dependency>
     <dependency>
 		<groupId>com.elementum.bendingpack</groupId>
