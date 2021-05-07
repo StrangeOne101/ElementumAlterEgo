@@ -86,7 +86,7 @@ public class FlyGlitchDetector implements Runnable {
 			}
 			
 			if (Bukkit.getPluginManager().isPluginEnabled("Duels")) {
-				if (me.realized.duels.DuelsPlugin.getInstance().getSpectateManager().isSpectating(player)) {
+				if (AlterEgoPlugin.duels.getSpectateManager().isSpectating(player)) {
 					continue playerloop;
 				}
 			}

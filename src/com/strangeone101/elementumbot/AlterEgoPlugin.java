@@ -8,6 +8,7 @@ import com.strangeone101.elementumbot.ai.tasks.PlayTitleUpdater;
 import com.strangeone101.elementumbot.chatbot.LearningChatbot;
 import com.strangeone101.elementumbot.commandmc.AntiSpamMCommand;
 import com.strangeone101.elementumbot.elementum.AdvancedBanSupport;
+import me.realized.duels.api.Duels;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -36,6 +37,7 @@ public class AlterEgoPlugin extends JavaPlugin {
 	public static AlterEgoPlugin INSTANCE;
 	public static DiscordApi API;
 	public static Server SERVER;
+	public static Duels duels;
 	
 	public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&2[&aAlterEgo&2]&r");
 	
@@ -53,6 +55,10 @@ public class AlterEgoPlugin extends JavaPlugin {
 		Bukkit.getPluginCommand("discordreport").setExecutor(new DiscordReportMCommand());
 		Bukkit.getPluginCommand("alterego").setExecutor(new AlterEgoCommand());
 		Bukkit.getPluginCommand("antispam").setExecutor(new AntiSpamMCommand());
+
+		if(Bukkit.getServer().getPluginManager().isPluginEnabled("Duels")) {
+			duels = (Duels) Bukkit.getServer().getPluginManager().getPlugin("Duels");
+		}
 
 		new PlayTitleUpdater();
 		

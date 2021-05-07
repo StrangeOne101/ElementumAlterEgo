@@ -134,12 +134,12 @@ public class DiscordReportMCommand implements CommandExecutor {
 				message
 		);
 
-		String messageToReported = ChatColor.translateAlternateColorCodes('&', ConfigManager.defaultConfig.get().getString("Report.IveBeenNaughty")
+		/*String messageToReported = ChatColor.translateAlternateColorCodes('&', ConfigManager.defaultConfig.get().getString("Report.IveBeenNaughty")
 				.replaceAll("%player%", sender.getName())
 				.replaceAll("%reason%", reason.getString("Name"))
 				.replaceAll("%details%", details)
 				.replaceAll("\\\\n", "\n"));
-		reported.sendMessage(messageToReported);
+		reported.sendMessage(messageToReported);*/
 		return true;
 	}
 
