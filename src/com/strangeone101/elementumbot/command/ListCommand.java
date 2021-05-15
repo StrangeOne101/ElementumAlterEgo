@@ -31,7 +31,8 @@ public class ListCommand extends CommandRunnable {
 		
 		if (players.equals("")) players = "None";
 		else players = players.substring(2);
-		Future<Message> msg = command.reply("Currently online (" + players.split(",").length + "): " + players);
+		Future<Message> msg = command.reply("Currently online ("
+				+ (players.equals("None") ? 0 : players.split(",").length) + "): " + players);
 		CleanupHandler.cleanup(command.getOriginal(), 1000L * 60 * 5);
 		
 		new BukkitRunnable() {

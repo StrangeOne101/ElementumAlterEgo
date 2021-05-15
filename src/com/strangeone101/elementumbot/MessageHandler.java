@@ -1,10 +1,13 @@
 package com.strangeone101.elementumbot;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.elementum.elementumcore.chat.chatcontrol.ChatControl;
 import com.strangeone101.elementumbot.elementum.AdvancedBanSupport;
+import me.leoko.advancedban.manager.PunishmentManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -51,6 +54,19 @@ public class MessageHandler {
 		} else if (message.getServerTextChannel().isPresent() && //If the channel doesn't exist (PMs), ignore it
 				message.getServerTextChannel().get().getId() == ConfigManager.getRelayChannel() && message.getAuthor().asUser().get() != api.getYourself()) {
 			if (!message.getContent().startsWith("!") && !message.getContent().startsWith("#")) {
+				if(LinkCommand.isLinked(message.getAuthor().getId())) {
+					UUID uuid = LinkCommand.getUUIDFromID(message.getAuthor().getId());
+					if(PunishmentManager.get().isMuted(uuid.toString().replace("-", ""))) {
+						return; // If the player is muted in game, ignore the message
+					}
+				}
+
+				List<Role> staffRoles = AlterEgoPlugin.SERVER.getRolesByName("Staff");
+				if(!ChatControl.chatEnabled &&
+						(staffRoles.size() < 1 || !staffRoles.get(0).hasUser(message.getAuthor().asUser().get()))) {
+					return; // If the chat is muted and the player isn't staff, ignore the message
+				}
+
 				String displayName = StringUtil.emojiTranslate(message.getAuthor().getDisplayName() == null ? message.getAuthor().getName() : message.getAuthor().getDisplayName()).trim();
 
 				String roleDisplay = ChatColor.DARK_GRAY + "No Role"; //If they have no role, this is the default text that shows
