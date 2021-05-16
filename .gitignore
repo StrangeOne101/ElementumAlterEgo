@@ -219,3 +219,5 @@ target/*
 /target/
 /.idea/
 ElementumAlterEgo*.iml
+/lib/*
+
