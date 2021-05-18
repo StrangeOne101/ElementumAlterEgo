@@ -49,6 +49,17 @@ public class MessageHandler {
 			message.addReactions("\uD83D\uDC4D", "🛠️", "\uD83D\uDC4E"); //add reactions 
 		}
 		
+		if(message.getServerTextChannel().isPresent() && //If the message is in a server
+				message.getServerTextChannel().get().getId() == ConfigManager.getPollsChannel()) { 
+			Bukkit.broadcastMessage("works");
+			message.addReactions("a:upvote:844087818560077844", "a:downvote:844087923958611968"); //add reactions 
+		}
+		
+		if(message.getServerTextChannel().isPresent() && //If the message is in a server
+				message.getServerTextChannel().get().getId() == ConfigManager.getNewbiesChannel()) { 
+			message.addReactions(":cookiemonster:737767851246616586", ":cutecookie:727345094289522799", ":cookies:795083791281422397", ":nomnom:725849271961911479"); //add reactions 
+		}
+		
 		if (message.getContent().startsWith("!")) {
 			new Command(message);
 		} else if (message.getServerTextChannel().isPresent() && //If the channel doesn't exist (PMs), ignore it

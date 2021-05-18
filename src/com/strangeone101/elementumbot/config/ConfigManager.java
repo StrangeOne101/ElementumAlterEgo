@@ -33,6 +33,8 @@ public class ConfigManager {
 		config.addDefault("RelayChannelID", _defaultRelayChannelID);
 		config.addDefault("ReportChannelID", _defaultRelayChannelID);
 		config.addDefault("SuggestionChannelID", _defaultRelayChannelID);
+		config.addDefault("PollsChannelID", _defaultRelayChannelID);
+		config.addDefault("NewbiesChannelID", _defaultRelayChannelID);
 		config.addDefault("LogsChannelID", _defaultRelayChannelID);
 		config.addDefault("RelayEnabled", true);
 		config.addDefault("RelayFormat", "**%player%** \u00BB %message%");
@@ -144,6 +146,14 @@ public class ConfigManager {
 
 	public static long getSuggestionChannel() {
 		return Long.parseLong(defaultConfig.get().getString("SuggestionChannelID"));
+	}
+	
+	public static long getPollsChannel() {
+		return Long.parseLong(defaultConfig.get().getString("PollsChannelID"));
+	}
+	
+	public static long getNewbiesChannel() {
+		return Long.parseLong(defaultConfig.get().getString("NewbiesChannelID"));
 	}
 
 	public static long getLogsChannel() {
