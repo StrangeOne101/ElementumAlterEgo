@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.strangeone101</groupId>
   <artifactId>ElementumAlterEgo</artifactId>
-  <version>1.8.4</version>
+  <version>1.8.6</version>
   <scm>
     <connection>scm:svn:http://127.0.0.1/dummy</connection>
     <developerConnection>scm:svn:https://127.0.0.1/dummy</developerConnection>
@@ -61,13 +61,26 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
-        <version>2.3</version>
+        <version>2.4</version>
         <executions>
           <execution>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
             </goals>
+            <configuration>
+              <filters>
+                <filter>
+                  <artifact>*:*</artifact>
+                  <excludes>
+                    <exclude>META-INF/*.SF</exclude>
+                    <exclude>META-INF/*.DSA</exclude>
+                    <exclude>META-INF/*.RSA</exclude>
+                    <exclude>org/apache/logging/</exclude>
+                  </excludes>
+                </filter>
+              </filters>
+            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -75,91 +88,80 @@
   </build>
   <repositories>
     <repository>
+      <id>maven-central</id>
+      <url>https://repo1.maven.org/maven2/</url>
+    </repository>
+    <repository>
       <id>bungeecord-repo</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </repository>
     <repository>
-      <id>maven-central</id>
-      <url>https://repo1.maven.org/maven2/</url>
+      <id>jitpack-repo</id>
+      <url>https://jitpack.io</url>
     </repository>
   </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>apache.snapshots</id>
+      <url>http://repository.apache.org/snapshots/</url>
+    </pluginRepository>
+  </pluginRepositories>
   <dependencies>
     <dependency>
-      <groupId>net.md-5</groupId>
-      <artifactId>bungeecord-api</artifactId>
-      <version>1.12-SNAPSHOT</version>
-      <scope>provided</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>bungeecord-chat</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-config</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-event</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bungeecord-protocol</artifactId>
-          <groupId>net.md-5</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>guava</artifactId>
-          <groupId>com.google.guava</groupId>
-        </exclusion>
-      </exclusions>
+      <groupId>org.javacord</groupId>
+      <artifactId>javacord</artifactId>
+      <version>3.3.0</version>
+      <type>pom</type>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>me.leoko</groupId>
       <artifactId>advancedban</artifactId>
       <version>2.2.1</version>
       <scope>system</scope>
-      <systemPath>D:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/AdvancedBan-2.2.1-RELEASE.jar</systemPath>
+      <systemPath>${project.basedir}/lib/AdvancedBan-2.2.1-RELEASE.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>org.spigotmc</groupId>
       <artifactId>spigot-api</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>D:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/spigot-1.15.2.jar</systemPath>
+      <systemPath>${project.basedir}/lib/spigot-1.15.2.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.earth2me.essentials</groupId>
       <artifactId>essentials</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>D:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/EssentialsX-2.17.2.62.jar</systemPath>
+      <systemPath>${project.basedir}/lib/EssentialsX-2.17.2.62.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>con.projectkorra</groupId>
       <artifactId>projectkorra</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>D:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/ProjectKorra-1.8.9.jar</systemPath>
+      <systemPath>${project.basedir}/lib/ProjectKorra-1.8.9.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>me.lucko.luckperms</groupId>
       <artifactId>luck-perms</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>D:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/LuckPerms-Bukkit-5.1.61.jar</systemPath>
-    </dependency>
-    <dependency>
-      <groupId>me.realized.duels</groupId>
-      <artifactId>duels</artifactId>
-      <version>LATEST</version>
-      <scope>system</scope>
-      <systemPath>D:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/Duels-3.4.0.jar</systemPath>
+      <systemPath>${project.basedir}/lib/LuckPerms-Bukkit-5.1.61.jar</systemPath>
     </dependency>
     <dependency>
       <groupId>com.elementum.bendingpack</groupId>
       <artifactId>ElementumBendingPack</artifactId>
       <version>LATEST</version>
       <scope>system</scope>
-      <systemPath>D:\Projects\Bukkit Plugins\ElementumAlterEgo/lib/ElementumBendingPack-2.0.1.jar</systemPath>
+      <systemPath>${project.basedir}/lib/ElementumBendingPack-2.0.1.jar</systemPath>
+    </dependency>
+    <dependency>
+      <groupId>com.elementum.elementumcore</groupId>
+      <artifactId>ElementumCore</artifactId>
+      <version>LATEST</version>
+      <scope>system</scope>
+      <systemPath>${project.basedir}/lib/ElementumCore-2.16.jar</systemPath>
     </dependency>
   </dependencies>
   <properties>

@@ -61,6 +61,10 @@ public class FlyGlitchDetector implements Runnable {
 		if (CoreAbility.getAbility("FireSki") != null) {
 			flightAbilities.add(CoreAbility.getAbility("FireSki").getClass());
 		}
+		
+		if (CoreAbility.getAbility("PlantWalk") != null) {
+			flightAbilities.add(CoreAbility.getAbility("PlantWalk").getClass());
+		}
 
 		if (CoreAbility.getAbility("MetalHook") != null) {
 			flightAbilities.add(CoreAbility.getAbility("MetalHook").getClass());
