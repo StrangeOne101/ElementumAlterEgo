@@ -130,5 +130,6 @@ public class Command {
 		new WhoIsCommand();
 		new LatencyCommand();
 		new WIMPCommand();
+		new QOTDCommand();
 	}
 }

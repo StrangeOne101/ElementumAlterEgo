@@ -27,8 +27,10 @@ import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.Javacord;
 import org.javacord.api.entity.channel.Channel;
+import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
+import org.javacord.api.entity.webhook.Webhook;
 import org.javacord.api.util.ratelimit.LocalRatelimiter;
 import org.javacord.api.util.ratelimit.Ratelimiter;
 
@@ -37,6 +39,7 @@ public class AlterEgoPlugin extends JavaPlugin {
 	public static AlterEgoPlugin INSTANCE;
 	public static DiscordApi API;
 	public static Server SERVER;
+	public static Webhook QOTDHook = null;
 	public static Duels duels;
 	
 	public static final String PREFIX = ChatColor.translateAlternateColorCodes('&', "&2[&aAlterEgo&2]&r");
@@ -125,6 +128,35 @@ public class AlterEgoPlugin extends JavaPlugin {
 		}
 
 		getLogger().info("Relay channel found and working!");
+
+		for (final ServerTextChannel channel : AlterEgoPlugin.API.getServerTextChannels()) {
+			if (channel.getName().contains("question-of-the-day")) {
+				try {
+					for (final Webhook webhook : channel.getWebhooks().get()) {
+						if (webhook.getCreator().isPresent() && webhook.getCreator().get().isYourself()) {
+							// our webhook
+							QOTDHook = webhook;
+							break;
+						}
+					}
+
+					if (QOTDHook == null) {
+						QOTDHook = channel.createWebhookBuilder().setName("QOTD")
+								.setAuditLogReason("QOTD hook creation").create().get();
+					}
+
+					getLogger().info("QOTD Hook: " + QOTDHook.getId());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				break;
+			}
+		}
+
+		if (QOTDHook == null) {
+			getLogger().warning("QOTD Hook not found!");
+		}
 
 		SERVER = API.getServers().iterator().next();
 		getLogger().info("Found server with ID: " + SERVER.getId());
