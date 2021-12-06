@@ -50,8 +50,7 @@ public class MessageHandler {
 		}
 		
 		if(message.getServerTextChannel().isPresent() && //If the message is in a server
-				message.getServerTextChannel().get().getId() == ConfigManager.getPollsChannel()) { 
-			Bukkit.broadcastMessage("works");
+				message.getServerTextChannel().get().getId() == ConfigManager.getPollsChannel()) {
 			message.addReactions("a:upvote:844087818560077844", "a:downvote:844087923958611968"); //add reactions 
 		}
 		
