@@ -43,7 +43,7 @@ public class AlterEgoListener implements Listener {
 			String name = MessageHandler.format(event.getPlayer().getDisplayName().replace(Reactions.LEFT_CURLY_BRACE, '<')
 					.replace(Reactions.RIGHT_CURLY_BRACE, '>'));
 
-			String message = MessageHandler.format(MessageHandler.tagRelayUsers(event.getMessage()));
+			String message = MessageHandler.format(MessageHandler.tagRelayUsers(event.getMessage().replaceAll("<@&?\\d{10,}>", "BAD_DISCORD_TAG")));
 
 			AlterEgoPlugin.relay(ConfigManager.getRelayFormat().replace("%player%", MessageHandler.format(event.getPlayer().getName())).replace("%message%", message));
 		}
