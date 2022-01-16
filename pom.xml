@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.strangeone101</groupId>
   <artifactId>ElementumAlterEgo</artifactId>
-  <version>1.8.6</version>
+  <version>1.8.7</version>
   <repositories>
       <repository>
           <id>maven-central</id>
@@ -16,8 +16,6 @@
           <id>jitpack-repo</id>
           <url>https://jitpack.io</url>
       </repository>
-
-
   </repositories>
   <scm>
         <connection>scm:svn:http://127.0.0.1/dummy</connection>
